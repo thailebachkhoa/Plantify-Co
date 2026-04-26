@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cửa Hàng Bán Cây Cảnh - BTL</title>
+    <title>Cửa Hàng Bán Cây Cảnh - Plantify Co</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/pages.css">
 </head>
@@ -13,12 +13,12 @@
     <!-- Navbar -->
     <nav class="navbar">
         <div class="logo">
-            <a href="<?= BASE_URL ?>">🌿 BTL Cây Cảnh</a>
+            <a href="<?= BASE_URL ?>">🌿 Plantify Co</a>
         </div>
         <nav>
             <a href="<?= BASE_URL ?>">Trang Chủ</a>
             <a href="<?= BASE_URL ?>/home/shop">Cửa Hàng</a>
-            <a href="<?= BASE_URL ?>/home/cart">🛒 Giỏ Hàng</a>
+            <a href="<?= BASE_URL ?>/home/cart">Giỏ Hàng</a>
             <a href="<?= BASE_URL ?>/home/about">Về Chúng Tôi</a>
             <a href="<?= BASE_URL ?>/home/contact">Liên Hệ</a>
         </nav>
@@ -36,7 +36,7 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <h1>🌿 Cửa Hàng Bán Cây Cảnh BTL</h1>
+        <h1>🌿 Cửa Hàng Bán Cây Cảnh Plantify Co</h1>
         <p>Khám phá bộ sưu tập cây cảnh tuyệt đẹp cho không gian sống của bạn</p>
         <div class="btn-group">
             <a href="<?= BASE_URL ?>/home/shop" class="btn btn-primary">🛍️ Mua Sắm Ngay</a>
@@ -135,7 +135,7 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2026 BTL Cây Cảnh. Tất cả các quyền được bảo lưu.</p>
+        <p>&copy; 2026 Plantify Co. Tất cả các quyền được bảo lưu.</p>
         <p>
             <a href="<?= BASE_URL ?>/home/about">Về Chúng Tôi</a> |
             <a href="<?= BASE_URL ?>/home/contact">Liên Hệ</a> |
