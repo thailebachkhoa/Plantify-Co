@@ -1,0 +1,6 @@
+{
+    "name": "yourname/btl",
+    "description": "BTL PHP MVC Framework",
+    "type": "project",
+    "require": {}
+}
