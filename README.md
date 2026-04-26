@@ -1,14 +1,3 @@
-# BTL PHP MVC Framework
-
-Đây là một bộ khung sườn MVC tinh gọn (micro-framework) được xây dựng bằng PHP, hỗ trợ đầy đủ các tính năng cơ bản như Routing, Controllers, Models, Views và kết nối **Database thực (MySQL) qua PDO**.
-
-## 🚀 Tính năng nổi bật
-
-- Cấu trúc thư mục MVC rõ ràng, tính bảo mật cao (chỉ công khai thư mục `public/`).
-- Tích hợp lớp `Database.php` sử dụng **PDO** và mẫu thiết kế **Singleton** tối ưu hiệu suất.
-- Hỗ trợ nạp cấu hình từ file `.env` tự động (không cần thư viện bên thứ 3).
-- Có công cụ dòng lệnh (`console.php`) hỗ trợ tự động khởi tạo và migrate CSDL nhanh chóng.
-
 ## 📁 Cấu trúc thư mục
 
 ```text
@@ -83,3 +72,81 @@ Lệnh này sẽ tự động:
 Truy cập vào tên miền ảo (vd: `http://btl.local`) hoặc ứng với cấu trúc folder localhost của bạn (vd: `http://localhost/BTLWEB/btl/public`).
 
 Hệ thống sẽ chạy và bạn có thể thử đăng nhập hoặc tạo tài khoản mới. Trình duyệt đã được tích hợp Validate bằng cả Frontend (JS) và Backend (PHP).
+
+## 🔄 Git Workflow
+
+### Commit Message Convention
+
+The project uses [Conventional Commits](https://www.conventionalcommits.org/):
+
+```bash
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+**Types:**
+
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation update
+- `style`: Formatting changes that don't affect code logic
+- `refactor`: Code refactoring
+- `perf`: Performance improvement
+- `test`: Adding or fixing tests
+- `chore`: Build tasks, package manager configs, etc.
+
+**Examples:**
+
+```bash
+git commit -m "feat(auth): add user login functionality"
+git commit -m "fix(api): resolve user data fetching issue"
+git commit -m "docs: update installation guide"
+git commit -m "style(client): format code with prettier"
+```
+### Standard Workflow
+
+1. **Create a new branch**
+   Always branch off from the latest version of `main`.
+
+   ```bash
+   git checkout main
+   git pull origin main
+   git checkout -b feature/your-feature-name
+   ```
+
+2. **Work on your feature**
+   Make your code changes and commit them using the [Conventional Commits](https://www.conventionalcommits.org/) format:
+
+   ```bash
+   git add .
+   git commit -m "feat(auth): add login functionality"
+   ```
+
+3. **Rebase with the latest main branch**
+   Before pushing, make sure your branch is up to date with `main`:
+
+   ```bash
+   git fetch origin
+   git rebase origin/main
+   ```
+
+4. **Push your branch to remote**
+
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+5. **Create a Pull Request (PR)**
+   Open a PR to merge your branch into `main`.
+   Wait for review and approval before merging.
+
+6. **After Merge — Sync and Clean Up**
+   Once your PR is merged:
+
+   ```bash
+   git checkout main
+   git pull origin main
+   ```
