@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -18,7 +18,7 @@
         <nav>
             <a href="<?= BASE_URL ?>">Trang Chủ</a>
             <a href="<?= BASE_URL ?>/home/shop">Cửa Hàng</a>
-            <a href="<?= BASE_URL ?>/home/cart">Giỏ Hàng</a>
+            <a href="<?= BASE_URL ?>/news">Tin Tức</a>
             <a href="<?= BASE_URL ?>/home/about">Về Chúng Tôi</a>
             <a href="<?= BASE_URL ?>/home/contact">Liên Hệ</a>
         </nav>

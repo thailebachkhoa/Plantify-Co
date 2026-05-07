@@ -15,7 +15,7 @@
         <div>
             <a href="<?= BASE_URL ?>">Trang Chủ</a>
             <a href="<?= BASE_URL ?>/home/shop">Cửa Hàng</a>
-            <a href="<?= BASE_URL ?>/home/cart">🛒 Giỏ Hàng</a>
+            <a href="<?= BASE_URL ?>/news">Tin Tức</a>
             <?php if ($user): ?>
                 <a href="<?= BASE_URL ?>/dashboard">Dashboard</a>
                 <a href="<?= BASE_URL ?>/auth/logout">Đăng Xuất</a>
