@@ -208,8 +208,6 @@ php console.php migrate
 # Admin comment: http://localhost:5000/?url=admin/comments
 ```
 
-> **Replit:** App chạy tự động qua workflow "Start application" trên port 5000.
-
 ---
 
 ## 7. Tài Khoản Test
