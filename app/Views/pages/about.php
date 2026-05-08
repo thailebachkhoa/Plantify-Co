@@ -4,23 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Về Chúng Tôi - BTL Cây Cảnh</title>
+    <title>Về Chúng Tôi - Plantify Co</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/pages.css">
 </head>
 
 <body>
     <nav class="navbar">
-        <div style="font-size: 20px; font-weight: bold;">🌿 BTL Cây Cảnh</div>
-        <div>
+        <div class="logo">
+            <a href="<?= BASE_URL ?>">🌿 Plantify Co</a>
+        </div>
+        <nav>
             <a href="<?= BASE_URL ?>">Trang Chủ</a>
             <a href="<?= BASE_URL ?>/home/shop">Cửa Hàng</a>
             <a href="<?= BASE_URL ?>/news">Tin Tức</a>
+            <a href="<?= BASE_URL ?>/home/about" style="color: var(--primary); font-weight:700;">Về Chúng Tôi</a>
+            <a href="<?= BASE_URL ?>/home/contact">Liên Hệ</a>
+        </nav>
+        <div class="user-menu">
             <?php if ($user): ?>
-                <a href="<?= BASE_URL ?>/dashboard">Dashboard</a>
-                <a href="<?= BASE_URL ?>/auth/logout">Đăng Xuất</a>
+                <span>👤 <?= htmlspecialchars($user['fullname']) ?></span>
+                <a href="<?= BASE_URL ?>/dashboard">📊 Dashboard</a>
+                <a href="<?= BASE_URL ?>/auth/logout" class="logout">Đăng Xuất</a>
             <?php else: ?>
-                <a href="<?= BASE_URL ?>/auth">Đăng Nhập</a>
+                <a href="<?= BASE_URL ?>/auth">🔐 Đăng Nhập</a>
+                <a href="<?= BASE_URL ?>/auth/register">📝 Đăng Ký</a>
             <?php endif; ?>
         </div>
     </nav>
@@ -29,9 +37,9 @@
         <div class="content">
             <h1>📖 Về Chúng Tôi</h1>
 
-            <h2>🌱 Câu Chuyện Của BTL Cây Cảnh</h2>
+            <h2>🌱 Câu Chuyện Của Plantify Co</h2>
             <p>
-                BTL Cây Cảnh được thành lập vào năm 2020 với mục tiêu mang lại những cây cảnh
+                Plantify Co được thành lập vào năm 2025 với mục tiêu mang lại những cây cảnh
                 chất lượng cao đến với mọi gia đình tại Việt Nam. Chúng tôi tin rằng cây cảnh
                 không chỉ làm đẹp không gian sống mà còn giúp cải thiện chất lượng không khí
                 và mang lại cảm giác bình yên cho tâm hồn.
@@ -54,7 +62,7 @@
 
             <h2>📞 Liên Hệ Với Chúng Tôi</h2>
             <p>
-                <strong>Email:</strong> <a href="mailto:info@btlcaycanhh.com">info@btlcaycanh.com</a><br>
+                <strong>Email:</strong> <a href="mailto:info@plantify.com">info@plantify.com</a><br>
                 <strong>Điện Thoại:</strong> 0123 456 789<br>
                 <strong>Địa Chỉ:</strong> 123 Đường ABC, Quận XYZ, TP HCM
             </p>

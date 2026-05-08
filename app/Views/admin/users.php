@@ -1,19 +1,16 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 
 <head>
     <meta charset="utf-8">
-    <title>Admin Dashboard - User Management</title>
+    <title>Quản lý Người dùng — Plantify Co</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Fix đường dẫn assets bằng BASE_URL để tránh lỗi URL Rewrite nếu người dùng có sẵn file css nội bộ -->
-    <!-- Trong trường hợp người dùng chưa cài assets nội bộ, em có fallback thêm Bootstrap CDN bên dưới để k bị nát thẻ -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Original Template CSS references -->
+    <!-- Local admin assets (fallback to CDN above if not present) -->
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/fontawesome.min.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/themify-icons.css">
@@ -22,6 +19,21 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/default-css.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/styles.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
+
+    <style>
+        /* Override sidebar to green */
+        .sidebar-menu { background: #059669 !important; }
+        .sidebar-menu .sidebar-header { background: #047857 !important; border-bottom-color: rgba(255,255,255,0.15) !important; }
+        .sidebar-menu .metismenu a { color: rgba(255,255,255,0.85) !important; }
+        .sidebar-menu .metismenu a i { color: rgba(255,255,255,0.9) !important; }
+        .sidebar-menu .metismenu a:hover,
+        .sidebar-menu .metismenu .active > a,
+        .sidebar-menu .metismenu .mm-active > a { background: rgba(255,255,255,0.15) !important; color: #fff !important; }
+        /* Override purple accents in template to green */
+        .metismenu li a i { color: rgba(255,255,255,0.9) !important; }
+        .user-profile { background: linear-gradient(to right, #059669, #10B981) !important; }
+        .page-title-area:before { background: #10B981 !important; }
+    </style>
 </head>
 
 <body>
@@ -32,7 +44,7 @@
             <div class="sidebar-header">
                 <div class="logo">
                     <a href="<?= BASE_URL ?>/admin">
-                        <h2 class="text-white">Admin Panel</h2>
+                        <h2 class="text-white">🌿 Admin</h2>
                     </a>
                 </div>
             </div>
@@ -41,16 +53,34 @@
                     <nav>
                         <ul class="metismenu list-unstyled mt-3 ms-3" id="menu">
                             <li class="active mm-active">
-                                <a href="<?= BASE_URL ?>/admin" aria-expanded="true"><i class="fa-solid fa-users"></i> <span>Quản lý Người dùng</span></a>
+                                <a href="<?= BASE_URL ?>/admin">
+                                    <i class="fa-solid fa-users"></i>
+                                    <span>Quản lý Người dùng</span>
+                                </a>
                             </li>
                             <li>
-                                <a href="<?= BASE_URL ?>/admin/news"><i class="fa-solid fa-newspaper"></i> <span>Quản lý Tin tức</span></a>
+                                <a href="<?= BASE_URL ?>/admin/news">
+                                    <i class="fa-solid fa-newspaper"></i>
+                                    <span>Quản lý Tin tức</span>
+                                </a>
                             </li>
                             <li>
-                                <a href="<?= BASE_URL ?>/admin/comments"><i class="fa-solid fa-comments"></i> <span>Quản lý Bình luận</span></a>
+                                <a href="<?= BASE_URL ?>/admin/comments">
+                                    <i class="fa-solid fa-comments"></i>
+                                    <span>Quản lý Bình luận</span>
+                                </a>
                             </li>
                             <li>
-                                <a href="<?= BASE_URL ?>/news" target="_blank"><i class="fa-solid fa-globe"></i> <span>Xem Tin tức</span></a>
+                                <a href="<?= BASE_URL ?>/news" target="_blank">
+                                    <i class="fa-solid fa-globe"></i>
+                                    <span>Xem Tin tức</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= BASE_URL ?>">
+                                    <i class="fa-solid fa-house"></i>
+                                    <span>Về Trang chủ</span>
+                                </a>
                             </li>
                         </ul>
                     </nav>
@@ -64,14 +94,24 @@
             <!-- header area start -->
             <div class="header-area mb-4">
                 <div class="row align-items-center">
-                    <div class="col-md-6 col-sm-8 clearfix">
-                        <!-- Navigation có thể giấu/ẩn theo template admin -->
+                    <div class="col-md-6 col-sm-7">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item"><a href="<?= BASE_URL ?>/admin">Admin</a></li>
+                                <li class="breadcrumb-item active">Quản lý Người dùng</li>
+                            </ol>
+                        </nav>
                     </div>
                     <!-- profile info & task notification -->
-                    <div class="col-md-6 col-sm-4 clearfix">
-                        <div class="user-profile float-end d-flex align-items-center">
-                            <h4 class="user-name dropdown-toggle m-0 me-3">Xin chào, <?= htmlspecialchars($user['fullname']) ?> (Admin)</h4>
-                            <a href="<?= BASE_URL ?>/auth/logout" class="btn btn-danger btn-sm"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+                    <div class="col-md-6 col-sm-5">
+                        <div class="user-profile float-end d-flex align-items-center gap-2">
+                            <span class="d-none d-sm-inline text-muted" style="font-size:14px;">
+                                <i class="fa-solid fa-user-shield me-1 text-success"></i>
+                                <strong><?= htmlspecialchars($user['fullname']) ?></strong> (Admin)
+                            </span>
+                            <a href="<?= BASE_URL ?>/auth/logout" class="btn btn-danger btn-sm">
+                                <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -82,9 +122,7 @@
             <div class="page-title-area mb-4">
                 <div class="row align-items-center">
                     <div class="col-sm-6">
-                        <div class="breadcrumbs-area clearfix">
-                            <h3 class="page-title float-start m-0">Quản lý Tài Khoản</h3>
-                        </div>
+                        <h3 class="page-title m-0">Quản lý Tài Khoản</h3>
                     </div>
                 </div>
             </div>
@@ -169,14 +207,12 @@
         <!-- footer area start-->
         <footer style="background: white; padding: 20px; text-align: center; border-top: 1px solid #eee;">
             <div class="footer-area">
-                <p>© Copyright 2026. Quản trị hệ thống MVC BTL.</p>
+                <p>© Copyright 2026. Quản trị hệ thống Plantify Co.</p>
             </div>
         </footer>
         <!-- footer area end-->
     </div>
-    <!-- page container area end -->
 
-    <!-- bootstrap 5 js & CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="<?= BASE_URL ?>/assets/js/scripts.js"></script>
 </body>

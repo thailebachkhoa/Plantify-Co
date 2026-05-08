@@ -34,7 +34,7 @@ class AdminController extends BaseController
         $userModel = new User();
         $users     = $userModel->getAllUsers();
 
-        $this->view('dashboard/admin', [
+        $this->view('admin/users', [
             'user'  => Auth::user(),
             'users' => $users,
         ]);

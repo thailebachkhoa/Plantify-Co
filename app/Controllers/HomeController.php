@@ -13,7 +13,7 @@ class HomeController extends BaseController
     public function index()
     {
         $user = Auth::check() ? Auth::user() : null;
-        $this->view('home', ['user' => $user]);
+        $this->view('pages/home', ['user' => $user]);
     }
 
     /**
@@ -22,7 +22,7 @@ class HomeController extends BaseController
     public function shop()
     {
         $user = Auth::check() ? Auth::user() : null;
-        $this->view('shop', ['user' => $user]);
+        $this->view('pages/shop', ['user' => $user]);
     }
 
     /**
@@ -36,7 +36,7 @@ class HomeController extends BaseController
         }
 
         $user = Auth::check() ? Auth::user() : null;
-        $this->view('product-detail', ['user' => $user, 'product_id' => $id]);
+        $this->view('pages/product-detail', ['user' => $user, 'product_id' => $id]);
     }
 
     /**
@@ -45,7 +45,7 @@ class HomeController extends BaseController
     public function cart()
     {
         $user = Auth::check() ? Auth::user() : null;
-        $this->view('cart', ['user' => $user]);
+        $this->view('pages/cart', ['user' => $user]);
     }
 
     /**
@@ -59,7 +59,7 @@ class HomeController extends BaseController
         }
 
         $user = Auth::user();
-        $this->view('checkout', ['user' => $user]);
+        $this->view('pages/checkout', ['user' => $user]);
     }
 
     /**
@@ -68,7 +68,7 @@ class HomeController extends BaseController
     public function about()
     {
         $user = Auth::check() ? Auth::user() : null;
-        $this->view('about', ['user' => $user]);
+        $this->view('pages/about', ['user' => $user]);
     }
 
     /**
@@ -77,6 +77,6 @@ class HomeController extends BaseController
     public function contact()
     {
         $user = Auth::check() ? Auth::user() : null;
-        $this->view('contact', ['user' => $user]);
+        $this->view('pages/contact', ['user' => $user]);
     }
 }

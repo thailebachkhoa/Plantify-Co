@@ -29,7 +29,7 @@ class DashboardController extends BaseController
 
         // Show member dashboard
         if (Auth::isMember()) {
-            $this->view('dashboard/member', ['user' => Auth::user()]);
+            $this->view('member/index', ['user' => Auth::user()]);
             return;
         }
 
