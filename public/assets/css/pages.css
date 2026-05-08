@@ -4,7 +4,7 @@
 
 /* HERO SECTION */
 .hero {
-  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%), url('https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=2000&q=80') center/cover;
+  background: linear-gradient(135deg, rgba(5,150,105,0.75) 0%, rgba(16,185,129,0.65) 100%), url('../images/hero_img.jpg') center/cover no-repeat;
   background-blend-mode: overlay;
   color: white;
   padding: 8rem 2rem;
