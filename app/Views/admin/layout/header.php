@@ -16,6 +16,21 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/default-css.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/styles.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
+
+    <style>
+        /* Override sidebar to green */
+        .sidebar-menu { background: #059669 !important; }
+        .sidebar-menu .sidebar-header { background: #047857 !important; border-bottom-color: rgba(255,255,255,0.15) !important; }
+        .sidebar-menu .metismenu a { color: rgba(255,255,255,0.85) !important; }
+        .sidebar-menu .metismenu a i { color: rgba(255,255,255,0.9) !important; }
+        .sidebar-menu .metismenu a:hover,
+        .sidebar-menu .metismenu .active > a,
+        .sidebar-menu .metismenu .mm-active > a { background: rgba(255,255,255,0.15) !important; color: #fff !important; }
+        /* Override purple accents in template to green */
+        .metismenu li a i { color: rgba(255,255,255,0.9) !important; }
+        .user-profile { background: linear-gradient(to right, #059669, #10B981) !important; }
+        .page-title-area:before { background: #10B981 !important; }
+    </style>
 </head>
 <body>
 <div class="page-container">

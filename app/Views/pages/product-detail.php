@@ -4,29 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chi Tiết Sản Phẩm - BTL Cây Cảnh</title>
+    <title>Chi Tiết Sản Phẩm - Plantify Co</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/pages.css">
 </head>
 
 <body>
     <nav class="navbar">
-        <div style="font-size: 20px; font-weight: bold;">🌿 BTL Cây Cảnh</div>
-        <div>
+        <div class="logo">
+            <a href="<?= BASE_URL ?>">🌿 Plantify Co</a>
+        </div>
+        <nav>
             <a href="<?= BASE_URL ?>">Trang Chủ</a>
-            <a href="<?= BASE_URL ?>/home/shop">Cửa Hàng</a>
+            <a href="<?= BASE_URL ?>/home/shop" style="color: var(--primary); font-weight:700;">Cửa Hàng</a>
             <a href="<?= BASE_URL ?>/news">Tin Tức</a>
+            <a href="<?= BASE_URL ?>/home/about">Về Chúng Tôi</a>
+            <a href="<?= BASE_URL ?>/home/contact">Liên Hệ</a>
+        </nav>
+        <div class="user-menu">
             <?php if ($user): ?>
-                <a href="<?= BASE_URL ?>/dashboard">Dashboard</a>
-                <a href="<?= BASE_URL ?>/auth/logout">Đăng Xuất</a>
+                <span>👤 <?= htmlspecialchars($user['fullname']) ?></span>
+                <a href="<?= BASE_URL ?>/dashboard">📊 Dashboard</a>
+                <a href="<?= BASE_URL ?>/auth/logout" class="logout">Đăng Xuất</a>
             <?php else: ?>
-                <a href="<?= BASE_URL ?>/auth">Đăng Nhập</a>
+                <a href="<?= BASE_URL ?>/auth">🔐 Đăng Nhập</a>
+                <a href="<?= BASE_URL ?>/auth/register">📝 Đăng Ký</a>
             <?php endif; ?>
         </div>
     </nav>
 
     <div class="container">
-        <a href="<?= BASE_URL ?>/home/shop" style="color: #667eea; text-decoration: none; margin-bottom: 1rem; display: inline-block;">← Quay lại Cửa Hàng</a>
+        <a href="<?= BASE_URL ?>/home/shop" style="color: var(--primary); text-decoration: none; margin-bottom: 1rem; display: inline-block; font-weight: 500;">← Quay lại Cửa Hàng</a>
 
         <div class="product-detail">
             <div class="product-image">🌿</div>

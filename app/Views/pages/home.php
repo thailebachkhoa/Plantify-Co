@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -16,7 +16,7 @@
             <a href="<?= BASE_URL ?>">🌿 Plantify Co</a>
         </div>
         <nav>
-            <a href="<?= BASE_URL ?>">Trang Chủ</a>
+            <a href="<?= BASE_URL ?>" style="color: var(--primary); font-weight:700;">Trang Chủ</a>
             <a href="<?= BASE_URL ?>/home/shop">Cửa Hàng</a>
             <a href="<?= BASE_URL ?>/news">Tin Tức</a>
             <a href="<?= BASE_URL ?>/home/about">Về Chúng Tôi</a>
@@ -120,7 +120,7 @@
     <section class="info-section">
         <h2>📖 Về Cửa Hàng Của Chúng Tôi</h2>
         <p>
-            BTL Cây Cảnh là một cửa hàng chuyên cung cấp các loại cây cảnh chất lượng cao,
+            Plantify Co là một cửa hàng chuyên cung cấp các loại cây cảnh chất lượng cao,
             phù hợp cho nhiều không gian từ nhà ở, văn phòng, đến các không gian công cộng.
         </p>
         <p>
