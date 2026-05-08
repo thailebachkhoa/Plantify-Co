@@ -23,7 +23,7 @@ grid-template-columns: 1fr;
         <div>
             <a href="<?= BASE_URL ?>">Trang Chủ</a>
             <a href="<?= BASE_URL ?>/home/shop">Cửa Hàng</a>
-            <a href="<?= BASE_URL ?>/home/cart">🛒 Giỏ Hàng</a>
+            <a href="<?= BASE_URL ?>/news">Tin Tức</a>
             <a href="<?= BASE_URL ?>/dashboard">Dashboard</a>
             <a href="<?= BASE_URL ?>/auth/logout">Đăng Xuất</a>
         </div>

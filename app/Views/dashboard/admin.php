@@ -40,17 +40,17 @@
                 <div class="menu-inner">
                     <nav>
                         <ul class="metismenu list-unstyled mt-3 ms-3" id="menu">
-                            <li class="active">
+                            <li class="active mm-active">
                                 <a href="<?= BASE_URL ?>/admin" aria-expanded="true"><i class="fa-solid fa-users"></i> <span>Quản lý Người dùng</span></a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa-solid fa-box"></i> <span>Quản lý Sản phẩm</span></a>
+                                <a href="<?= BASE_URL ?>/admin/news"><i class="fa-solid fa-newspaper"></i> <span>Quản lý Tin tức</span></a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa-solid fa-newspaper"></i> <span>Quản lý Tin tức</span></a>
+                                <a href="<?= BASE_URL ?>/admin/comments"><i class="fa-solid fa-comments"></i> <span>Quản lý Bình luận</span></a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa-solid fa-cog"></i> <span>Cài đặt Website</span></a>
+                                <a href="<?= BASE_URL ?>/news" target="_blank"><i class="fa-solid fa-globe"></i> <span>Xem Tin tức</span></a>
                             </li>
                         </ul>
                     </nav>
