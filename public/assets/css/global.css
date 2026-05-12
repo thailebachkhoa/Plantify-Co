@@ -287,9 +287,64 @@ footer a:hover {
   color: var(--primary-light);
 }
 
-/* RESPONSIVE */
+/* ============================
+   RESPONSIVE DESIGN (GLOBAL)
+   ============================ */
+
+/* TABLET (max 992px) */
+@media (max-width: 992px) {
+  .container { padding: 1.5rem; }
+  .navbar { padding: 1rem 1.5rem; }
+  .navbar nav { gap: 1.5rem; }
+}
+
+/* MOBILE (max 768px) */
 @media (max-width: 768px) {
-  .navbar { flex-direction: column; padding: 1rem; gap: 1rem; }
-  .navbar nav { width: 100%; overflow-x: auto; padding-bottom: 0.5rem; }
-  .navbar .user-menu { width: 100%; justify-content: center; }
+  body { font-size: 15px; }
+  
+  .navbar { 
+    flex-direction: column; 
+    padding: 1rem; 
+    gap: 1rem; 
+  }
+  
+  .navbar .logo { font-size: 20px; }
+  
+  .navbar nav { 
+    width: 100%; 
+    overflow-x: auto; 
+    padding-bottom: 0.5rem;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    gap: 1.25rem;
+  }
+  
+  /* Hide scrollbar for nav */
+  .navbar nav::-webkit-scrollbar { display: none; }
+  .navbar nav { -ms-overflow-style: none; scrollbar-width: none; }
+  
+  .navbar .user-menu { 
+    width: 100%; 
+    justify-content: space-between; 
+    flex-wrap: wrap;
+  }
+  
+  .navbar .user-menu a {
+    flex: 1;
+    text-align: center;
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .btn { padding: 10px 20px; font-size: 15px; }
+  
+  footer { padding: 3rem 1.5rem 1.5rem; margin-top: 3rem; }
+}
+
+/* SMALL MOBILE (max 480px) */
+@media (max-width: 480px) {
+  .container { padding: 1rem; }
+  .navbar .user-menu { flex-direction: column; gap: 0.5rem; }
+  .navbar .user-menu a { width: 100%; }
 }
