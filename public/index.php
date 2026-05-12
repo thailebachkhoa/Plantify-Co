@@ -81,6 +81,12 @@ $url = filter_var($url, FILTER_SANITIZE_URL);
 // Ví dụ: "" => [""] (mảng có một phần tử rỗng)
 $url = explode('/', $url);
 
+// Automatically map root-level public pages to HomeController
+$publicPages = ['shop', 'about', 'contact', 'cart', 'checkout', 'product'];
+if (isset($url[0]) && in_array(strtolower($url[0]), $publicPages)) {
+    array_unshift($url, 'home');
+}
+
 // ========== TRÍCH XUẤT CONTROLLER VÀ METHOD TỪ URL ==========
 // Quy ước routing:
 // - Phần tử [0]: tên controller (ví dụ: "product" => "ProductController")
