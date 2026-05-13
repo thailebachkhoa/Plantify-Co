@@ -1,4 +1,5 @@
 <?php
+
 /**
  * NewsController
  * Handles frontend news listing, detail page, and comment submission (Part #4)
@@ -27,14 +28,20 @@ class NewsController extends BaseController
         $newsList   = $this->newsModel->getPublished($page, $search);
         $perPage    = $this->newsModel->getPerPage();
         $totalPages = $total > 0 ? (int)ceil($total / $perPage) : 1;
+        $dataModel = new Data();
+        $company = $dataModel->site_content_all();
 
         $this->view('news/index', [
             'user'        => $user,
             'newsList'    => $newsList,
             'search'      => $search,
             'currentPage' => $page,
+            'company'     => $company,
             'totalPages'  => $totalPages,
             'total'       => $total,
+            'extraCss' => [
+                'assets/css/news.css'
+            ]
         ]);
     }
 
@@ -50,6 +57,8 @@ class NewsController extends BaseController
 
         $user = Auth::check() ? Auth::user() : null;
         $news = $this->newsModel->getBySlug($slug);
+        $dataModel = new Data();
+        $company = $dataModel->site_content_all();
 
         if (!$news) {
             // Article not found — show listing with error message
@@ -80,8 +89,12 @@ class NewsController extends BaseController
             'related'        => $related,
             'comments'       => $comments,
             'commentCount'   => $commentCount,
+            'company'        => $company,
             'commentError'   => $commentError,
             'commentSuccess' => $commentSuccess,
+            'extraCss' => [
+                'assets/css/news.css'
+            ]
         ]);
     }
 
@@ -101,7 +114,7 @@ class NewsController extends BaseController
         // Must be logged in
         if (!Auth::check()) {
             $_SESSION['comment_error'] = 'Bạn cần đăng nhập để bình luận!';
-            $this->redirect('news/detail/' . $slug);
+            $this->redirect('news/detail/' . $slug . '#comments');
             return;
         }
 
@@ -110,17 +123,17 @@ class NewsController extends BaseController
         // Server-side validation
         if (empty($content)) {
             $_SESSION['comment_error'] = 'Nội dung bình luận không được để trống!';
-            $this->redirect('news/detail/' . $slug);
+            $this->redirect('news/detail/' . $slug . '#comments');
             return;
         }
         if (mb_strlen($content) < 5) {
             $_SESSION['comment_error'] = 'Bình luận phải có ít nhất 5 ký tự!';
-            $this->redirect('news/detail/' . $slug);
+            $this->redirect('news/detail/' . $slug . '#comments');
             return;
         }
         if (mb_strlen($content) > 1000) {
             $_SESSION['comment_error'] = 'Bình luận không được vượt quá 1000 ký tự!';
-            $this->redirect('news/detail/' . $slug);
+            $this->redirect('news/detail/' . $slug . '#comments');
             return;
         }
 
@@ -139,6 +152,6 @@ class NewsController extends BaseController
             $_SESSION['comment_error'] = 'Có lỗi xảy ra, vui lòng thử lại!';
         }
 
-        $this->redirect('news/detail/' . $slug);
+        $this->redirect('news/detail/' . $slug . '#comments');
     }
 }

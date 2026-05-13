@@ -1,4 +1,5 @@
 <?php
+
 /**
  * AdminController
  * Handles admin dashboard: user management + news management + comment management
@@ -31,12 +32,22 @@ class AdminController extends BaseController
 
     public function index()
     {
+        // Trang Dashboard tổng quan
+        $this->view('admin/index', [
+            'user' => Auth::user(),
+            'pageTitle' => 'Tổng quan hệ thống'
+        ]);
+    }
+
+    public function users()
+    {
         $userModel = new User();
-        $users     = $userModel->getAllUsers();
+        $users = $userModel->getAllUsers();
 
         $this->view('admin/users', [
             'user'  => Auth::user(),
             'users' => $users,
+            'pageTitle' => 'Quản lý thành viên'
         ]);
     }
 
@@ -79,7 +90,7 @@ class AdminController extends BaseController
     }
 
     /* =============================================
-       NEWS MANAGEMENT (Part #4)
+       NEWS MANAGEMENT 
        ============================================= */
 
     /** GET /admin/news — list all news with search + pagination */
@@ -137,7 +148,6 @@ class AdminController extends BaseController
 
             $_SESSION['admin_success'] = 'Bài viết đã được tạo thành công!';
             $this->redirect('admin/news');
-
         } else {
             $this->view('admin/news-form', [
                 'user'     => Auth::user(),
@@ -178,7 +188,6 @@ class AdminController extends BaseController
             $newsModel->update((int)$id, $result['data']);
             $_SESSION['admin_success'] = 'Bài viết đã được cập nhật!';
             $this->redirect('admin/news');
-
         } else {
             $this->view('admin/news-form', [
                 'user'     => Auth::user(),
@@ -279,14 +288,14 @@ class AdminController extends BaseController
         $seoDesc   = trim($_POST['seo_desc']          ?? '');
         $author    = trim($_POST['author']            ?? 'Admin');
         $status    = in_array($_POST['status'] ?? '', ['published', 'draft', 'hidden'])
-                     ? $_POST['status'] : 'draft';
+            ? $_POST['status'] : 'draft';
 
         // ---- Server-side validation ----
         if (empty($title))              return ['error' => 'Tiêu đề không được để trống!',         'data' => null];
         if (mb_strlen($title) < 5)     return ['error' => 'Tiêu đề phải có ít nhất 5 ký tự!',     'data' => null];
-        if (mb_strlen($title) > 255)   return ['error' => 'Tiêu đề không được vượt quá 255 ký tự!','data' => null];
+        if (mb_strlen($title) > 255)   return ['error' => 'Tiêu đề không được vượt quá 255 ký tự!', 'data' => null];
         if (empty($shortDesc))         return ['error' => 'Mô tả ngắn không được để trống!',       'data' => null];
-        if (empty($content))           return ['error' => 'Nội dung bài viết không được để trống!','data' => null];
+        if (empty($content))           return ['error' => 'Nội dung bài viết không được để trống!', 'data' => null];
 
         // ---- Image upload (optional) ----
         $thumbnail = $existingThumbnail ?? '';
@@ -296,7 +305,7 @@ class AdminController extends BaseController
             $allowed = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
             $ext     = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
-            if (!in_array($file['type'], $allowed) && !in_array($ext, ['jpg','jpeg','png','webp'])) {
+            if (!in_array($file['type'], $allowed) && !in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
                 return ['error' => 'Chỉ chấp nhận file ảnh: JPG, JPEG, PNG, WEBP!', 'data' => null];
             }
             if ($file['size'] > 2 * 1024 * 1024) {
@@ -346,5 +355,29 @@ class AdminController extends BaseController
                 'status'            => $status,
             ],
         ];
+    }
+    /* =============================================
+       QUẢN LÝ NỘI DUNG, FAQ & RAG
+       ============================================= */
+
+    public function pages()
+    {
+        $this->view('admin/pages', [
+            'user' => Auth::user()
+        ]);
+    }
+
+    public function faqs()
+    {
+        $this->view('admin/faqs', [
+            'user' => Auth::user()
+        ]);
+    }
+
+    public function rag()
+    {
+        $this->view('admin/rag', [
+            'user' => Auth::user()
+        ]);
     }
 }
