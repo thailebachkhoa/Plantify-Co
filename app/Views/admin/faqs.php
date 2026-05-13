@@ -7,7 +7,7 @@
 
 require_once __DIR__ . '/includes/AdminLayout.php';
 
-$pageTitle = 'Quan ly FAQ | GreenNest Admin';
+$pageTitle = 'Quan ly FAQ | Plantify Admin';
 $db = Database::getInstance();
 $message = '';
 $error = '';

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File: faq.php
  * Chuc nang: Trang cau hoi thuong gap ve dich vu cay canh.
@@ -11,17 +12,7 @@ $pageTitle = 'FAQ | Câu hỏi thường gặp về cây cảnh và decor xanh';
 $pageDescription = 'Giải đáp câu hỏi về khảo sát, bảo hành, chăm sóc định kỳ, tư vấn online và dịch vụ cây xanh doanh nghiệp.';
 require_once BASE_PATH . '/app/Views/partials/header.php';
 
-$db = getDatabaseConnection();
-if ($db) {
-    try {
-        $dbFaqs = $db->query("SELECT * FROM faqs ORDER BY sort_order, id")->fetchAll();
-        if ($dbFaqs) {
-            $faqs = $dbFaqs;
-        }
-    } catch (PDOException $exception) {
-        // Keep fallback FAQ data from includes/data.php.
-    }
-}
+
 ?>
 
 <section class="page-hero faq-hero modern-hero">
@@ -61,7 +52,7 @@ if ($db) {
                         <div><i class="fa-solid fa-ruler-combined"></i><span>Kích thước khu vực dự kiến</span></div>
                         <div><i class="fa-solid fa-wallet"></i><span>Ngân sách hoặc mức ưu tiên</span></div>
                     </div>
-                    <a href="about.php" class="btn btn-success info-cta">Về GreenNest</a>
+                    <a href="about" class="btn btn-success info-cta">Về GreenNest</a>
                 </aside>
 
                 <div class="faq-quick-card" data-aos="fade-up" data-aos-delay="100">
@@ -84,19 +75,19 @@ if ($db) {
                 <div class="accordion custom-accordion faq-accordion-modern" id="faqAccordion">
                     <?php foreach ($faqs as $index => $faq): ?>
                         <?php
-                            $question = $faq['question'] ?? '';
-                            $answer = $faq['answer'] ?? '';
-                            $haystack = $question . ' ' . $answer;
-                            $category = 'all';
-                            if (preg_match('/khảo sát|khao sat/iu', $haystack)) {
-                                $category = 'survey';
-                            } elseif (preg_match('/bảo hành|bao hanh|thay thế/iu', $haystack)) {
-                                $category = 'warranty';
-                            } elseif (preg_match('/online|ảnh|anh/iu', $haystack)) {
-                                $category = 'online';
-                            } elseif (preg_match('/chăm sóc|cham soc/iu', $haystack)) {
-                                $category = 'care';
-                            }
+                        $question = $faq['question'] ?? '';
+                        $answer = $faq['answer'] ?? '';
+                        $haystack = $question . ' ' . $answer;
+                        $category = 'all';
+                        if (preg_match('/khảo sát|khao sat/iu', $haystack)) {
+                            $category = 'survey';
+                        } elseif (preg_match('/bảo hành|bao hanh|thay thế/iu', $haystack)) {
+                            $category = 'warranty';
+                        } elseif (preg_match('/online|ảnh|anh/iu', $haystack)) {
+                            $category = 'online';
+                        } elseif (preg_match('/chăm sóc|cham soc/iu', $haystack)) {
+                            $category = 'care';
+                        }
                         ?>
                         <div class="accordion-item faq-item" data-category="<?php echo e($category); ?>" data-search="<?php echo e($haystack); ?>">
                             <h2 class="accordion-header" id="heading<?php echo $index; ?>">
