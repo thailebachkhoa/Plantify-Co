@@ -1,147 +1,206 @@
-﻿<!DOCTYPE html>
-<html lang="vi">
+﻿<?php
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cửa Hàng Bán Cây Cảnh - Plantify Co</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/pages.css">
-</head>
+/**
+ * File: app/Views/Home.php
+ * View: Trang chủ Plantify Co 
+ */
+?>
+<?php require BASE_PATH . '/app/Views/partials/header.php'; ?>
 
-<body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="logo">
-            <a href="<?= BASE_URL ?>">🌿 Plantify Co</a>
-        </div>
-        <nav>
-            <a href="<?= BASE_URL ?>" style="color: var(--primary); font-weight:700;">Trang Chủ</a>
-            <a href="<?= BASE_URL ?>/home/shop">Cửa Hàng</a>
-            <a href="<?= BASE_URL ?>/news">Tin Tức</a>
-            <a href="<?= BASE_URL ?>/home/about">Về Chúng Tôi</a>
-            <a href="<?= BASE_URL ?>/home/contact">Liên Hệ</a>
-        </nav>
-        <div class="user-menu">
-            <?php if ($user): ?>
-                <span>👤 <?= htmlspecialchars($user['fullname']) ?></span>
-                <a href="<?= BASE_URL ?>/dashboard">📊 Dashboard</a>
-                <a href="<?= BASE_URL ?>/auth/logout" class="logout">Đăng Xuất</a>
-            <?php else: ?>
-                <a href="<?= BASE_URL ?>/auth">🔐 Đăng Nhập</a>
-                <a href="<?= BASE_URL ?>/auth/register">📝 Đăng Ký</a>
-            <?php endif; ?>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1>🌿 Cửa Hàng Bán Cây Cảnh Plantify Co</h1>
-        <p>Khám phá bộ sưu tập cây cảnh tuyệt đẹp cho không gian sống của bạn</p>
-        <div class="btn-group">
-            <a href="<?= BASE_URL ?>/home/shop" class="btn btn-primary">🛍️ Mua Sắm Ngay</a>
-            <a href="<?= BASE_URL ?>/home/about" class="btn btn-secondary">Tìm Hiểu Thêm</a>
+<main class="site-main">
+    <!-- HERO SECTION -->
+    <section class="page-hero modern-hero" style="background: linear-gradient(135deg, rgba(18, 56, 42, 0.86), rgba(31, 111, 77, 0.62)), url('https://images.unsplash.com/photo-1416879598056-0cbb04922e99?auto=format&fit=crop&w=1800&q=80') center/cover;">
+        <div class="container position-relative" style="z-index: 1;">
+            <div class="row g-5 align-items-end">
+                <div class="col-lg-8" data-aos="fade-up">
+                    <span class="section-kicker text-white opacity-75">Khởi Đầu Mới</span>
+                    <h1>Biến Không Gian Sống<br>Thành Vườn Xanh Bình Yên</h1>
+                    <p class="text-white opacity-75" style="max-width: 600px;">Khám phá bộ sưu tập cây cảnh tuyển chọn giúp thanh lọc không khí, mang lại cảm giác thư thái và nguồn năng lượng tích cực cho ngôi nhà của bạn.</p>
+                    <div class="hero-actions">
+                        <a href="<?= BASE_URL ?>/home/shop" class="btn btn-success px-4"><i class="fa-solid fa-bag-shopping me-2"></i> Mua Sắm Ngay</a>
+                        <a href="<?= BASE_URL ?>/home/about" class="btn btn-outline-light px-4">Tìm Hiểu Thêm</a>
+                    </div>
+                </div>
+                <div class="col-lg-4" data-aos="fade-left" data-aos-delay="100">
+                    <div class="hero-insight-card">
+                        <i class="fa-solid fa-leaf"></i>
+                        <strong>100% Cây Khỏe Mạnh</strong>
+                        <span>Được chăm sóc và kiểm tra kỹ lưỡng bởi chuyên gia thực vật trước khi giao đến tay bạn.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-metrics" data-aos="fade-up" data-aos-delay="200">
+                <div><strong>500+</strong><span>Sản phẩm đa dạng</span></div>
+                <div><strong>100%</strong><span>Giao hàng an toàn</span></div>
+                <div><strong>24/7</strong><span>Hỗ trợ chăm sóc</span></div>
+                <div><strong>30 ngày</strong><span>Đồng hành cùng cây</span></div>
+            </div>
         </div>
     </section>
 
-    <!-- Features -->
-    <section class="features">
-        <div class="feature">
-            <div class="feature-icon">🚚</div>
-            <h3>Giao Hàng Nhanh</h3>
-            <p>Giao hàng miễn phí cho đơn hàng trên 500k</p>
-        </div>
-        <div class="feature">
-            <div class="feature-icon">✅</div>
-            <h3>Chất Lượng Đảm Bảo</h3>
-            <p>Tất cả cây đều được kiểm tra kỹ trước giao</p>
-        </div>
-        <div class="feature">
-            <div class="feature-icon">💬</div>
-            <h3>Hỗ Trợ 24/7</h3>
-            <p>Đội ngũ chăm sóc khách hàng sẵn sàng giúp bạn</p>
-        </div>
-        <div class="feature">
-            <div class="feature-icon">💰</div>
-            <h3>Giá Cạnh Tranh</h3>
-            <p>Giá tốt nhất thị trường, thường xuyên có khuyến mãi</p>
-        </div>
-    </section>
-
-    <!-- Products Section -->
-    <section class="products">
-        <div class="products-container">
-            <h2>🌱 Sản Phẩm Nổi Bật</h2>
-            <div class="product-grid">
-                <div class="product-card">
-                    <div class="product-image">🪴</div>
-                    <div class="product-info">
-                        <h3>Cây Hạnh Phúc</h3>
-                        <p>Cây lọc không khí tuyệt vời</p>
-                        <div class="product-price">150.000 VNĐ</div>
-                        <a href="<?= BASE_URL ?>/home/product/1" class="btn">Chi Tiết</a>
+    <!-- FEATURES SECTION -->
+    <section class="section-padding bg-soft">
+        <div class="container">
+            <div class="section-heading text-center" data-aos="fade-up">
+                <span class="section-kicker">Tại Sao Chọn Chúng Tôi</span>
+                <h2>Chất lượng dịch vụ đi cùng vẻ đẹp mảng xanh</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
+                    <div class="value-card h-100 text-center">
+                        <div class="icon-box mx-auto"><i class="fa-solid fa-truck-fast"></i></div>
+                        <h3>Giao Hàng Nhanh</h3>
+                        <p class="mb-0">Miễn phí cho đơn hàng trên 500k. Đảm bảo cây luôn tươi mới khi đến tay.</p>
                     </div>
                 </div>
-
-                <div class="product-card">
-                    <div class="product-image">🌿</div>
-                    <div class="product-info">
-                        <h3>Cây Dây Ô</h3>
-                        <p>Dễ chăm sóc, tạo không gian xanh</p>
-                        <div class="product-price">120.000 VNĐ</div>
-                        <a href="<?= BASE_URL ?>/home/product/2" class="btn">Chi Tiết</a>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="value-card h-100 text-center">
+                        <div class="icon-box mx-auto"><i class="fa-solid fa-shield-check"></i></div>
+                        <h3>Chất Lượng Đảm Bảo</h3>
+                        <p class="mb-0">Tất cả cây đều được đội ngũ chuyên gia kiểm tra sức khỏe rễ và lá kỹ lưỡng.</p>
                     </div>
                 </div>
-
-                <div class="product-card">
-                    <div class="product-image">🌸</div>
-                    <div class="product-info">
-                        <h3>Cây Hoa Lan</h3>
-                        <p>Hoa đẹp, kéo dài suốt mùa</p>
-                        <div class="product-price">250.000 VNĐ</div>
-                        <a href="<?= BASE_URL ?>/home/product/3" class="btn">Chi Tiết</a>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="value-card h-100 text-center">
+                        <div class="icon-box mx-auto"><i class="fa-solid fa-headset"></i></div>
+                        <h3>Hỗ Trợ 24/7</h3>
+                        <p class="mb-0">Tư vấn cách chăm sóc cây trọn đời qua Zalo và Hotline của Plantify.</p>
                     </div>
                 </div>
-
-                <div class="product-card">
-                    <div class="product-image">🍀</div>
-                    <div class="product-info">
-                        <h3>Cây Tứ Quý</h3>
-                        <p>Mang may mắn cho gia đình</p>
-                        <div class="product-price">200.000 VNĐ</div>
-                        <a href="<?= BASE_URL ?>/home/product/4" class="btn">Chi Tiết</a>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="value-card h-100 text-center">
+                        <div class="icon-box mx-auto"><i class="fa-solid fa-tag"></i></div>
+                        <h3>Giá Cạnh Tranh</h3>
+                        <p class="mb-0">Cam kết mức giá tốt nhất thị trường kèm nhiều chương trình ưu đãi hàng tháng.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Info Section -->
-    <section class="info-section">
-        <h2>📖 Về Cửa Hàng Của Chúng Tôi</h2>
-        <p>
-            Plantify Co là một cửa hàng chuyên cung cấp các loại cây cảnh chất lượng cao,
-            phù hợp cho nhiều không gian từ nhà ở, văn phòng, đến các không gian công cộng.
-        </p>
-        <p>
-            Với đội ngũ nhân viên chuyên nghiệp, chúng tôi cam kết cung cấp những sản phẩm tốt nhất
-            với giá cạnh tranh nhất. Chúng tôi cũng cung cấp hướng dẫn chăm sóc cho khách hàng
-            để giúp cây của bạn phát triển khỏe mạnh.
-        </p>
-        <p>
-            <strong>Hãy ghé thăm cửa hàng của chúng tôi hoặc mua sắm trực tuyến ngay hôm nay!</strong>
-        </p>
+    <!-- PRODUCTS SECTION -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-heading text-center" data-aos="fade-up">
+                <span class="section-kicker">Sản Phẩm Nổi Bật</span>
+                <h2>Bộ sưu tập được yêu thích nhất tháng</h2>
+            </div>
+
+            <div class="row g-4">
+                <!-- Product 1 -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
+                    <div class="product-card h-100">
+                        <img src="https://images.unsplash.com/photo-1599598425947-3300262b32ee?auto=format&fit=crop&w=600&q=80" alt="Cây Hạnh Phúc">
+                        <div class="product-body d-flex flex-column h-100">
+                            <span>Lọc không khí</span>
+                            <h3 class="mt-1 mb-2">Cây Hạnh Phúc</h3>
+                            <p class="small flex-grow-1">Mang lại may mắn, sung túc và tạo điểm nhấn sang trọng cho phòng khách.</p>
+                            <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-2">
+                                <strong>150.000đ</strong>
+                                <a href="<?= BASE_URL ?>/home/product/1" class="btn btn-outline-success btn-sm px-3">Chi Tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="product-card h-100">
+                        <img src="https://images.unsplash.com/photo-1620127813580-5a3d078170c0?auto=format&fit=crop&w=600&q=80" alt="Cây Lưỡi Hổ">
+                        <div class="product-body d-flex flex-column h-100">
+                            <span>Phòng ngủ</span>
+                            <h3 class="mt-1 mb-2">Cây Lưỡi Hổ</h3>
+                            <p class="small flex-grow-1">Khả năng lọc sạch độc tố, nhả oxy vào ban đêm, lý tưởng cho không gian nghỉ ngơi.</p>
+                            <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-2">
+                                <strong>120.000đ</strong>
+                                <a href="<?= BASE_URL ?>/home/product/2" class="btn btn-outline-success btn-sm px-3">Chi Tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="product-card h-100">
+                        <img src="https://images.unsplash.com/photo-1597558661625-f09db324b172?auto=format&fit=crop&w=600&q=80" alt="Hoa Lan Ý">
+                        <div class="product-body d-flex flex-column h-100">
+                            <span>Có hoa</span>
+                            <h3 class="mt-1 mb-2">Hoa Lan Ý</h3>
+                            <p class="small flex-grow-1">Vẻ đẹp thanh tao, tinh khiết, giúp cân bằng độ ẩm không khí cực tốt.</p>
+                            <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-2">
+                                <strong>250.000đ</strong>
+                                <a href="<?= BASE_URL ?>/home/product/3" class="btn btn-outline-success btn-sm px-3">Chi Tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="product-card h-100">
+                        <img src="https://images.unsplash.com/photo-1628157748443-bd21568c0dd4?auto=format&fit=crop&w=600&q=80" alt="Cây Kim Tiền">
+                        <div class="product-body d-flex flex-column h-100">
+                            <span>Phong thủy</span>
+                            <h3 class="mt-1 mb-2">Cây Kim Tiền</h3>
+                            <p class="small flex-grow-1">Biểu tượng của tài lộc, phát triển mạnh mẽ và rất dễ chăm sóc tại văn phòng.</p>
+                            <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-2">
+                                <strong>200.000đ</strong>
+                                <a href="<?= BASE_URL ?>/home/product/4" class="btn btn-outline-success btn-sm px-3">Chi Tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-5" data-aos="fade-up">
+                <a href="<?= BASE_URL ?>/home/shop" class="btn btn-success px-4 py-2">Xem Tất Cả Sản Phẩm <i class="fa-solid fa-arrow-right ms-2"></i></a>
+            </div>
+        </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 Plantify Co. Tất cả các quyền được bảo lưu.</p>
-        <p>
-            <a href="<?= BASE_URL ?>/home/about">Về Chúng Tôi</a> |
-            <a href="<?= BASE_URL ?>/home/contact">Liên Hệ</a> |
-            <a href="#">Chính Sách Bảo Mật</a>
-        </p>
-    </footer>
-</body>
+    <!-- INFO SECTION -->
+    <section class="section-padding about-story-section bg-soft">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="about-image-stack">
+                        <img src="https://images.unsplash.com/photo-1463320726281-696a485928c7?auto=format&fit=crop&w=1200&q=80" alt="Câu chuyện Plantify" class="img-fluid rounded-image">
+                        <div class="image-note">
+                            <strong>Đồng hành cùng sự phát triển</strong>
+                            <span>Chúng tôi cung cấp kiến thức để bất kỳ ai cũng có thể làm vườn.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <span class="section-kicker">Câu Chuyện Của Chúng Tôi</span>
+                    <h2 class="section-title">Khát khao mang không gian xanh vào cuộc sống hiện đại</h2>
+                    <p>Plantify Co ra đời từ tình yêu với thiên nhiên. Chúng tôi tin rằng, một mầm xanh không chỉ làm đẹp căn phòng mà còn là liệu pháp tinh thần vô giá sau những giờ làm việc căng thẳng.</p>
+                    <p>Với quy trình tuyển chọn khắt khe từ các nhà vườn uy tín, chúng tôi cam kết mỗi sản phẩm gửi đi đều đạt chất lượng cao nhất. Chúng tôi không chỉ bán cây, mà còn trao đi nguồn năng lượng chữa lành từ tự nhiên.</p>
+                    <div class="about-check-grid mt-4">
+                        <span><i class="fa-solid fa-check"></i> Cây trồng hữu cơ</span>
+                        <span><i class="fa-solid fa-check"></i> Chậu gốm thủ công</span>
+                        <span><i class="fa-solid fa-check"></i> Tư vấn miễn phí</span>
+                        <span><i class="fa-solid fa-check"></i> Bao bì thân thiện</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-</html>
+    <!-- CTA SECTION -->
+    <section class="cta-section">
+        <div class="container position-relative">
+            <div class="row align-items-center g-4 text-center text-lg-start">
+                <div class="col-lg-8">
+                    <h2>Sẵn sàng mang thiên nhiên vào nhà?</h2>
+                    <p class="mb-0">Đừng ngần ngại liên hệ nếu bạn cần chuyên gia của Plantify tư vấn loại cây phù hợp với không gian và mệnh của mình.</p>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <a href="<?= BASE_URL ?>/home/shop" class="btn btn-light btn-lg text-success fw-bold px-4 rounded-pill cta-button">Bắt Đầu Mua Sắm</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<?php require BASE_PATH . '/app/Views/partials/footer.php'; ?>

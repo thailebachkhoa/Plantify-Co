@@ -1,10 +1,9 @@
 <?php
+
 /**
- * File: includes/helpers.php
  * Chuc nang: Chua cac ham dung chung cho toan bo website.
  * Cach hoat dong: Moi trang include file nay de escape du lieu, gan active menu
  * va tao duong dan asset on dinh.
- * Noi dat file: project/includes/helpers.php
  */
 
 if (!function_exists('e')) {
@@ -57,5 +56,19 @@ if (!function_exists('media_url')) {
         }
 
         return asset($path);
+    }
+}
+
+
+if (!function_exists('content_value')) {
+    function content_value($key, $default = '')
+    {
+
+        static $dataModel = null;
+        if ($dataModel === null) {
+            $dataModel = new Data();
+        }
+
+        return $dataModel->content_value($key, $default);
     }
 }

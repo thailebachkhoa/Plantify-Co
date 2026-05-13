@@ -17,9 +17,9 @@ class Data
 
     public function fetch_table_rows($table, $orderBy = 'id')
     {
-
         try {
-            return $this->db->query("SELECT * FROM {$table} ORDER BY {$orderBy}")->fetchAll();
+            $this->db->query("SELECT * FROM {$table} ORDER BY {$orderBy}");
+            return $this->db->resultSet(); // Trả về kết quả thông qua resultSet()
         } catch (PDOException $exception) {
             return null;
         }
@@ -39,7 +39,9 @@ class Data
         }
 
         try {
-            $rows = $db->query('SELECT content_key, content_value FROM site_content')->fetchAll();
+            $db->query('SELECT content_key, content_value FROM site_content');
+            $rows = $db->resultSet();
+
             foreach ($rows as $row) {
                 $content[$row['content_key']] = $row['content_value'];
             }

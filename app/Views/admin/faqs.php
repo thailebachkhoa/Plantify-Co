@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File: admin/faqs.php
  * Chuc nang: Quan ly FAQ (xem, them, sua, xoa).
@@ -7,7 +8,7 @@
 require_once __DIR__ . '/includes/AdminLayout.php';
 
 $pageTitle = 'Quan ly FAQ | GreenNest Admin';
-$db = getDatabaseConnection();
+$db = Database::getInstance();
 $message = '';
 $error = '';
 
@@ -57,14 +58,9 @@ if (!$db) {
     }
 }
 
-$faqs = [];
-if ($db) {
-    try {
-        $faqs = $db->query('SELECT * FROM faqs ORDER BY sort_order, id')->fetchAll();
-    } catch (PDOException $exception) {
-        $error = 'Thieu bang FAQ. Hay import lai database/migrations/schema.sql.';
-    }
-}
+$db->query('SELECT * FROM faqs ORDER BY sort_order ASC, id DESC');
+$faqs = $db->resultSet() ?: [];
+
 
 admin_layout_start([
     'pageTitle' => $pageTitle,

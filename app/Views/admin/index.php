@@ -1,139 +1,181 @@
 <?php
+
 /**
- * File: admin/index.php
- * Chuc nang: Tong quan khu vuc quan tri noi dung gioi thieu va FAQ.
+ * File: app/Views/admin/index.php
+ * Chức năng: Tổng quan khu vực quản trị (Sử dụng AdminLayout gốc)
  */
 
 require_once __DIR__ . '/includes/AdminLayout.php';
 
-$pageTitle = 'Admin | GreenNest Landscape';
-$db = data_db();
+$pageTitle = 'Tổng quan hệ thống';
+
+// Khởi tạo các class thay cho hàm toàn cục cũ
+$db = Database::getInstance();
+$dataModel = new Data();
+
 $counts = [
-    'content' => count(site_content_all()),
-    'pages' => 0,
-    'faqs' => count($faqs),
-    'rag_lines' => 0,
+    'content'   => 0,
+    'pages'     => 0,
+    'faqs'      => 0,
+    'users'     => 0,
+    'rag_lines' => 0
 ];
 
+// 1. Đếm số lượng cấu hình (site_content)
+$siteContent = $dataModel->site_content_all();
+$counts['content'] = count($siteContent);
+
+// 2. Đếm số lượng FAQ
+$faqs = $dataModel->fetch_table_rows('faqs');
+$counts['faqs'] = $faqs ? count($faqs) : 0;
+
+// 3. Đếm số lượng Trang (pages)
+try {
+    $db->query("SELECT COUNT(*) as total FROM pages");
+    $result = $db->single();
+    $counts['pages'] = (int) ($result['total'] ?? 0);
+} catch (Exception $e) {
+}
+
+// 4. Đếm số lượng Người dùng (users)
+try {
+    $db->query("SELECT COUNT(*) as total FROM users");
+    $result = $db->single();
+    $counts['users'] = (int) ($result['total'] ?? 0);
+} catch (Exception $e) {
+}
+
+// 5. Đếm số dòng dữ liệu RAG (Bot)
 $ragFile = realpath(STORAGE_PATH . '/rag/RAG.txt');
 if ($ragFile && is_file($ragFile)) {
-    $ragContent = (string) file_get_contents($ragFile);
+    $ragContent = trim((string) file_get_contents($ragFile));
     $counts['rag_lines'] = $ragContent === '' ? 0 : substr_count($ragContent, "\n") + 1;
 }
 
-if ($db) {
-    foreach (['faqs', 'pages'] as $table) {
-        try {
-            $counts[$table] = (int) $db->query("SELECT COUNT(*) FROM {$table}")->fetchColumn();
-        } catch (PDOException $exception) {
-            continue;
-        }
-    }
-}
-
-$chartLabels = ['Noi dung', 'Trang', 'FAQ', 'Dong RAG'];
-$chartValues = [$counts['content'], $counts['pages'], $counts['faqs'], $counts['rag_lines']];
+// Chuẩn bị dữ liệu cho biểu đồ
+$chartLabels = ['Nội dung', 'Trang', 'FAQ', 'Dữ liệu Bot (Dòng)', 'Thành viên'];
+$chartValues = [$counts['content'], $counts['pages'], $counts['faqs'], $counts['rag_lines'], $counts['users']];
 $dashboardChartData = json_encode([
     'labels' => $chartLabels,
     'values' => $chartValues,
-], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
+]);
 
+// BẮT ĐẦU GIAO DIỆN BẰNG ADMIN LAYOUT GỐC
 admin_layout_start([
     'pageTitle' => $pageTitle,
-    'heading' => 'Dashboard noi dung',
-    'subtitle' => 'Tong quan nhanh cho phan trang gioi thieu, FAQ va du lieu hoi dap.',
-    'actionHtml' => '<a href="pages.php" class="btn btn-success">Sua trang gioi thieu</a>',
+    'heading' => 'Tổng quan hệ thống',
+    'subtitle' => 'Dữ liệu trực tiếp từ Database & RAG'
 ]);
 ?>
 
-<div class="sales-report-area mb-5">
-    <div class="row">
-        <div class="col-xl-3 col-md-6">
-            <div class="single-report mb-xs-30">
-                <div class="s-report-inner pe--20 pt--30 mb-3">
-                    <div class="icon icon-blue"><i class="ti-write"></i></div>
-                    <div class="s-report-title d-flex justify-content-between">
-                        <h4 class="header-title mb-0">Khoi noi dung</h4>
+<div class="row g-4 mb-4 mt-2">
+    <div class="col-xl-3 col-md-6">
+        <div class="card shadow-sm border-0 rounded-4 h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="text-muted mb-0 fw-bold">Người dùng</h6>
+                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                        <i class="fa-solid fa-users fs-5"></i>
                     </div>
-                    <span class="admin-report-value"><?php echo e($counts['content']); ?></span>
                 </div>
-                <canvas id="coin_sales1" height="100"></canvas>
+                <h3 class="fw-bold mb-0 text-stone-900"><?= $counts['users'] ?></h3>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="single-report mb-xs-30">
-                <div class="s-report-inner pe--20 pt--30 mb-3">
-                    <div class="icon icon-amber"><i class="ti-layout-media-center-alt"></i></div>
-                    <div class="s-report-title d-flex justify-content-between">
-                        <h4 class="header-title mb-0">Trang gioi thieu</h4>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card shadow-sm border-0 rounded-4 h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="text-muted mb-0 fw-bold">Trang nội dung</h6>
+                    <div class="bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                        <i class="fa-solid fa-file-lines fs-5"></i>
                     </div>
-                    <span class="admin-report-value"><?php echo e($counts['pages']); ?></span>
                 </div>
-                <canvas id="coin_sales2" height="100"></canvas>
+                <h3 class="fw-bold mb-0 text-stone-900"><?= $counts['pages'] ?></h3>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="single-report mb-xs-30">
-                <div class="s-report-inner pe--20 pt--30 mb-3">
-                    <div class="icon icon-emerald"><i class="ti-help-alt"></i></div>
-                    <div class="s-report-title d-flex justify-content-between">
-                        <h4 class="header-title mb-0">FAQ</h4>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card shadow-sm border-0 rounded-4 h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="text-muted mb-0 fw-bold">Hỏi đáp FAQ</h6>
+                    <div class="bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                        <i class="fa-solid fa-circle-question fs-5"></i>
                     </div>
-                    <span class="admin-report-value"><?php echo e($counts['faqs']); ?></span>
                 </div>
-                <canvas id="coin_sales3" height="100"></canvas>
+                <h3 class="fw-bold mb-0 text-stone-900"><?= $counts['faqs'] ?></h3>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="single-report">
-                <div class="s-report-inner pe--20 pt--30 mb-3">
-                    <div class="icon icon-blue"><i class="ti-comments"></i></div>
-                    <div class="s-report-title d-flex justify-content-between">
-                        <h4 class="header-title mb-0">Du lieu bot</h4>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card shadow-sm border-0 rounded-4 h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="text-muted mb-0 fw-bold">Dữ liệu Bot RAG</h6>
+                    <div class="bg-info bg-opacity-10 text-info rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                        <i class="fa-solid fa-robot fs-5"></i>
                     </div>
-                    <span class="admin-report-value"><?php echo e($counts['rag_lines']); ?></span>
                 </div>
-                <canvas id="coin_sales4" height="100"></canvas>
+                <h3 class="fw-bold mb-0 text-stone-900"><?= $counts['rag_lines'] ?> <span class="fs-6 fw-normal text-muted">dòng</span></h3>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row">
+<div class="row g-4">
     <div class="col-xl-8">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-sm-flex justify-content-between align-items-center">
-                    <h4 class="header-title mb-0">Tong quan module gioi thieu va QA</h4>
-                    <span class="admin-muted">Live count tu database va RAG.txt</span>
+        <div class="card shadow-sm border-0 rounded-4">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold mb-0 text-stone-900">Tổng quan dữ liệu</h5>
+                    <span class="badge bg-light text-muted border">Live Database</span>
                 </div>
-                <div class="admin-chart-wrap mt-4">
+                <div style="height: 320px;">
                     <canvas id="adminOverviewChart"></canvas>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-xl-4 mt-lg-30 mt-md-30 mt-xs-30">
-        <div class="card h-full">
-            <div class="card-body">
-                <h4 class="header-title">Tac vu nhanh</h4>
-                <div class="admin-meta-list mt-4">
-                    <div>
-                        <span>Noi dung trang gioi thieu</span>
-                        <strong><a href="pages.php">Chinh sua noi dung</a></strong>
-                    </div>
-                    <div>
-                        <span>Cau hoi thuong gap</span>
-                        <strong><a href="faqs.php">Quan ly FAQ</a></strong>
-                    </div>
-                    <div>
-                        <span>Du lieu bot hoi dap</span>
-                        <strong><a href="rag.php">Cap nhat RAG.txt</a></strong>
-                    </div>
-                    <div>
-                        <span>Website public</span>
-                        <strong><a href="../zabout.php">Mo trang gioi thieu</a></strong>
-                    </div>
+
+    <div class="col-xl-4">
+        <div class="card shadow-sm border-0 rounded-4 h-100">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-4 text-stone-900">Tác vụ nhanh</h5>
+                <div class="list-group list-group-flush gap-2">
+                    <a href="<?= BASE_URL ?>/admin/pages" class="list-group-item list-group-item-action border rounded-3 px-3 py-3 d-flex align-items-center justify-content-between hover-bg-light">
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="fa-solid fa-pen-to-square text-success"></i>
+                            <span class="fw-medium">Chỉnh sửa giới thiệu</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-muted small"></i>
+                    </a>
+
+                    <a href="<?= BASE_URL ?>/admin/news_create" class="list-group-item list-group-item-action border rounded-3 px-3 py-3 d-flex align-items-center justify-content-between hover-bg-light">
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="fa-solid fa-newspaper text-primary"></i>
+                            <span class="fw-medium">Đăng bài tin tức mới</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-muted small"></i>
+                    </a>
+
+                    <a href="<?= BASE_URL ?>/admin/users" class="list-group-item list-group-item-action border rounded-3 px-3 py-3 d-flex align-items-center justify-content-between hover-bg-light">
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="fa-solid fa-user-shield text-warning"></i>
+                            <span class="fw-medium">Kiểm duyệt tài khoản</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-muted small"></i>
+                    </a>
+
+                    <a href="<?= BASE_URL ?>" target="_blank" class="list-group-item list-group-item-action border rounded-3 px-3 py-3 d-flex align-items-center justify-content-between hover-bg-light mt-2 bg-light">
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="fa-solid fa-arrow-up-right-from-square text-secondary"></i>
+                            <span class="fw-medium text-secondary">Xem trang công khai</span>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -141,35 +183,63 @@ admin_layout_start([
 </div>
 
 <?php
+// GÓI TOÀN BỘ SCRIPT VÀO BIẾN ĐỂ TRUYỀN CHO ADMIN_LAYOUT_END
 $extraScripts = '
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
-<script src="' . asset('assets/vendor/srtdash/js/line-chart.js') . '"></script>
-<script src="' . asset('assets/vendor/srtdash/js/bar-chart.js') . '"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="' . asset('vendor/srtdash/js/line-chart.js') . '"></script>
+<script src="' . asset('vendor/srtdash/js/bar-chart.js') . '"></script>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    var chartEl = document.getElementById("adminOverviewChart");
-    var chartData = ' . $dashboardChartData . ';
-    if (chartEl && window.Chart) {
-        new Chart(chartEl, {
-            type: "bar",
-            data: {
-                labels: chartData.labels,
-                datasets: [{
-                    label: "So luong",
-                    data: chartData.values,
-                    backgroundColor: ["#3b82f6", "#f59e0b", "#10b981", "#6366f1"],
-                    borderRadius: 8
-                }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
-            }
-        });
-    }
-});
-</script>';
+    document.addEventListener("DOMContentLoaded", function() {
+        var chartEl = document.getElementById("adminOverviewChart");
+        var chartData = ' . $dashboardChartData . ';
+
+        if (chartEl && window.Chart) {
+            new Chart(chartEl, {
+                type: "bar",
+                data: {
+                    labels: chartData.labels,
+                    datasets: [{
+                        label: "Số lượng",
+                        data: chartData.values,
+                        backgroundColor: [
+                            "rgba(16, 185, 129, 0.8)", // Green
+                            "rgba(59, 130, 246, 0.8)", // Blue
+                            "rgba(245, 158, 11, 0.8)", // Amber
+                            "rgba(99, 102, 241, 0.8)", // Indigo
+                            "rgba(236, 72, 153, 0.8)" // Pink
+                        ],
+                        borderRadius: 6,
+                        barPercentage: 0.6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: "#1f2722",
+                            padding: 12,
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 14 }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { precision: 0 },
+                            grid: { borderDash: [4, 4] }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
+';
 
 admin_layout_end($extraScripts);
 ?>

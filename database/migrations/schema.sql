@@ -124,7 +124,7 @@ INSERT INTO faqs (question, answer, sort_order) VALUES
 ('Tôi có thể gửi ảnh mặt bằng để được tư vấn online không?', 'Có. Bạn có thể chuẩn bị ảnh tổng thể, kích thước khu vực và điều kiện ánh sáng để đội ngũ tư vấn phân tích phương án phù hợp.', 3);
 
 INSERT INTO pages (slug, title, content, image) VALUES
-('about', 'Giới thiệu Plantify Co', 'Plantify Co là công ty chuyên thiết kế và cung cấp giải pháp cây xanh cho không gian doanh nghiệp. Chúng tôi kết hợp thẩm mỹ, khoa học và dịch vụ để mang thiên nhiên vào văn phòng, showroom và căn hộ cao cấp.', 'assets/images/Screenshot 2025-12-26 172140.png')
+('about', 'Giới thiệu Plantify Co', 'Plantify Co là công ty chuyên thiết kế và cung cấp giải pháp cây xanh cho không gian doanh nghiệp. Chúng tôi kết hợp thẩm mỹ, khoa học và dịch vụ để mang thiên nhiên vào văn phòng, showroom và căn hộ cao cấp.', 'assets/images/aboutimg_1.jpg')
 ON DUPLICATE KEY UPDATE title = VALUES(title), content = VALUES(content), image = VALUES(image);
 
 INSERT INTO site_content (content_key, content_group, label, input_type, content_value) VALUES
@@ -132,7 +132,7 @@ INSERT INTO site_content (content_key, content_group, label, input_type, content
 ('company.tagline', 'Công ty', 'Khẩu hiệu', 'text', 'Cây xanh tinh tế cho không gian sống và làm việc'),
 ('company.phone', 'Công ty', 'Số điện thoại', 'text', '0908 246 135'),
 ('company.email', 'Công ty', 'Email', 'text', 'info@plantifyco.com'),
-('company.address', 'Công ty', 'Địa chỉ', 'text', '128 Nguyễn Văn Hưởng, Thảo Điền, TP. Thủ Đức, TP. Hồ Chí Minh'),
+('company.address', 'Công ty', 'Địa chỉ', 'text', '268, Lý Thường Kiệt, Phường 14, Quận 10, TP. Hồ Chí Minh'),
 ('company.hours', 'Công ty', 'Giờ làm việc', 'text', 'Thứ 2 - Thứ 7: 08:00 - 18:00'),
 ('site.default_description', 'SEO', 'Mô tả mặc định', 'textarea', 'Website giới thiệu công ty cây cảnh, cây xanh và decor thiên nhiên cho văn phòng, showroom.'),
 ('about.hero_video', 'Trang giới thiệu', 'Video nền đầu trang giới thiệu', 'text', 'assets/videos/about/about-hero.m3u8'),

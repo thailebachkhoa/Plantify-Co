@@ -1,13 +1,15 @@
 <?php
-class Database {
+class Database
+{
     private static $instance = null;
     private $pdo;
     private $stmt;
 
-    private function __construct() {
+    private function __construct()
+    {
         $host = $_ENV['DB_HOST'] ?? '127.0.0.1';
         $port = $_ENV['DB_PORT'] ?? '3306';
-        $db_name = $_ENV['DB_DATABASE'] ?? 'btlweb';
+        $db_name = $_ENV['DB_DATABASE'] ?? 'plantify';
         $username = $_ENV['DB_USERNAME'] ?? 'root';
         $password = $_ENV['DB_PASSWORD'] ?? '';
 
@@ -20,12 +22,13 @@ class Database {
 
         try {
             $this->pdo = new PDO($dsn, $username, $password, $options);
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
             die("<h3 style='color:red;'>Database Connection Error:</h3> " . $e->getMessage());
         }
     }
 
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (self::$instance == null) {
             self::$instance = new Database();
         }
@@ -33,11 +36,13 @@ class Database {
     }
 
 
-    public function query($sql) {
+    public function query($sql)
+    {
         $this->stmt = $this->pdo->prepare($sql);
     }
 
-    public function bind($param, $value, $type = null) {
+    public function bind($param, $value, $type = null)
+    {
         if (is_null($type)) {
             switch (true) {
                 case is_int($value):
@@ -56,25 +61,30 @@ class Database {
         $this->stmt->bindValue($param, $value, $type);
     }
 
-    public function execute() {
+    public function execute()
+    {
         return $this->stmt->execute();
     }
 
-    public function resultSet() {
+    public function resultSet()
+    {
         $this->execute();
         return $this->stmt->fetchAll();
     }
 
-    public function single() {
+    public function single()
+    {
         $this->execute();
         return $this->stmt->fetch();
     }
 
-    public function rowCount() {
+    public function rowCount()
+    {
         return $this->stmt->rowCount();
     }
 
-    public function lastInsertId() {
+    public function lastInsertId()
+    {
         return $this->pdo->lastInsertId();
     }
 }

@@ -7,8 +7,8 @@ define('STORAGE_PATH', BASE_PATH . '/storage');
 require_once BASE_PATH . '/app/Core/Env.php';
 require_once BASE_PATH . '/app/Core/Auth.php';
 
-require_once BASE_PATH . '/config/database.php';
+// require_once BASE_PATH . '/config/database.php';
 require_once BASE_PATH . '/app/Core/Helpers.php';
 require_once BASE_PATH . '/app/Core/BaseController.php';
 require_once BASE_PATH . '/app/Core/Database.php';
-require_once BASE_PATH . '/app/Models/data.php';
+require_once BASE_PATH . '/app/Models/Data.php';

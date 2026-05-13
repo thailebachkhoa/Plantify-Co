@@ -18,7 +18,9 @@ if (!function_exists('admin_layout_start')) {
         $subtitle = $config['subtitle'] ?? '';
         $actionHtml = $config['actionHtml'] ?? '';
         $extraHead = $config['extraHead'] ?? '';
-        $assetBase = asset('assets/vendor/srtdash');
+
+        // Đường dẫn chuẩn
+        $assetBase = BASE_URL . '/assets/vendor/srtdash';
 ?>
         <!doctype html>
         <html lang="vi">
@@ -30,18 +32,23 @@ if (!function_exists('admin_layout_start')) {
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-            <link rel="icon" type="image/png" href="<?php echo e($assetBase); ?>/images/icon/logo.png">
-            <link rel="stylesheet" href="<?php echo e($assetBase); ?>/css/bootstrap.min.css">
-            <link rel="stylesheet" href="<?php echo e($assetBase); ?>/css/fontawesome.min.css">
-            <link rel="stylesheet" href="<?php echo e($assetBase); ?>/css/themify-icons.css">
-            <link rel="stylesheet" href="<?php echo e($assetBase); ?>/css/metismenujs.min.css">
-            <link rel="stylesheet" href="<?php echo e($assetBase); ?>/css/swiper-bundle.min.css">
+
+            <link rel="icon" type="image/png" href="<?= $assetBase ?>/images/icon/logo.png">
+
+            <link rel="stylesheet" href="<?= $assetBase ?>/css/bootstrap.min.css">
+            <link rel="stylesheet" href="<?= $assetBase ?>/css/fontawesome.min.css">
+            <link rel="stylesheet" href="<?= $assetBase ?>/css/themify-icons.css">
+            <link rel="stylesheet" href="<?= $assetBase ?>/css/metismenujs.min.css">
+            <link rel="stylesheet" href="<?= $assetBase ?>/css/typography.css">
+            <link rel="stylesheet" href="<?= $assetBase ?>/css/default-css.css">
+            <link rel="stylesheet" href="<?= $assetBase ?>/css/styles.css">
+            <link rel="stylesheet" href="<?= $assetBase ?>/css/responsive.css">
+            <link rel="stylesheet" href="<?= $assetBase ?>/css/swiper-bundle.min.css">
+
+            <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/admin-srtdash.css">
+
             <?php echo $extraHead; ?>
-            <link rel="stylesheet" href="<?php echo e($assetBase); ?>/css/typography.css">
-            <link rel="stylesheet" href="<?php echo e($assetBase); ?>/css/default-css.css">
-            <link rel="stylesheet" href="<?php echo e($assetBase); ?>/css/styles.css">
-            <link rel="stylesheet" href="<?php echo e($assetBase); ?>/css/responsive.css">
-            <link rel="stylesheet" href="<?php echo e(asset('assets/css/admin-srtdash.css')); ?>">
+            <script src="<?= $assetBase ?>/js/vendor/modernizr-2.8.3.min.js"></script>
         </head>
 
         <body>
@@ -61,7 +68,7 @@ if (!function_exists('admin_layout_start')) {
         if (!function_exists('admin_layout_end')) {
             function admin_layout_end($extraScripts = '')
             {
-                $assetBase = asset('assets/vendor/srtdash');
+                $assetBase = BASE_URL . '/assets/vendor/srtdash';
                 admin_render_content_end();
                 ?>
                 </div>
@@ -71,14 +78,21 @@ if (!function_exists('admin_layout_start')) {
                     </div>
                 </footer>
             </div>
-            <script src="<?php echo e($assetBase); ?>/js/bootstrap.bundle.min.js"></script>
-            <script src="<?php echo e($assetBase); ?>/js/swiper-bundle.min.js"></script>
-            <script src="<?php echo e($assetBase); ?>/js/metismenujs.min.js"></script>
+            <script src="<?= $assetBase ?>/js/vendor/jquery-2.2.4.min.js"></script>
+
+            <script src="<?= $assetBase ?>/js/bootstrap.bundle.min.js"></script>
+            <script src="<?= $assetBase ?>/js/swiper-bundle.min.js"></script>
+            <script src="<?= $assetBase ?>/js/metismenujs.min.js"></script>
+            <script src="<?= $assetBase ?>/js/jquery.slimscroll.min.js"></script>
+            <script src="<?= $assetBase ?>/js/jquery.slicknav.min.js"></script>
+
             <?php echo $extraScripts; ?>
-            <script src="<?php echo e($assetBase); ?>/js/scripts.js"></script>
+
+            <script src="<?= $assetBase ?>/js/scripts.js"></script>
         </body>
 
         </html>
 <?php
             }
         }
+?>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File: admin/pages.php
  * Chuc nang: Quan ly noi dung website tu bang site_content va pages.
@@ -7,7 +8,7 @@
 require_once __DIR__ . '/includes/AdminLayout.php';
 
 $pageTitle = 'Quan ly noi dung | GreenNest Admin';
-$db = getDatabaseConnection();
+$db = Database::getInstance();
 $message = '';
 $error = '';
 
@@ -76,7 +77,7 @@ if (!$db) {
         if (!is_array($content)) {
             $error = 'Du lieu noi dung khong hop le.';
         } else {
-            $stmt = $db->prepare('UPDATE site_content SET content_value = ? WHERE content_key = ?');
+            $stmt = $db->query('UPDATE site_content SET content_value = ? WHERE content_key = ?');
             foreach ($content as $key => $value) {
                 $key = (string) $key;
                 $value = trim((string) $value);
@@ -88,7 +89,7 @@ if (!$db) {
                     $error = 'Gia tri noi dung khong duoc vuot qua 5000 ky tu.';
                     break;
                 }
-                $stmt->execute([$value, $key]);
+                $db->execute([$value, $key]);
             }
         }
         if (!$error) {
@@ -113,8 +114,8 @@ if (!$db) {
         } elseif (mb_strlen($title) > 255) {
             $error = 'Tieu de khong duoc vuot qua 255 ky tu.';
         } elseif ($slug && $title && $content) {
-            $stmt = $db->prepare('INSERT INTO pages (slug, title, content, image) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE title = VALUES(title), content = VALUES(content), image = VALUES(image)');
-            $stmt->execute([$slug, $title, $content, $image]);
+            $stmt = $db->query('INSERT INTO pages (slug, title, content, image) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE title = VALUES(title), content = VALUES(content), image = VALUES(image)');
+            $db->execute([$slug, $title, $content, $image]);
             $message = 'Noi dung trang da duoc cap nhat.';
         } else {
             $error = 'Vui long nhap du slug, tieu de va noi dung trang.';
@@ -135,9 +136,9 @@ if ($db) {
                 'assets/videos/about/about-hero.m3u8',
             ],
         ];
-        $defaultStmt = $db->prepare("INSERT INTO site_content (content_key, content_group, label, input_type, content_value) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE content_group = VALUES(content_group), label = VALUES(label), input_type = VALUES(input_type), content_value = IF(content_value = 'assets/videos/about/about.m3u8', VALUES(content_value), content_value)");
+        $defaultStmt = $db->query("INSERT INTO site_content (content_key, content_group, label, input_type, content_value) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE content_group = VALUES(content_group), label = VALUES(label), input_type = VALUES(input_type), content_value = IF(content_value = 'assets/videos/about/about.m3u8', VALUES(content_value), content_value)");
         foreach ($defaultContent as $defaultRow) {
-            $defaultStmt->execute($defaultRow);
+            $db->execute($defaultRow);
         }
 
         $contentRows = $db->query('SELECT * FROM site_content ORDER BY content_group, id')->fetchAll();
@@ -147,7 +148,7 @@ if ($db) {
         }));
         $pages = $db->query('SELECT * FROM pages ORDER BY slug')->fetchAll();
     } catch (PDOException $exception) {
-            $error = 'Thieu bang noi dung. Hay import lai database/migrations/schema.sql.';
+        $error = 'Thieu bang noi dung. Hay import lai database/migrations/schema.sql.';
     }
 }
 
@@ -293,7 +294,12 @@ admin_layout_start([
             <div class="table-responsive">
                 <table class="table text-center" id="pagesTable">
                     <thead class="text-uppercase bg-light">
-                        <tr><th scope="col">Slug</th><th scope="col">Tieu de</th><th scope="col">Anh</th><th scope="col">Cap nhat</th></tr>
+                        <tr>
+                            <th scope="col">Slug</th>
+                            <th scope="col">Tieu de</th>
+                            <th scope="col">Anh</th>
+                            <th scope="col">Cap nhat</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($pages as $page): ?>
