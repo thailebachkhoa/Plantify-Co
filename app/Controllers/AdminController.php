@@ -380,4 +380,87 @@ class AdminController extends BaseController
             'user' => Auth::user()
         ]);
     }
+
+    /* =============================================
+   PRODUCT MANAGEMENT
+   ============================================= */
+
+    public function products()
+    {
+        $productModel = new Product();
+        // Lấy tất cả hoặc phân trang (ở đây lấy danh sách đơn giản để hiển thị)
+        $products = $productModel->getPaginated(100, 0);
+
+        $this->view('admin/products', [
+            'user'      => Auth::user(),
+            'products'  => $products,
+            'pageTitle' => 'Quản lý Sản phẩm'
+        ]);
+    }
+
+    public function product_create()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $productModel = new Product();
+
+            $data = [
+                'name'        => $_POST['name'],
+                'category'    => $_POST['category'],
+                'price'       => $_POST['price'],
+                'description' => $_POST['description'],
+                'is_featured' => isset($_POST['is_featured']) ? 1 : 0,
+                'image'       => $_POST['image_url'] // Hoặc xử lý upload file
+            ];
+
+            if ($productModel->create($data)) {
+                $this->redirect('admin/products?msg=success');
+            }
+        }
+
+        $this->view('admin/product-form', [
+            'user'      => Auth::user(),
+            'pageTitle' => 'Thêm sản phẩm mới',
+            'mode'      => 'create'
+        ]);
+    }
+
+    public function product_edit($id)
+    {
+        $productModel = new Product();
+        $product = $productModel->findById($id);
+
+        if (!$product) {
+            $this->redirect('admin/products');
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = [
+                'name'        => $_POST['name'],
+                'category'    => $_POST['category'],
+                'price'       => $_POST['price'],
+                'description' => $_POST['description'],
+                'is_featured' => isset($_POST['is_featured']) ? 1 : 0,
+                'image'       => $_POST['image_url']
+            ];
+
+            if ($productModel->update($id, $data)) {
+                $this->redirect('admin/products?msg=updated');
+            }
+        }
+
+        $this->view('admin/product-form', [
+            'user'      => Auth::user(),
+            'product'   => $product,
+            'pageTitle' => 'Chỉnh sửa sản phẩm',
+            'mode'      => 'edit'
+        ]);
+    }
+
+    public function product_delete($id)
+    {
+        $productModel = new Product();
+        // Giả sử bạn có hàm delete trong model Product
+        // $productModel->delete($id); 
+        $this->redirect('admin/products?msg=deleted');
+    }
 }

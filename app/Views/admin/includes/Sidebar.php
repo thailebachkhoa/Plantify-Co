@@ -41,6 +41,7 @@ if (!function_exists('admin_render_sidebar')) {
                             <?php admin_sidebar_item('faqs', 'ti-help-alt', 'FAQ', 'faqs'); ?>
                             <?php admin_sidebar_item('users', 'ti-user', 'Thành viên', 'users'); ?>
                             <?php admin_sidebar_item('rag', 'ti-comments', 'Dữ liệu bot', 'rag'); ?>
+                            <?php admin_sidebar_item('products', 'ti-package', 'Quản lý Sản phẩm', 'products'); ?>
                             <li>
                                 <a href="<?= BASE_URL ?>"><i class="ti-home"></i><span>Xem website</span></a>
                             </li>
