@@ -10,7 +10,7 @@
 <main class="site-main">
     <!-- HERO SECTION -->
     <section class="page-hero modern-hero"
-        style="background: linear-gradient(135deg, rgba(18, 56, 42, 0.86), rgba(31, 111, 77, 0.62)), url('https://images.unsplash.com/photo-1416879598056-0cbb04922e99?auto=format&fit=crop&w=1800&q=80') center/cover;">
+        style="background: linear-gradient(135deg, rgba(18, 56, 42, 0.86), rgba(31, 111, 77, 0.62)), url('<?= BASE_URL ?>/assets/images/hero_img.jpg') center/cover;">
         <div class="container position-relative" style="z-index: 1;">
             <div class="row g-5 align-items-end">
                 <div class="col-lg-8" data-aos="fade-up">
@@ -46,38 +46,45 @@
     <!-- FEATURES SECTION -->
     <section class="section-padding bg-soft">
         <div class="container">
-            <div class="section-heading text-center" data-aos="fade-up">
-                <span class="section-kicker">Tại Sao Chọn Chúng Tôi</span>
-                <h2>Chất lượng dịch vụ đi cùng vẻ đẹp mảng xanh</h2>
-            </div>
-            <div class="row g-4">
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
-                    <div class="value-card h-100 text-center">
-                        <div class="icon-box mx-auto"><i class="fa-solid fa-truck-fast"></i></div>
-                        <h3>Giao Hàng Nhanh</h3>
-                        <p class="mb-0">Miễn phí cho đơn hàng trên 500k. Đảm bảo cây luôn tươi mới khi đến tay.</p>
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="about-image-stack position-relative">
+                        <img src="<?= BASE_URL ?>/assets/images/home_feature_img.jpeg"
+                            class="rounded-4 shadow-lg w-100" alt="Plantify Concept">
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
-                    <div class="value-card h-100 text-center">
-                        <div class="icon-box mx-auto"><i class="fa-solid fa-shield-check"></i></div>
-                        <h3>Chất Lượng Đảm Bảo</h3>
-                        <p class="mb-0">Tất cả cây đều được đội ngũ chuyên gia kiểm tra sức khỏe rễ và lá kỹ lưỡng.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
-                    <div class="value-card h-100 text-center">
-                        <div class="icon-box mx-auto"><i class="fa-solid fa-headset"></i></div>
-                        <h3>Hỗ Trợ 24/7</h3>
-                        <p class="mb-0">Tư vấn cách chăm sóc cây trọn đời qua Zalo và Hotline của Plantify.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
-                    <div class="value-card h-100 text-center">
-                        <div class="icon-box mx-auto"><i class="fa-solid fa-tag"></i></div>
-                        <h3>Giá Cạnh Tranh</h3>
-                        <p class="mb-0">Cam kết mức giá tốt nhất thị trường kèm nhiều chương trình ưu đãi hàng tháng.
-                        </p>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="ps-lg-4">
+                        <span class="section-kicker" style="color: var(--green-600);">Về Chúng Tôi</span>
+                        <h2 class="display-6 mb-4" style="color: var(--green-900); font-weight: 800;">Chăm sóc từ tâm, xanh tươi không gian sống</h2>
+                        <p class="lead text-muted mb-4">Plantify không chỉ bán cây, chúng tôi trao đi nguồn năng lượng chữa lành từ tự nhiên.</p>
+
+                        <div class="about-check-grid mt-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="icon-box me-3 bg-white shadow-sm d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; border-radius: 12px;">
+                                    <i class="fa-solid fa-seedling text-success"></i>
+                                </div>
+                                <span class="fw-bold" style="color: var(--green-900);">Cây trồng hữu cơ chuẩn VietGAP</span>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="icon-box me-3 bg-white shadow-sm d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; border-radius: 12px;">
+                                    <i class="fa-solid fa-paint-roller text-success"></i>
+                                </div>
+                                <span class="fw-bold" style="color: var(--green-900);">Chậu gốm thủ công nghệ thuật</span>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="icon-box me-3 bg-white shadow-sm d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; border-radius: 12px;">
+                                    <i class="fa-solid fa-headset text-success"></i>
+                                </div>
+                                <span class="fw-bold" style="color: var(--green-900);">Tư vấn phong thủy miễn phí 24/7</span>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="icon-box me-3 bg-white shadow-sm d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; border-radius: 12px;">
+                                    <i class="fa-solid fa-truck-fast text-success"></i>
+                                </div>
+                                <span class="fw-bold" style="color: var(--green-900);">Bao bì sinh học bảo vệ môi trường</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -85,94 +92,55 @@
     </section>
 
     <!-- PRODUCTS SECTION -->
-    <section class="section-padding">
+    <section class="section-padding bg-white">
         <div class="container">
-            <div class="section-heading text-center" data-aos="fade-up">
-                <span class="section-kicker">Sản Phẩm Nổi Bật</span>
-                <h2>Bộ sưu tập được yêu thích nhất tháng</h2>
+            <div class="section-heading text-center mb-5" data-aos="fade-up">
+                <span class="section-kicker" style="color: var(--green-600);">Bộ Sưu Tập Tuyển Chọn</span>
+                <h2 style="color: var(--green-900); font-weight: 800;">Sản Phẩm Nổi Bật</h2>
             </div>
 
             <div class="row g-4">
-                <!-- Product 1 -->
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
-                    <div class="product-card h-100">
-                        <img src="https://images.unsplash.com/photo-1599598425947-3300262b32ee?auto=format&fit=crop&w=600&q=80"
-                            alt="Cây Hạnh Phúc">
-                        <div class="product-body d-flex flex-column h-100">
-                            <span>Lọc không khí</span>
-                            <h3 class="mt-1 mb-2">Cây Hạnh Phúc</h3>
-                            <p class="small flex-grow-1">Mang lại may mắn, sung túc và tạo điểm nhấn sang trọng cho
-                                phòng khách.</p>
-                            <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-2">
-                                <strong>150.000đ</strong>
-                                <a href="<?= BASE_URL ?>/shop/detail/1" class="btn btn-outline-success btn-sm px-3">Chi
-                                    Tiết</a>
+                <?php if (!empty($featuredProducts)): ?>
+                    <?php foreach ($featuredProducts as $product): ?>
+                        <div class="col-md-6 col-lg-3" data-aos="fade-up">
+                            <div class="product-card h-100 bg-white border-0 shadow-sm" style="border-radius: 20px; overflow: hidden;">
+                                <div class="position-relative">
+                                    <a href="<?= BASE_URL ?>/shop/detail/<?= $product['id'] ?>">
+                                        <img src="<?= strpos($product['image'], 'http') === 0 ? $product['image'] : BASE_URL . '/' . ltrim($product['image'], '/') ?>"
+                                            alt="<?= $product['name'] ?>"
+                                            class="w-100 object-fit-cover"
+                                            style="height: 280px;">
+                                    </a>
+                                    <div class="position-absolute top-0 end-0 p-3">
+                                        <span class="badge bg-white text-success shadow-sm rounded-pill px-3 py-2">Nổi bật</span>
+                                    </div>
+                                </div>
+                                <div class="product-body p-4 text-center">
+                                    <span class="text-muted small text-uppercase fw-bold" style="letter-spacing: 1px;"><?= $product['category'] ?></span>
+                                    <h3 class="mt-2 mb-3 fs-5">
+                                        <a href="<?= BASE_URL ?>/shop/detail/<?= $product['id'] ?>" class="text-decoration-none" style="color: var(--green-900); font-weight: 700;">
+                                            <?= $product['name'] ?>
+                                        </a>
+                                    </h3>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold" style="color: var(--green-700); font-size: 1.1rem;"><?= number_format($product['price'], 0, ',', '.') ?>đ</span>
+                                        <a href="<?= BASE_URL ?>/shop/detail/<?= $product['id'] ?>" class="btn btn-outline-success btn-sm rounded-pill px-3">
+                                            Chi tiết
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Product 2 -->
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
-                    <div class="product-card h-100">
-                        <img src="https://images.unsplash.com/photo-1620127813580-5a3d078170c0?auto=format&fit=crop&w=600&q=80"
-                            alt="Cây Lưỡi Hổ">
-                        <div class="product-body d-flex flex-column h-100">
-                            <span>Phòng ngủ</span>
-                            <h3 class="mt-1 mb-2">Cây Lưỡi Hổ</h3>
-                            <p class="small flex-grow-1">Khả năng lọc sạch độc tố, nhả oxy vào ban đêm, lý tưởng cho
-                                không gian nghỉ ngơi.</p>
-                            <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-2">
-                                <strong>120.000đ</strong>
-                                <a href="<?= BASE_URL ?>/shop/detail/2" class="btn btn-outline-success btn-sm px-3">Chi
-                                    Tiết</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 3 -->
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
-                    <div class="product-card h-100">
-                        <img src="https://images.unsplash.com/photo-1597558661625-f09db324b172?auto=format&fit=crop&w=600&q=80"
-                            alt="Hoa Lan Ý">
-                        <div class="product-body d-flex flex-column h-100">
-                            <span>Có hoa</span>
-                            <h3 class="mt-1 mb-2">Hoa Lan Ý</h3>
-                            <p class="small flex-grow-1">Vẻ đẹp thanh tao, tinh khiết, giúp cân bằng độ ẩm không khí cực
-                                tốt.</p>
-                            <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-2">
-                                <strong>250.000đ</strong>
-                                <a href="<?= BASE_URL ?>/shop/detail/3" class="btn btn-outline-success btn-sm px-3">Chi
-                                    Tiết</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 4 -->
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
-                    <div class="product-card h-100">
-                        <img src="https://images.unsplash.com/photo-1628157748443-bd21568c0dd4?auto=format&fit=crop&w=600&q=80"
-                            alt="Cây Kim Tiền">
-                        <div class="product-body d-flex flex-column h-100">
-                            <span>Phong thủy</span>
-                            <h3 class="mt-1 mb-2">Cây Kim Tiền</h3>
-                            <p class="small flex-grow-1">Biểu tượng của tài lộc, phát triển mạnh mẽ và rất dễ chăm sóc
-                                tại văn phòng.</p>
-                            <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-2">
-                                <strong>200.000đ</strong>
-                                <a href="<?= BASE_URL ?>/shop/detail/4" class="btn btn-outline-success btn-sm px-3">Chi
-                                    Tiết</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p class="text-center text-muted">Đang cập nhật sản phẩm nổi bật...</p>
+                <?php endif; ?>
             </div>
 
-            <div class="text-center mt-5" data-aos="fade-up">
-                <a href="<?= BASE_URL ?>/shop" class="btn btn-success px-4 py-2">Xem Tất Cả Sản Phẩm <i
-                        class="fa-solid fa-arrow-right ms-2"></i></a>
+            <div class="text-center mt-5">
+                <a href="<?= BASE_URL ?>/shop" class="btn btn-success btn-lg px-5 rounded-pill shadow-sm fw-bold">
+                    Xem tất cả cửa hàng <i class="fa-solid fa-arrow-right ms-2"></i>
+                </a>
             </div>
         </div>
     </section>
@@ -183,7 +151,7 @@
             <div class="row g-5 align-items-center">
                 <div class="col-lg-6" data-aos="fade-right">
                     <div class="about-image-stack">
-                        <img src="https://images.unsplash.com/photo-1463320726281-696a485928c7?auto=format&fit=crop&w=1200&q=80"
+                        <img src="<?= BASE_URL ?>/assets/images/home_bottom_img.jpeg"
                             alt="Câu chuyện Plantify" class="img-fluid rounded-image">
                         <div class="image-note">
                             <strong>Đồng hành cùng sự phát triển</strong>

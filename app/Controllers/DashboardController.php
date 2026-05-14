@@ -242,9 +242,6 @@ class DashboardController extends BaseController
             exit;
         }
 
-        $db = Database::getInstance();
-        $userId = Auth::id();
-
         require_once BASE_PATH . '/app/Models/Order.php';
         $orderModel = new Order();
 
@@ -254,6 +251,32 @@ class DashboardController extends BaseController
             'user'      => Auth::user(),
             'myOrders'  => $myOrders,
             'pageTitle' => 'Lịch sử đơn hàng'
+        ]);
+    }
+    public function order_detail($id = null)
+    {
+        if (!Auth::check() || !$id) {
+            $this->redirect('auth');
+            exit;
+        }
+
+        require_once BASE_PATH . '/app/Models/Order.php';
+        $orderModel = new Order();
+
+        // Tái sử dụng hàm getOrderDetail đã tạo ở phần Admin
+        $order = $orderModel->getOrderDetail($id);
+
+        if (!$order || $order['user_id'] != Auth::id()) {
+            $_SESSION['error'] = "Bạn không có quyền xem đơn hàng này.";
+            $this->redirect('dashboard/orders');
+            exit;
+        }
+
+
+        $this->view('dashboard/order-detail', [
+            'user'      => Auth::user(),
+            'order'     => $order,
+            'pageTitle' => 'Chi tiết đơn hàng #' . $id
         ]);
     }
 }

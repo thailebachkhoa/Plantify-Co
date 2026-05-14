@@ -41,7 +41,9 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <button class="btn btn-sm btn-light border">Chi tiết</button>
+                                                <a href="<?= BASE_URL ?>/dashboard/order_detail/<?= $order['id'] ?>" class="btn btn-sm btn-outline-success rounded-pill">
+                                                    Chi tiết
+                                                </a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

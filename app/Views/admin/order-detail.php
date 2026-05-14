@@ -10,7 +10,11 @@ admin_layout_start(['pageTitle' => 'Chi tiết Đơn hàng #' . $order['id']]); 
             <div class="card-body">
                 <?php foreach ($order['items'] as $item): ?>
                     <div class="d-flex align-items-center mb-3">
-                        <img src="<?= $item['image'] ?>" width="60" class="rounded-3 me-3">
+                        <img src="<?= strpos($item['image'], 'http') === 0 ? $item['image'] : BASE_URL . '/' . ltrim($item['image'], '/') ?>"
+                            width="60"
+                            class="rounded-3 me-3 border"
+                            alt="<?= htmlspecialchars($item['name']) ?>"
+                            style="object-fit: cover; height: 60px;">
                         <div class="flex-grow-1">
                             <h6 class="mb-0"><?= $item['name'] ?></h6>
                             <small class="text-muted">SL: <?= $item['quantity'] ?> x <?= number_format($item['price'], 0, ',', '.') ?>đ</small>

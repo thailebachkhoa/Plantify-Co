@@ -2,9 +2,7 @@
 
 /**
  * AdminController
- * Handles admin dashboard: user management + news management + comment management
- * Part #4 additions: news(), news_create(), news_edit(), news_delete(),
- *                    comments(), comment_toggle(), comment_delete()
+ * Handles admin dashboard
  */
 class AdminController extends BaseController
 {
@@ -375,7 +373,7 @@ class AdminController extends BaseController
                 return ['error' => 'Lỗi khi upload ảnh (code: ' . $file['error'] . ')!', 'data' => null];
             }
 
-            $uploadDir = __DIR__ . '/../../public/uploads/news/';
+            $uploadDir = __DIR__ . '/../../public/assets/uploads/news/';
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
             }
@@ -640,33 +638,33 @@ class AdminController extends BaseController
         $page    = max(1, (int)($_GET['page'] ?? 1));
         $perPage = 10;
         $offset  = ($page - 1) * $perPage;
- 
+
         $where = '1=1';
         if ($search) $where .= ' AND (name LIKE :s1 OR email LIKE :s2 OR message LIKE :s3)';
         if ($statusF === 'unread') $where .= ' AND is_read = 0';
         if ($statusF === 'read')   $where .= ' AND is_read = 1';
- 
+
         $db->query("SELECT COUNT(*) as total FROM contacts WHERE $where");
         if ($search) {
-            $db->bind(':s1', '%'.$search.'%');
-            $db->bind(':s2', '%'.$search.'%');
-            $db->bind(':s3', '%'.$search.'%');
+            $db->bind(':s1', '%' . $search . '%');
+            $db->bind(':s2', '%' . $search . '%');
+            $db->bind(':s3', '%' . $search . '%');
         }
         $total = (int)($db->single()['total'] ?? 0);
- 
+
         $db->query("SELECT * FROM contacts WHERE $where ORDER BY is_read ASC, created_at DESC LIMIT :lim OFFSET :off");
         if ($search) {
-            $db->bind(':s1', '%'.$search.'%');
-            $db->bind(':s2', '%'.$search.'%');
-            $db->bind(':s3', '%'.$search.'%');
+            $db->bind(':s1', '%' . $search . '%');
+            $db->bind(':s2', '%' . $search . '%');
+            $db->bind(':s3', '%' . $search . '%');
         }
         $db->bind(':lim', $perPage);
         $db->bind(':off', $offset);
         $contacts = $db->resultSet();
- 
+
         $success = $_SESSION['admin_success'] ?? null;
         unset($_SESSION['admin_success']);
- 
+
         $this->view('admin/contacts', [
             'user'         => Auth::user(),
             'contacts'     => $contacts,
@@ -678,7 +676,7 @@ class AdminController extends BaseController
             'success'      => $success,
         ]);
     }
- 
+
     /** GET /admin/contact_read/{id} — đánh dấu đã đọc */
     public function contact_read($id = null)
     {
@@ -689,7 +687,7 @@ class AdminController extends BaseController
         $_SESSION['admin_success'] = 'Đã đánh dấu đã đọc!';
         $this->redirect('admin/contacts');
     }
- 
+
     /** GET /admin/contact_delete/{id} — xóa liên hệ */
     public function contact_delete($id = null)
     {
@@ -700,45 +698,48 @@ class AdminController extends BaseController
         $_SESSION['admin_success'] = 'Đã xóa liên hệ!';
         $this->redirect('admin/contacts');
     }
-    
-    public function orders() {
-    require_once BASE_PATH . '/app/Models/Order.php';
-    $orderModel = new Order();
-    $allOrders = $orderModel->getAllOrders();
 
-    $this->view('admin/orders', [
-        'orders' => $allOrders,
-        'pageTitle' => 'Quản lý Đơn hàng'
-    ]);
-}
-
-public function order_detail($id) {
-    require_once BASE_PATH . '/app/Models/Order.php';
-    $orderModel = new Order();
-    $order = $orderModel->getOrderDetail($id);
-
-    if (!$order) {
-        $this->redirect('admin/orders');
-        exit;
-    }
-
-    $this->view('admin/order-detail', [
-        'order' => $order,
-        'pageTitle' => 'Chi tiết đơn hàng #' . $id
-    ]);
-}
-
-public function order_update_status($id) {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    public function orders()
+    {
         require_once BASE_PATH . '/app/Models/Order.php';
         $orderModel = new Order();
-        $status = $_POST['status'] ?? 'pending';
-        
-        if ($orderModel->updateStatus($id, $status)) {
-            $_SESSION['admin_success'] = "Đã cập nhật trạng thái đơn hàng!";
-        }
-        
-        $this->redirect('admin/orders/detail/' . $id);
+        $allOrders = $orderModel->getAllOrders();
+
+        $this->view('admin/orders', [
+            'orders' => $allOrders,
+            'pageTitle' => 'Quản lý Đơn hàng'
+        ]);
     }
-}
+
+    public function order_detail($id)
+    {
+        require_once BASE_PATH . '/app/Models/Order.php';
+        $orderModel = new Order();
+        $order = $orderModel->getOrderDetail($id);
+
+        if (!$order) {
+            $this->redirect('admin/orders');
+            exit;
+        }
+
+        $this->view('admin/order-detail', [
+            'order' => $order,
+            'pageTitle' => 'Chi tiết đơn hàng #' . $id
+        ]);
+    }
+
+    public function order_update_status($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_once BASE_PATH . '/app/Models/Order.php';
+            $orderModel = new Order();
+            $status = $_POST['status'] ?? 'pending';
+
+            if ($orderModel->updateStatus($id, $status)) {
+                $_SESSION['admin_success'] = "Đã cập nhật trạng thái đơn hàng!";
+            }
+
+            $this->redirect('admin/orders/detail/' . $id);
+        }
+    }
 }

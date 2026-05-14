@@ -23,9 +23,6 @@ Env::load(__DIR__ . '/../.env');
 
 require_once __DIR__ . '/../app/Core/Bootstrap.php';
 
-// ========== ĐỊNH NGHĨA BASE URL (CHỈ CHO WEB) ==========
-// BASE_URL là URL gốc của ứng dụng, dùng để tạo các link và redirect
-// Ví dụ: BASE_URL = "http://localhost/btl" hoặc "https://example.com"
 
 
 $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';

@@ -96,38 +96,35 @@ function buildUrl($overrides = [])
                 </div>
             <?php endif; ?>
 
-            <?php if (count($products) > 0): ?>
+            <?php if (!empty($products)): ?>
                 <div class="row g-4">
-                    <?php foreach ($products as $item): ?>
+                    <?php foreach ($products as $product): ?>
                         <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
-                            <div class="product-card h-100 bg-white shadow-sm rounded-4 overflow-hidden border-0 transition-hover">
-                                <div class="position-relative overflow-hidden">
-                                    <a href="<?= BASE_URL ?>/shop/detail/<?= $item['id'] ?>">
-                                        <img src="<?= htmlspecialchars($item['image'] ?? '<?= BASE_URL ?>/file/render?path=uploads/images/shop-placeholder.png') ?>"
-                                            alt="<?= htmlspecialchars($item['name']) ?>"
-                                            class="w-100 object-fit-cover" style="height: 250px;">
+                            <div class="product-card h-100 bg-white border-0 shadow-sm rounded-4 overflow-hidden">
+                                <div class="position-relative">
+                                    <a href="<?= BASE_URL ?>/shop/detail/<?= $product['id'] ?>">
+                                        <img src="<?= strpos($product['image'], 'http') === 0 ? $product['image'] : BASE_URL . '/' . ltrim($product['image'], '/') ?>"
+                                            alt="<?= $product['name'] ?>"
+                                            class="w-100 object-fit-cover"
+                                            style="height: 240px;">
                                     </a>
-                                    <?php if ($item['is_featured']): ?>
-                                        <span class="position-absolute top-0 start-0 m-2 badge bg-warning text-dark shadow-sm">Nổi bật</span>
-                                    <?php endif; ?>
                                 </div>
 
-                                <div class="product-body p-3 d-flex flex-column h-100">
-                                    <small class="text-success fw-bold text-uppercase" style="font-size: 0.7rem;">
-                                        <?= htmlspecialchars($item['category']) ?>
-                                    </small>
-                                    <h3 class="h6 mt-1 mb-2">
-                                        <a href="<?= BASE_URL ?>/shop/detail/<?= $item['id'] ?>" class="text-dark text-decoration-none">
-                                            <?= htmlspecialchars($item['name']) ?>
+                                <div class="p-3 text-center">
+                                    <span class="text-muted small text-uppercase fw-bold" style="font-size: 0.7rem; letter-spacing: 1px;"><?= $product['category'] ?></span>
+                                    <h3 class="fs-6 mt-1 mb-2">
+                                        <a href="<?= BASE_URL ?>/shop/detail/<?= $product['id'] ?>" class="text-decoration-none fw-bold" style="color: var(--green-900);">
+                                            <?= $product['name'] ?>
                                         </a>
                                     </h3>
 
-                                    <div class="mt-auto d-flex justify-content-between align-items-center pt-2 border-top">
-                                        <span class="fw-bold text-danger fs-5">
-                                            <?= number_format($item['price'], 0, ',', '.') ?>đ
-                                        </span>
-                                        <a href="<?= BASE_URL ?>/shop/detail/<?= $item['id'] ?>" class="btn btn-sm btn-success rounded-circle">
-                                            <i class="fa-solid fa-cart-plus"></i>
+                                    <div class="fw-bold mb-3" style="color: var(--green-700); font-size: 1.1rem;">
+                                        <?= isset($product['price']) ? number_format($product['price'], 0, ',', '.') . 'đ' : 'Liên hệ' ?>
+                                    </div>
+
+                                    <div class="d-grid">
+                                        <a href="<?= BASE_URL ?>/shop/detail/<?= $product['id'] ?>" class="btn btn-sm btn-outline-success rounded-pill">
+                                            <i class="fa-solid fa-eye me-1"></i> Chi tiết
                                         </a>
                                     </div>
                                 </div>
