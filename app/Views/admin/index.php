@@ -56,7 +56,8 @@ admin_layout_start([
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="text-muted mb-0 fw-bold">Người dùng</h6>
-                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center"
+                        style="width: 45px; height: 45px;">
                         <i class="fa-solid fa-users fs-5"></i>
                     </div>
                 </div>
@@ -70,7 +71,8 @@ admin_layout_start([
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="text-muted mb-0 fw-bold">Sản phẩm</h6>
-                    <div class="bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                    <div class="bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center"
+                        style="width: 45px; height: 45px;">
                         <i class="fa-solid fa-leaf fs-5"></i>
                     </div>
                 </div>
@@ -84,7 +86,8 @@ admin_layout_start([
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="text-muted mb-0 fw-bold">Đơn hàng</h6>
-                    <div class="bg-info bg-opacity-10 text-info rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                    <div class="bg-info bg-opacity-10 text-info rounded-circle d-flex align-items-center justify-content-center"
+                        style="width: 45px; height: 45px;">
                         <i class="fa-solid fa-cart-shopping fs-5"></i>
                     </div>
                 </div>
@@ -98,7 +101,8 @@ admin_layout_start([
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="text-muted mb-0 fw-bold">Liên hệ mới</h6>
-                    <div class="bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                    <div class="bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center"
+                        style="width: 45px; height: 45px;">
                         <i class="fa-solid fa-envelope fs-5"></i>
                     </div>
                 </div>
@@ -125,21 +129,24 @@ admin_layout_start([
             <div class="card-body p-4">
                 <h5 class="fw-bold mb-4 text-stone-900">Tác vụ nhanh</h5>
                 <div class="list-group list-group-flush gap-2">
-                    <a href="<?= BASE_URL ?>/admin/products" class="list-group-item list-group-item-action border rounded-3 px-3 py-3 d-flex align-items-center justify-content-between">
+                    <a href="<?= BASE_URL ?>/admin/products"
+                        class="list-group-item list-group-item-action border rounded-3 px-3 py-3 d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
                             <i class="fa-solid fa-plus text-success"></i>
                             <span class="fw-medium">Thêm sản phẩm</span>
                         </div>
                         <i class="fa-solid fa-chevron-right text-muted small"></i>
                     </a>
-                    <a href="<?= BASE_URL ?>/admin/orders" class="list-group-item list-group-item-action border rounded-3 px-3 py-3 d-flex align-items-center justify-content-between">
+                    <a href="<?= BASE_URL ?>/admin/orders"
+                        class="list-group-item list-group-item-action border rounded-3 px-3 py-3 d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
                             <i class="fa-solid fa-truck text-primary"></i>
                             <span class="fw-medium">Quản lý đơn hàng</span>
                         </div>
                         <i class="fa-solid fa-chevron-right text-muted small"></i>
                     </a>
-                    <a href="<?= BASE_URL ?>/admin/users" class="list-group-item list-group-item-action border rounded-3 px-3 py-3 d-flex align-items-center justify-content-between">
+                    <a href="<?= BASE_URL ?>/admin/users"
+                        class="list-group-item list-group-item-action border rounded-3 px-3 py-3 d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
                             <i class="fa-solid fa-user-gear text-warning"></i>
                             <span class="fw-medium">Thành viên</span>
@@ -172,15 +179,19 @@ admin_layout_start([
                         </thead>
                         <tbody>
                             <?php foreach ($recentOrders as $order): ?>
-                                <tr>
-                                    <td class="ps-4 fw-bold">#ORD-<?= $order['id'] ?></td>
-                                    <td><?= htmlspecialchars($order['fullname']) ?></td>
-                                    <td class="text-success fw-bold"><?= number_format($order['total_price'], 0, ',', '.') ?>đ</td>
-                                    <td><span class="badge rounded-pill bg-success bg-opacity-10 text-success"><?= $order['status'] ?></span></td>
-                                    <td class="text-end pe-4">
-                                        <a href="<?= BASE_URL ?>/admin/order_detail/<?= $order['id'] ?>" class="btn btn-sm btn-light border">Xem</a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td class="ps-4 fw-bold">#ORD-<?= $order['id'] ?></td>
+                                <td><?= htmlspecialchars($order['fullname']) ?></td>
+                                <td class="text-success fw-bold">
+                                    <?= number_format($order['total_price'], 0, ',', '.') ?>đ</td>
+                                <td><span
+                                        class="badge rounded-pill bg-success bg-opacity-10 text-success"><?= $order['status'] ?></span>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <a href="<?= BASE_URL ?>/admin/order_detail/<?= $order['id'] ?>"
+                                        class="btn btn-sm btn-light border">Xem</a>
+                                </td>
+                            </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>

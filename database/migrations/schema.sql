@@ -290,7 +290,8 @@ CREATE TABLE IF NOT EXISTS contacts (
     email VARCHAR(100) NOT NULL,
     message TEXT NOT NULL,
     is_read BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    subject VARCHAR(200) DEFAULT NULL AFTER email
 );
 
 CREATE TABLE IF NOT EXISTS settings (
@@ -361,4 +362,3 @@ INSERT IGNORE INTO news (title, slug, short_description, content, thumbnail, tag
     'Admin',
     'published'
 );
-ALTER TABLE contacts ADD COLUMN subject VARCHAR(200) DEFAULT NULL AFTER email;

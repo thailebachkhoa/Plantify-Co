@@ -49,40 +49,50 @@
             <div class="row align-items-center g-5">
                 <div class="col-lg-6" data-aos="fade-right">
                     <div class="about-image-stack position-relative">
-                        <img src="<?= BASE_URL ?>/assets/images/home_feature_img.jpeg"
-                            class="rounded-4 shadow-lg w-100" alt="Plantify Concept">
+                        <img src="<?= BASE_URL ?>/assets/images/home_feature_img.jpeg" class="rounded-4 shadow-lg w-100"
+                            alt="Plantify Concept">
                     </div>
                 </div>
                 <div class="col-lg-6" data-aos="fade-left">
                     <div class="ps-lg-4">
                         <span class="section-kicker" style="color: var(--green-600);">Về Chúng Tôi</span>
-                        <h2 class="display-6 mb-4" style="color: var(--green-900); font-weight: 800;">Chăm sóc từ tâm, xanh tươi không gian sống</h2>
-                        <p class="lead text-muted mb-4">Plantify không chỉ bán cây, chúng tôi trao đi nguồn năng lượng chữa lành từ tự nhiên.</p>
+                        <h2 class="display-6 mb-4" style="color: var(--green-900); font-weight: 800;">Chăm sóc từ tâm,
+                            xanh tươi không gian sống</h2>
+                        <p class="lead text-muted mb-4">Plantify không chỉ bán cây, chúng tôi trao đi nguồn năng lượng
+                            chữa lành từ tự nhiên.</p>
 
                         <div class="about-check-grid mt-4">
                             <div class="d-flex align-items-center mb-3">
-                                <div class="icon-box me-3 bg-white shadow-sm d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; border-radius: 12px;">
+                                <div class="icon-box me-3 bg-white shadow-sm d-flex align-items-center justify-content-center"
+                                    style="width: 45px; height: 45px; border-radius: 12px;">
                                     <i class="fa-solid fa-seedling text-success"></i>
                                 </div>
-                                <span class="fw-bold" style="color: var(--green-900);">Cây trồng hữu cơ chuẩn VietGAP</span>
+                                <span class="fw-bold" style="color: var(--green-900);">Cây trồng hữu cơ chuẩn
+                                    VietGAP</span>
                             </div>
                             <div class="d-flex align-items-center mb-3">
-                                <div class="icon-box me-3 bg-white shadow-sm d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; border-radius: 12px;">
+                                <div class="icon-box me-3 bg-white shadow-sm d-flex align-items-center justify-content-center"
+                                    style="width: 45px; height: 45px; border-radius: 12px;">
                                     <i class="fa-solid fa-paint-roller text-success"></i>
                                 </div>
-                                <span class="fw-bold" style="color: var(--green-900);">Chậu gốm thủ công nghệ thuật</span>
+                                <span class="fw-bold" style="color: var(--green-900);">Chậu gốm thủ công nghệ
+                                    thuật</span>
                             </div>
                             <div class="d-flex align-items-center mb-3">
-                                <div class="icon-box me-3 bg-white shadow-sm d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; border-radius: 12px;">
+                                <div class="icon-box me-3 bg-white shadow-sm d-flex align-items-center justify-content-center"
+                                    style="width: 45px; height: 45px; border-radius: 12px;">
                                     <i class="fa-solid fa-headset text-success"></i>
                                 </div>
-                                <span class="fw-bold" style="color: var(--green-900);">Tư vấn phong thủy miễn phí 24/7</span>
+                                <span class="fw-bold" style="color: var(--green-900);">Tư vấn phong thủy miễn phí
+                                    24/7</span>
                             </div>
                             <div class="d-flex align-items-center mb-3">
-                                <div class="icon-box me-3 bg-white shadow-sm d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; border-radius: 12px;">
+                                <div class="icon-box me-3 bg-white shadow-sm d-flex align-items-center justify-content-center"
+                                    style="width: 45px; height: 45px; border-radius: 12px;">
                                     <i class="fa-solid fa-truck-fast text-success"></i>
                                 </div>
-                                <span class="fw-bold" style="color: var(--green-900);">Bao bì sinh học bảo vệ môi trường</span>
+                                <span class="fw-bold" style="color: var(--green-900);">Bao bì sinh học bảo vệ môi
+                                    trường</span>
                             </div>
                         </div>
                     </div>
@@ -101,39 +111,43 @@
 
             <div class="row g-4">
                 <?php if (!empty($featuredProducts)): ?>
-                    <?php foreach ($featuredProducts as $product): ?>
-                        <div class="col-md-6 col-lg-3" data-aos="fade-up">
-                            <div class="product-card h-100 bg-white border-0 shadow-sm" style="border-radius: 20px; overflow: hidden;">
-                                <div class="position-relative">
-                                    <a href="<?= BASE_URL ?>/shop/detail/<?= $product['id'] ?>">
-                                        <img src="<?= strpos($product['image'], 'http') === 0 ? $product['image'] : BASE_URL . '/' . ltrim($product['image'], '/') ?>"
-                                            alt="<?= $product['name'] ?>"
-                                            class="w-100 object-fit-cover"
-                                            style="height: 280px;">
-                                    </a>
-                                    <div class="position-absolute top-0 end-0 p-3">
-                                        <span class="badge bg-white text-success shadow-sm rounded-pill px-3 py-2">Nổi bật</span>
-                                    </div>
-                                </div>
-                                <div class="product-body p-4 text-center">
-                                    <span class="text-muted small text-uppercase fw-bold" style="letter-spacing: 1px;"><?= $product['category'] ?></span>
-                                    <h3 class="mt-2 mb-3 fs-5">
-                                        <a href="<?= BASE_URL ?>/shop/detail/<?= $product['id'] ?>" class="text-decoration-none" style="color: var(--green-900); font-weight: 700;">
-                                            <?= $product['name'] ?>
-                                        </a>
-                                    </h3>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span class="fw-bold" style="color: var(--green-700); font-size: 1.1rem;"><?= number_format($product['price'], 0, ',', '.') ?>đ</span>
-                                        <a href="<?= BASE_URL ?>/shop/detail/<?= $product['id'] ?>" class="btn btn-outline-success btn-sm rounded-pill px-3">
-                                            Chi tiết
-                                        </a>
-                                    </div>
-                                </div>
+                <?php foreach ($featuredProducts as $product): ?>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up">
+                    <div class="product-card h-100 bg-white border-0 shadow-sm"
+                        style="border-radius: 20px; overflow: hidden;">
+                        <div class="position-relative">
+                            <a href="<?= BASE_URL ?>/shop/detail/<?= $product['id'] ?>">
+                                <img src="<?= strpos($product['image'], 'http') === 0 ? $product['image'] : BASE_URL . '/' . ltrim($product['image'], '/') ?>"
+                                    alt="<?= $product['name'] ?>" class="w-100 object-fit-cover" style="height: 280px;">
+                            </a>
+                            <div class="position-absolute top-0 end-0 p-3">
+                                <span class="badge bg-white text-success shadow-sm rounded-pill px-3 py-2">Nổi
+                                    bật</span>
                             </div>
                         </div>
-                    <?php endforeach; ?>
+                        <div class="product-body p-4 text-center">
+                            <span class="text-muted small text-uppercase fw-bold"
+                                style="letter-spacing: 1px;"><?= $product['category'] ?></span>
+                            <h3 class="mt-2 mb-3 fs-5">
+                                <a href="<?= BASE_URL ?>/shop/detail/<?= $product['id'] ?>" class="text-decoration-none"
+                                    style="color: var(--green-900); font-weight: 700;">
+                                    <?= $product['name'] ?>
+                                </a>
+                            </h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-bold"
+                                    style="color: var(--green-700); font-size: 1.1rem;"><?= number_format($product['price'], 0, ',', '.') ?>đ</span>
+                                <a href="<?= BASE_URL ?>/shop/detail/<?= $product['id'] ?>"
+                                    class="btn btn-outline-success btn-sm rounded-pill px-3">
+                                    Chi tiết
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
                 <?php else: ?>
-                    <p class="text-center text-muted">Đang cập nhật sản phẩm nổi bật...</p>
+                <p class="text-center text-muted">Đang cập nhật sản phẩm nổi bật...</p>
                 <?php endif; ?>
             </div>
 
@@ -151,8 +165,8 @@
             <div class="row g-5 align-items-center">
                 <div class="col-lg-6" data-aos="fade-right">
                     <div class="about-image-stack">
-                        <img src="<?= BASE_URL ?>/assets/images/home_bottom_img.jpeg"
-                            alt="Câu chuyện Plantify" class="img-fluid rounded-image">
+                        <img src="<?= BASE_URL ?>/assets/images/home_bottom_img.jpeg" alt="Câu chuyện Plantify"
+                            class="img-fluid rounded-image">
                         <div class="image-note">
                             <strong>Đồng hành cùng sự phát triển</strong>
                             <span>Chúng tôi cung cấp kiến thức để bất kỳ ai cũng có thể làm vườn.</span>
