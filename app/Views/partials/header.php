@@ -16,9 +16,10 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
         $cartCount += (int)($item['quantity'] ?? 0);
     }
 }
+$fullname = isset($user['fullname']) ? $user['fullname'] : 'Khách';
 $avatar = !empty($user['avatar'])
     ? BASE_URL . '/file/render?path=' . $user['avatar']
-    : 'https://ui-avatars.com/api/?name=' . urlencode($user['fullname']);
+    : 'https://ui-avatars.com/api/?name=' . urlencode($fullname);
 ?>
 ?>
 <!doctype html>
@@ -27,6 +28,7 @@ $avatar = !empty($user['avatar'])
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/svg+xml" href="<?= BASE_URL ?>/assets/images/leaf-solid-full.svg">
     <meta name="description" content="<?php echo e($pageDescription); ?>">
     <meta name="keywords" content="cây cảnh, cây xanh, decor cây xanh, cây nội thất, thiết kế cảnh quan">
     <meta name="author" content="<?php echo e($companyName); ?>">

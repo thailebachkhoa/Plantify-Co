@@ -93,6 +93,10 @@ class AdminController extends BaseController
             $newStatus = ($targetUser['status'] === 'active') ? 'locked' : 'active';
             $userModel->updateStatus($id, $newStatus);
         }
+        if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) {
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
         $this->redirect('admin/users');
     }
 
@@ -103,6 +107,10 @@ class AdminController extends BaseController
         $targetUser = $userModel->findById($id);
         if ($targetUser && $targetUser['role'] !== 'admin' && $targetUser['id'] != Auth::id()) {
             $userModel->resetPassword($id, password_hash('123456', PASSWORD_DEFAULT));
+        }
+        if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) {
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit;
         }
         $this->redirect('admin/users');
     }
@@ -118,6 +126,10 @@ class AdminController extends BaseController
         $targetUser = $userModel->findById($id);
         if ($targetUser && $targetUser['role'] !== 'admin') {
             $userModel->deleteUser($id);
+        }
+        if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) {
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit;
         }
         $this->redirect('admin/users');
     }
@@ -252,6 +264,11 @@ class AdminController extends BaseController
             $_SESSION['admin_error'] = 'Bài viết không tồn tại!';
         }
 
+        if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) {
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
         $this->redirect('admin/news');
     }
 
@@ -290,6 +307,11 @@ class AdminController extends BaseController
         $commentModel = new Comment();
         $commentModel->toggleStatus((int)$id);
         $_SESSION['admin_success'] = 'Trạng thái bình luận đã được cập nhật!';
+        if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) {
+
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
         $this->redirect('admin/comments');
     }
 
@@ -299,6 +321,11 @@ class AdminController extends BaseController
         $commentModel = new Comment();
         $commentModel->delete((int)$id);
         $_SESSION['admin_success'] = 'Bình luận đã được xóa!';
+        if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) {
+            // Chuyển hướng về lại đúng URL đó (giữ nguyên page và search)
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
         $this->redirect('admin/comments');
     }
 
@@ -510,7 +537,6 @@ class AdminController extends BaseController
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Xử lý upload ảnh mới hoặc giữ nguyên ảnh cũ
             $imagePath = $this->handleProductImageUpload($product['image']);
 
             $data = [
@@ -537,8 +563,6 @@ class AdminController extends BaseController
 
     public function shop_settings()
     {
-        // Vì logic xử lý UPDATE đã nằm trong file View (tương tự pages.php)
-        // Nên Controller chỉ cần nạp dữ liệu User và hiển thị View.
         $this->view('admin/shop-settings', [
             'user'      => Auth::user(),
             'pageTitle' => 'Cấu hình Cửa hàng'

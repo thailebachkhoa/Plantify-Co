@@ -55,13 +55,13 @@ require_once BASE_PATH . '/app/Views/partials/header.php';
                         <div><i class="fa-solid fa-ruler-combined"></i><span>Kích thước khu vực dự kiến</span></div>
                         <div><i class="fa-solid fa-wallet"></i><span>Ngân sách hoặc mức ưu tiên</span></div>
                     </div>
-                    <a href="about" class="btn btn-success info-cta">Về GreenNest</a>
+                    <a href="about" class="btn btn-success info-cta">Về Plantify</a>
                 </aside>
 
                 <div class="faq-quick-card" data-aos="fade-up" data-aos-delay="100">
                     <strong>Câu hỏi nhanh cho AI</strong>
                     <button type="button" class="faq-prompt-chip"
-                        data-question="GreenNest có khảo sát trực tiếp trước khi thiết kế không?">Có khảo sát
+                        data-question="Plantify có khảo sát trực tiếp trước khi thiết kế không?">Có khảo sát
                         không?</button>
                     <button type="button" class="faq-prompt-chip"
                         data-question="Tôi có thể gửi ảnh mặt bằng để được tư vấn online không?">Gửi ảnh tư
@@ -147,7 +147,7 @@ require_once BASE_PATH . '/app/Views/partials/header.php';
                 <article class="faq-step-card h-100">
                     <i class="fa-solid fa-comments"></i>
                     <h3>Nhận tư vấn sơ bộ</h3>
-                    <p>GreenNest đề xuất nhóm cây, kích thước chậu và mức chăm sóc phù hợp.</p>
+                    <p>Plantify đề xuất nhóm cây, kích thước chậu và mức chăm sóc phù hợp.</p>
                 </article>
             </div>
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="160">
@@ -170,7 +170,7 @@ require_once BASE_PATH . '/app/Views/partials/header.php';
     <div class="faq-chat-panel" id="faqChatPanel" hidden>
         <div class="faq-chat-header">
             <div>
-                <strong>Trợ lý AI GreenNest</strong>
+                <strong>Trợ lý AI Plantify</strong>
                 <p>Hỏi về cây xanh, dịch vụ và FAQ</p>
             </div>
             <button id="faqChatClose" class="faq-chat-close" aria-label="Đóng chat"><i

@@ -10,11 +10,13 @@ from langchain_core.runnables import RunnablePassthrough
 from dotenv import load_dotenv
 import os
 from datetime import datetime
-from zoneinfo import ZoneInfo
+# from zoneinfo import ZoneInfo
 from fastapi.middleware.cors import CORSMiddleware
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
+RAG_HOST = "127.0.0.1"
+RAG_PORT = 1884
 
 # LOAD API KEY
 load_dotenv(os.path.join(PROJECT_DIR, ".env"))
@@ -85,7 +87,7 @@ def format_docs(docs):
 
 
 def vietnam_time(_question):
-    return datetime.now(ZoneInfo("Asia/Ho_Chi_Minh")).strftime("%H:%M:%S ngày %d/%m/%Y")
+    return datetime.now().strftime("%H:%M:%S ngày %d/%m/%Y")
 
 rag_chain = (
     {
@@ -109,13 +111,26 @@ app.add_middleware(
 class QueryRequest(BaseModel):
     question: str
 
+@app.on_event("startup")
+async def startup_message():
+    rag_path = os.path.join(PROJECT_DIR, "storage", "rag", "RAG.txt")
+    print("=" * 60)
+    print("Plantify RAG chatbot is running")
+    print(f"Host: http://{RAG_HOST}:{RAG_PORT}")
+    print(f"Chat API: http://{RAG_HOST}:{RAG_PORT}/chat")
+    print(f"RAG data: {rag_path}")
+    print(f"RAG data exists: {'yes' if os.path.isfile(rag_path) else 'no'}")
+    print(f"GOOGLE_API_KEY loaded: {'yes' if api_key else 'no'}")
+    print("=" * 60)
+
 @app.post("/chat")
 async def chat(request: QueryRequest):
     try:
         response = rag_chain.invoke(request.question)
         return {"response": response.content}
     except Exception as e:
+        print("CHATBOT ERROR:", repr(e))
         return {"response": "Xin lỗi, có lỗi xảy ra. Vui lòng thử lại sau."}
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=1884)
+    uvicorn.run(app, host=RAG_HOST, port=RAG_PORT)
