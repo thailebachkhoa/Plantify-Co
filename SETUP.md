@@ -23,7 +23,7 @@ source database/migrations/schema.sql;
 ### 2️⃣ Hoặc Dùng phpMyAdmin
 
 1. Mở phpMyAdmin
-2. Tạo database mới: `btlweb`
+2. Tạo database mới: `plantify`
 3. Import file `database/migrations/schema.sql`
 
 ---
@@ -41,7 +41,7 @@ cp .env.example .env
 ```env
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=btlweb
+DB_DATABASE=plantify
 DB_USERNAME=root
 DB_PASSWORD=your_password
 ```
