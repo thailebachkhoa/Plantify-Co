@@ -10,7 +10,7 @@ $isCartEmpty = empty($cartItems);
 
 ?>
 
-<main class="site-main page-main bg-soft" style="min-height: calc(100vh - 76px); padding: 40px 0;">
+<main class="site-main page-main bg-soft" style="min-height: calc(100vh - 76px); padding: 40px 0; margin-top:50px">
     <div class="container">
 
         <!-- Breadcrumb -->
@@ -29,10 +29,12 @@ $isCartEmpty = empty($cartItems);
                         <div class="mb-4 text-success" style="font-size: 5rem;">
                             <i class="fa-solid fa-basket-shopping opacity-50"></i>
                         </div>
-                        <h2 style="color: var(--green-900); font-weight: 820;">Giỏ hàng trống!</h2>
-                        <p class="text-muted mb-4">Bạn chưa thêm sản phẩm xanh nào vào giỏ. Hãy dạo quanh cửa hàng để tìm cho mình một chậu cây ưng ý nhé.</p>
-                        <a href="<?= BASE_URL ?>/shop" class="btn btn-success btn-lg px-4 rounded-pill">
-                            <i class="fa-solid fa-arrow-left me-2"></i> Tiếp tục mua sắm
+                        <h2 class="fw-bold mb-3"><?= e(content_value('cart.empty_title', 'Giỏ hàng của bạn đang trống')) ?></h2>
+                        <p class="text-muted mb-4">
+                            <?= e(content_value('cart.empty_text', 'Hãy tiếp tục khám phá...')) ?>
+                        </p>
+                        <a href="<?= BASE_URL ?>/shop" class="btn btn-success px-4 py-2 rounded-pill fw-bold">
+                            <i class="fa-solid fa-arrow-left me-2"></i> <?= e(content_value('cart.btn_continue_shopping', 'Tiếp tục mua sắm')) ?>
                         </a>
                     </div>
                 </div>
@@ -95,29 +97,31 @@ $isCartEmpty = empty($cartItems);
                     </div>
                 </div>
 
-                <!-- Cột Tóm Tắt Đơn Hàng -->
+
                 <div class="col-lg-4" data-aos="fade-left">
                     <div class="bg-white p-4 shadow-sm position-sticky" style="border: 1px solid var(--stone-200); border-radius: 16px; top: 100px;">
-                        <h4 class="border-bottom pb-3 mb-4 fw-bold" style="color: var(--stone-900);">Tổng Đơn Hàng</h4>
+                        <h4 class="border-bottom pb-3 mb-4 fw-bold" style="color: var(--stone-900);">
+                            <?= e(content_value('cart.summary_title', 'Tổng Đơn Hàng')) ?>
+                        </h4>
 
                         <div class="d-flex justify-content-between mb-3 text-muted">
-                            <span>Tạm tính:</span>
+                            <span><?= e(content_value('cart.label_subtotal', 'Tạm tính:')) ?></span>
                             <strong><?= number_format($totalPrice, 0, ',', '.') ?>đ</strong>
                         </div>
                         <div class="d-flex justify-content-between mb-3 text-muted">
-                            <span>Phí vận chuyển:</span>
+                            <span><?= e(content_value('cart.label_shipping', 'Phí vận chuyển:')) ?></span>
                             <span>Chưa tính</span>
                         </div>
 
                         <hr>
 
                         <div class="d-flex justify-content-between mb-4 align-items-center">
-                            <span class="fw-bold" style="font-size: 1.1rem;">Tổng cộng:</span>
+                            <span class="fw-bold" style="font-size: 1.1rem;"><?= e(content_value('cart.label_total', 'Tổng cộng:')) ?></span>
                             <span class="fw-bold" style="font-size: 1.5rem; color: var(--green-700);"><?= number_format($totalPrice, 0, ',', '.') ?>đ</span>
                         </div>
 
                         <a href="<?= BASE_URL ?>/checkout" class="btn btn-success btn-lg w-100 fw-bold" style="border-radius: 10px;">
-                            Thanh Toán Ngay <i class="fa-solid fa-arrow-right ms-2"></i>
+                            <?= e(content_value('cart.btn_checkout', 'Thanh Toán Ngay')) ?> <i class="fa-solid fa-arrow-right ms-2"></i>
                         </a>
                     </div>
                 </div>

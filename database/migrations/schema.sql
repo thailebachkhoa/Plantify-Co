@@ -140,8 +140,15 @@ INSERT INTO `products` (`id`, `name`, `category`, `price`, `image`, `description
 INSERT INTO faqs (question, answer, sort_order) VALUES
 ('Plantify có khảo sát trực tiếp trước khi thiết kế không?', 'Có. Đội ngũ tư vấn sẽ khảo sát ánh sáng, diện tích, luồng gió và phong cách nội thất để đề xuất loại cây, chậu và vị trí phù hợp.', 1),
 ('Cây có được bảo hành sau khi bàn giao không?', 'Tất cả cây trong gói decor doanh nghiệp được theo dõi sức khỏe trong 30 ngày đầu. Gói chăm sóc định kỳ có chính sách thay thế theo hợp đồng.', 2),
-('Tôi có thể gửi ảnh mặt bằng để được tư vấn online không?', 'Có. Bạn có thể chuẩn bị ảnh tổng thể, kích thước khu vực và điều kiện ánh sáng để đội ngũ tư vấn phân tích phương án phù hợp.', 3);
-
+('Tôi có thể gửi ảnh mặt bằng để được tư vấn online không?', 'Có. Bạn có thể chuẩn bị ảnh tổng thể, kích thước khu vực và điều kiện ánh sáng để đội ngũ tư vấn phân tích phương án phù hợp.', 3),
+('Plantify có dịch vụ chăm sóc cây định kỳ hàng tháng không?', 'Có, chúng tôi cung cấp gói bảo dưỡng định kỳ bao gồm tưới nước, bón phân, lau lá, cắt tỉa và phòng trừ sâu bệnh để không gian xanh của bạn luôn tươi tốt mà không tốn thời gian chăm sóc.', 4),
+('Tôi là người bận rộn và không rành về cây, sợ mua về sẽ bị chết?', 'Đừng lo lắng! Khi bàn giao, Plantify sẽ ưu tiên tư vấn các dòng cây dễ sống, bền bỉ trong môi trường máy lạnh. Mỗi cây đều có thẻ hướng dẫn chi tiết và chúng tôi luôn hỗ trợ giải đáp online 24/7.', 5),
+('Công ty có xuất hóa đơn VAT cho khách hàng doanh nghiệp không?', 'Có. Plantify cung cấp đầy đủ hợp đồng, báo giá minh bạch và xuất hóa đơn VAT điện tử hợp lệ, nhanh chóng cho các đối tác doanh nghiệp.', 6),
+('Bao lâu thì Plantify hoàn thiện việc setup decor cây xanh?', 'Với văn phòng hoặc căn hộ vừa và nhỏ, thời gian thi công thường chỉ từ 2-4 ngày sau khi chốt phương án. Các dự án lớn hơn sẽ có bảng tiến độ triển khai chi tiết đi kèm.', 7),
+('Tôi nuôi chó/mèo trong nhà, Plantify có tư vấn cây an toàn không?', 'Chắc chắn rồi. Bạn chỉ cần báo trước về việc không gian có thú cưng hoặc trẻ nhỏ, chúng tôi sẽ chọn lọc những dòng cây hoàn toàn không có độc tính (như đuôi công, dương xỉ, lan ý...) để đảm bảo an toàn tuyệt đối.', 8),
+('Plantify có dịch vụ cho thuê cây xanh văn phòng không?', 'Có. Với gói thuê cây, doanh nghiệp không cần lo chi phí đầu tư ban đầu hay rủi ro cây héo úa. Plantify sẽ đến chăm sóc hàng tuần và luân phiên đổi cây mới để duy trì hình ảnh chuyên nghiệp cho văn phòng.', 9),
+('Tôi có thể chọn loại chậu khác không, hay phải lấy chậu như mẫu?', 'Bạn hoàn toàn có quyền thay đổi! Chúng tôi có kho chậu đa dạng chất liệu (đá mài, gốm sứ, composite...). Nhân viên sẽ hỗ trợ bạn phối cây vào chậu sao cho hợp với tone màu nội thất nhất.', 10),
+('Phí giao hàng và lắp đặt tận nơi được tính như thế nào?', 'Plantify miễn phí vận chuyển và setup tận nơi cho đơn hàng từ 1.500.000đ trong nội thành TP.HCM. Với các khu vực ngoại thành hoặc đơn hàng nhỏ hơn, phí ship sẽ được tính sát giá thực tế của dịch vụ giao hàng an toàn.', 11);
 INSERT INTO pages (slug, title, content, image) VALUES
 ('about', 'Giới thiệu Plantify Co', 'Plantify Co là công ty chuyên thiết kế và cung cấp giải pháp cây xanh cho không gian doanh nghiệp. Chúng tôi kết hợp thẩm mỹ, khoa học và dịch vụ để mang thiên nhiên vào văn phòng, showroom và căn hộ cao cấp.', 'assets/uploads/pages/about-20260514-063927-1ffd56a6.jpeg')
 ON DUPLICATE KEY UPDATE title = VALUES(title), content = VALUES(content), image = VALUES(image);

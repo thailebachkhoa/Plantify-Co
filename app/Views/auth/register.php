@@ -8,7 +8,7 @@ $pageTitle = 'Đăng ký Tài khoản | Plantify Co';
 require BASE_PATH . '/app/Views/partials/header.php';
 ?>
 
-<main class="site-main page-main bg-soft" style="min-height: calc(100vh - 76px); display: flex; align-items: center; padding: 40px 0;">
+<main class="site-main page-main bg-soft" style="min-height: calc(100vh - 76px); display: flex; align-items: center; padding: 40px 0; margin-top:50px;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-10 col-lg-12">

@@ -11,7 +11,7 @@ $db = Database::getInstance();
 $message = '';
 $error = '';
 
-// 1. XỬ LÝ CẬP NHẬT NỘI DUNG (POST)
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_shop_content'])) {
     try {
         $contents = $_POST['content'] ?? [];
@@ -27,12 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_shop_content']
     }
 }
 
-// 2. LẤY DỮ LIỆU ĐỂ HIỂN THỊ
-// Lấy các bản ghi thuộc nhóm Shop và Product Detail
-$db->query("SELECT * FROM site_content WHERE content_group IN ('Trang cửa hàng', 'Trang chi tiết SP') ORDER BY content_group DESC, id ASC");
+
+$db->query("SELECT * FROM site_content 
+            WHERE content_group IN ('Trang cửa hàng', 'Trang chi tiết SP', 'Trang giỏ hàng') 
+            ORDER BY FIELD(content_group, 'Trang cửa hàng', 'Trang chi tiết SP', 'Trang giỏ hàng'), id ASC");
 $allSettings = $db->resultSet();
 
-// Nhóm lại theo content_group để hiển thị theo từng khu vực
+
 $groups = [];
 foreach ($allSettings as $item) {
     $groups[$item['content_group']][] = $item;

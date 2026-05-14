@@ -13,7 +13,7 @@ $message = '';
 $error = '';
 
 if (!$db) {
-    $error = 'Chua ket noi duoc database. Hay import database/migrations/schema.sql va kiem tra config/database.php.';
+    $error = 'Chưa kết nối được Database. Hãy import database/migrations/schema.sql và kiểm tra lại.';
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
     $id = (int) ($_POST['id'] ?? 0);
@@ -32,24 +32,24 @@ if (!$db) {
             }
             if (($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'XMLHttpRequest') {
                 header('Content-Type: application/json; charset=utf-8');
-                echo json_encode(['success' => true, 'message' => 'Thu tu FAQ da duoc cap nhat.'], JSON_UNESCAPED_UNICODE);
+                echo json_encode(['success' => true, 'message' => 'Thứ tự FAQ đã được cập nhật.'], JSON_UNESCAPED_UNICODE);
                 exit;
             }
-            $message = 'Thu tu FAQ da duoc cap nhat.';
+            $message = 'Thứ tự FAQ đã được cập nhật.';
         } else {
-            $error = 'Khong co du lieu sap xep FAQ.';
+            $error = 'Không có dữ liệu sắp xếp FAQ.';
         }
     } elseif (($action === 'add' || $action === 'edit') && mb_strlen($question) > 255) {
-        $error = 'Cau hoi khong duoc vuot qua 255 ky tu.';
+        $error = 'Câu hỏi không được vượt quá 255 ký tự.';
     } elseif (($action === 'add' || $action === 'edit') && mb_strlen($answer) > 5000) {
-        $error = 'Cau tra loi khong duoc vuot qua 5000 ky tu.';
+        $error = 'Câu trả lời không được vượt quá 5000 ký tự.';
     } elseif ($action === 'add' && $question && $answer) {
         $db->query('INSERT INTO faqs (question, answer, sort_order) VALUES (:question, :answer, :sort_order)');
         $db->bind(':question', $question);
         $db->bind(':answer', $answer);
         $db->bind(':sort_order', $sortOrder);
         $db->execute();
-        $message = 'FAQ da duoc them.';
+        $message = 'FAQ đã được thêm.';
     } elseif ($action === 'edit' && $id && $question && $answer) {
         $db->query('UPDATE faqs SET question = :question, answer = :answer, sort_order = :sort_order WHERE id = :id');
         $db->bind(':question', $question);
@@ -57,14 +57,14 @@ if (!$db) {
         $db->bind(':sort_order', $sortOrder);
         $db->bind(':id', $id);
         $db->execute();
-        $message = 'FAQ da duoc cap nhat.';
+        $message = 'FAQ đã được cập nhật.';
     } elseif ($action === 'delete' && $id) {
         $db->query('DELETE FROM faqs WHERE id = :id');
         $db->bind(':id', $id);
         $db->execute();
-        $message = 'FAQ da duoc xoa.';
+        $message = 'FAQ đã được xóa.';
     } else {
-        $error = 'Vui long nhap du cau hoi va cau tra loi.';
+        $error = 'Vui lòng nhập đầy đủ câu hỏi và câu trả lời.';
     }
 }
 
