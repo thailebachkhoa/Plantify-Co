@@ -563,9 +563,32 @@ class AdminController extends BaseController
 
     public function shop_settings()
     {
+        $contentModel = new Content();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_shop_content'])) {
+            $contents = $_POST['content'] ?? [];
+
+            if ($contentModel->updateMultipleSiteContent($contents)) {
+                $_SESSION['admin_success'] = "Đã cập nhật các cấu hình cửa hàng thành công!";
+            } else {
+                $_SESSION['admin_error'] = "Có lỗi xảy ra trong quá trình cập nhật.";
+            }
+
+            $this->redirect('admin/shop-settings');
+            exit;
+        }
+
+        $allSettings = $contentModel->getSiteContentByGroups(['Trang cửa hàng', 'Trang chi tiết SP', 'Trang giỏ hàng']);
+
+        $groups = [];
+        foreach ($allSettings as $item) {
+            $groups[$item['content_group']][] = $item;
+        }
+
         $this->view('admin/shop-settings', [
-            'user'      => Auth::user(),
-            'pageTitle' => 'Cấu hình Cửa hàng'
+            'user'            => Auth::user(),
+            'pageTitle'       => 'Cấu hình Cửa hàng',
+            'settingsByGroup' => $groups
         ]);
     }
 
