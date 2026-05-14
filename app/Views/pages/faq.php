@@ -21,17 +21,20 @@ require_once BASE_PATH . '/app/Views/partials/header.php';
             <div class="col-lg-8" data-aos="fade-up">
                 <span class="section-kicker">FAQ & tư vấn nhanh</span>
                 <h1>Câu hỏi thường gặp về cây xanh, decor và chăm sóc định kỳ</h1>
-                <p>Tra cứu nhanh các thông tin quan trọng trước khi khảo sát, chọn cây, nhận báo giá hoặc sử dụng gói chăm sóc sau bàn giao.</p>
+                <p>Tra cứu nhanh các thông tin quan trọng trước khi khảo sát, chọn cây, nhận báo giá hoặc sử dụng gói
+                    chăm sóc sau bàn giao.</p>
                 <div class="faq-search-wrap">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input id="faqSearchInput" type="search" placeholder="Tìm nhanh: bảo hành, khảo sát, gửi ảnh, chăm sóc...">
+                    <input id="faqSearchInput" type="search"
+                        placeholder="Tìm nhanh: bảo hành, khảo sát, gửi ảnh, chăm sóc...">
                 </div>
             </div>
             <div class="col-lg-4" data-aos="fade-left">
                 <div class="hero-insight-card">
                     <i class="fa-solid fa-headset"></i>
                     <strong>Cần câu trả lời riêng?</strong>
-                    <span>Mở trợ lý AI ở góc màn hình hoặc gửi ảnh không gian để được tư vấn theo điều kiện thực tế.</span>
+                    <span>Mở trợ lý AI ở góc màn hình hoặc gửi ảnh không gian để được tư vấn theo điều kiện thực
+                        tế.</span>
                 </div>
             </div>
         </div>
@@ -57,9 +60,14 @@ require_once BASE_PATH . '/app/Views/partials/header.php';
 
                 <div class="faq-quick-card" data-aos="fade-up" data-aos-delay="100">
                     <strong>Câu hỏi nhanh cho AI</strong>
-                    <button type="button" class="faq-prompt-chip" data-question="GreenNest có khảo sát trực tiếp trước khi thiết kế không?">Có khảo sát không?</button>
-                    <button type="button" class="faq-prompt-chip" data-question="Tôi có thể gửi ảnh mặt bằng để được tư vấn online không?">Gửi ảnh tư vấn?</button>
-                    <button type="button" class="faq-prompt-chip" data-question="Cây được bảo hành sau bàn giao như thế nào?">Bảo hành cây?</button>
+                    <button type="button" class="faq-prompt-chip"
+                        data-question="GreenNest có khảo sát trực tiếp trước khi thiết kế không?">Có khảo sát
+                        không?</button>
+                    <button type="button" class="faq-prompt-chip"
+                        data-question="Tôi có thể gửi ảnh mặt bằng để được tư vấn online không?">Gửi ảnh tư
+                        vấn?</button>
+                    <button type="button" class="faq-prompt-chip"
+                        data-question="Cây được bảo hành sau bàn giao như thế nào?">Bảo hành cây?</button>
                 </div>
             </div>
 
@@ -89,14 +97,21 @@ require_once BASE_PATH . '/app/Views/partials/header.php';
                             $category = 'care';
                         }
                         ?>
-                        <div class="accordion-item faq-item" data-category="<?php echo e($category); ?>" data-search="<?php echo e($haystack); ?>">
+                        <div class="accordion-item faq-item" data-category="<?php echo e($category); ?>"
+                            data-search="<?php echo e($haystack); ?>">
                             <h2 class="accordion-header" id="heading<?php echo $index; ?>">
-                                <button class="accordion-button <?php echo $index === 0 ? '' : 'collapsed'; ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $index; ?>" aria-expanded="<?php echo $index === 0 ? 'true' : 'false'; ?>" aria-controls="collapse<?php echo $index; ?>">
-                                    <span class="faq-number"><?php echo str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT); ?></span>
+                                <button class="accordion-button <?php echo $index === 0 ? '' : 'collapsed'; ?>"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $index; ?>"
+                                    aria-expanded="<?php echo $index === 0 ? 'true' : 'false'; ?>"
+                                    aria-controls="collapse<?php echo $index; ?>">
+                                    <span
+                                        class="faq-number"><?php echo str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT); ?></span>
                                     <?php echo e($faq['question']); ?>
                                 </button>
                             </h2>
-                            <div id="collapse<?php echo $index; ?>" class="accordion-collapse collapse <?php echo $index === 0 ? 'show' : ''; ?>" aria-labelledby="heading<?php echo $index; ?>" data-bs-parent="#faqAccordion">
+                            <div id="collapse<?php echo $index; ?>"
+                                class="accordion-collapse collapse <?php echo $index === 0 ? 'show' : ''; ?>"
+                                aria-labelledby="heading<?php echo $index; ?>" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
                                     <?php echo e($faq['answer']); ?>
                                 </div>
@@ -158,7 +173,8 @@ require_once BASE_PATH . '/app/Views/partials/header.php';
                 <strong>Trợ lý AI GreenNest</strong>
                 <p>Hỏi về cây xanh, dịch vụ và FAQ</p>
             </div>
-            <button id="faqChatClose" class="faq-chat-close" aria-label="Đóng chat"><i class="fa-solid fa-xmark"></i></button>
+            <button id="faqChatClose" class="faq-chat-close" aria-label="Đóng chat"><i
+                    class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="faq-chat-body" id="faqChatMessages">
             <div class="faq-chat-message bot-message">

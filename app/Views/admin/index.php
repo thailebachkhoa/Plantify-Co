@@ -74,7 +74,8 @@ admin_layout_start([
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="text-muted mb-0 fw-bold">Người dùng</h6>
-                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center"
+                        style="width: 45px; height: 45px;">
                         <i class="fa-solid fa-users fs-5"></i>
                     </div>
                 </div>
@@ -88,7 +89,8 @@ admin_layout_start([
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="text-muted mb-0 fw-bold">Trang nội dung</h6>
-                    <div class="bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                    <div class="bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center"
+                        style="width: 45px; height: 45px;">
                         <i class="fa-solid fa-file-lines fs-5"></i>
                     </div>
                 </div>
@@ -102,7 +104,8 @@ admin_layout_start([
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="text-muted mb-0 fw-bold">Hỏi đáp FAQ</h6>
-                    <div class="bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                    <div class="bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center"
+                        style="width: 45px; height: 45px;">
                         <i class="fa-solid fa-circle-question fs-5"></i>
                     </div>
                 </div>
@@ -116,11 +119,13 @@ admin_layout_start([
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="text-muted mb-0 fw-bold">Dữ liệu Bot RAG</h6>
-                    <div class="bg-info bg-opacity-10 text-info rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                    <div class="bg-info bg-opacity-10 text-info rounded-circle d-flex align-items-center justify-content-center"
+                        style="width: 45px; height: 45px;">
                         <i class="fa-solid fa-robot fs-5"></i>
                     </div>
                 </div>
-                <h3 class="fw-bold mb-0 text-stone-900"><?= $counts['rag_lines'] ?> <span class="fs-6 fw-normal text-muted">dòng</span></h3>
+                <h3 class="fw-bold mb-0 text-stone-900"><?= $counts['rag_lines'] ?> <span
+                        class="fs-6 fw-normal text-muted">dòng</span></h3>
             </div>
         </div>
     </div>
@@ -146,7 +151,8 @@ admin_layout_start([
             <div class="card-body p-4">
                 <h5 class="fw-bold mb-4 text-stone-900">Tác vụ nhanh</h5>
                 <div class="list-group list-group-flush gap-2">
-                    <a href="<?= BASE_URL ?>/admin/pages" class="list-group-item list-group-item-action border rounded-3 px-3 py-3 d-flex align-items-center justify-content-between hover-bg-light">
+                    <a href="<?= BASE_URL ?>/admin/pages"
+                        class="list-group-item list-group-item-action border rounded-3 px-3 py-3 d-flex align-items-center justify-content-between hover-bg-light">
                         <div class="d-flex align-items-center gap-3">
                             <i class="fa-solid fa-pen-to-square text-success"></i>
                             <span class="fw-medium">Chỉnh sửa giới thiệu</span>
@@ -154,7 +160,8 @@ admin_layout_start([
                         <i class="fa-solid fa-chevron-right text-muted small"></i>
                     </a>
 
-                    <a href="<?= BASE_URL ?>/admin/news_create" class="list-group-item list-group-item-action border rounded-3 px-3 py-3 d-flex align-items-center justify-content-between hover-bg-light">
+                    <a href="<?= BASE_URL ?>/admin/news_create"
+                        class="list-group-item list-group-item-action border rounded-3 px-3 py-3 d-flex align-items-center justify-content-between hover-bg-light">
                         <div class="d-flex align-items-center gap-3">
                             <i class="fa-solid fa-newspaper text-primary"></i>
                             <span class="fw-medium">Đăng bài tin tức mới</span>
@@ -162,7 +169,8 @@ admin_layout_start([
                         <i class="fa-solid fa-chevron-right text-muted small"></i>
                     </a>
 
-                    <a href="<?= BASE_URL ?>/admin/users" class="list-group-item list-group-item-action border rounded-3 px-3 py-3 d-flex align-items-center justify-content-between hover-bg-light">
+                    <a href="<?= BASE_URL ?>/admin/users"
+                        class="list-group-item list-group-item-action border rounded-3 px-3 py-3 d-flex align-items-center justify-content-between hover-bg-light">
                         <div class="d-flex align-items-center gap-3">
                             <i class="fa-solid fa-user-shield text-warning"></i>
                             <span class="fw-medium">Kiểm duyệt tài khoản</span>
@@ -170,7 +178,8 @@ admin_layout_start([
                         <i class="fa-solid fa-chevron-right text-muted small"></i>
                     </a>
 
-                    <a href="<?= BASE_URL ?>" target="_blank" class="list-group-item list-group-item-action border rounded-3 px-3 py-3 d-flex align-items-center justify-content-between hover-bg-light mt-2 bg-light">
+                    <a href="<?= BASE_URL ?>" target="_blank"
+                        class="list-group-item list-group-item-action border rounded-3 px-3 py-3 d-flex align-items-center justify-content-between hover-bg-light mt-2 bg-light">
                         <div class="d-flex align-items-center gap-3">
                             <i class="fa-solid fa-arrow-up-right-from-square text-secondary"></i>
                             <span class="fw-medium text-secondary">Xem trang công khai</span>

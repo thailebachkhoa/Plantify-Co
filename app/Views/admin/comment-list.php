@@ -51,7 +51,8 @@ admin_layout_start([
             </h6>
             <small class="text-muted">
                 <span class="badge bg-success me-1">Đã duyệt</span> hiển thị ngoài website &nbsp;|&nbsp;
-                <span class="badge bg-warning text-dark me-1">Chờ duyệt</span>/<span class="badge bg-secondary ms-1 me-1">Đã ẩn</span> không hiển thị
+                <span class="badge bg-warning text-dark me-1">Chờ duyệt</span>/<span
+                    class="badge bg-secondary ms-1 me-1">Đã ẩn</span> không hiển thị
             </small>
         </div>
         <div class="table-responsive">
@@ -81,12 +82,15 @@ admin_layout_start([
                                 <td class="text-muted small"><?= ($currentPage - 1) * 10 + $i + 1 ?></td>
                                 <td>
                                     <div class="d-flex align-items-center gap-2">
-                                        <div style="width:36px;height:36px;background:#d1fae5;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#065f46;flex-shrink:0;">
+                                        <div
+                                            style="width:36px;height:36px;background:#d1fae5;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#065f46;flex-shrink:0;">
                                             <?= mb_strtoupper(mb_substr($c['fullname'] ?: $c['username'] ?: 'U', 0, 1)) ?>
                                         </div>
                                         <div>
-                                            <div class="fw-semibold" style="font-size:13px;"><?= htmlspecialchars($c['fullname'] ?: $c['username']) ?></div>
-                                            <div class="text-muted" style="font-size:11px;">@<?= htmlspecialchars($c['username']) ?></div>
+                                            <div class="fw-semibold" style="font-size:13px;">
+                                                <?= htmlspecialchars($c['fullname'] ?: $c['username']) ?></div>
+                                            <div class="text-muted" style="font-size:11px;">
+                                                @<?= htmlspecialchars($c['username']) ?></div>
                                         </div>
                                     </div>
                                 </td>
@@ -99,8 +103,7 @@ admin_layout_start([
                                 <td>
                                     <?php if (!empty($c['news_title'])): ?>
                                         <a href="<?= BASE_URL ?>/news/detail/<?= htmlspecialchars($c['news_slug'] ?? '') ?>"
-                                            target="_blank"
-                                            class="text-success small fw-semibold"
+                                            target="_blank" class="text-success small fw-semibold"
                                             style="text-decoration:none;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
                                             <?= htmlspecialchars($c['news_title']) ?>
                                         </a>
@@ -121,21 +124,18 @@ admin_layout_start([
                                 <td class="text-center">
                                     <?php if ($c['status'] === 'approved'): ?>
                                         <a href="<?= BASE_URL ?>/admin/comment_toggle/<?= $c['id'] ?>"
-                                            class="btn btn-warning btn-sm text-white"
-                                            title="Ẩn bình luận"
+                                            class="btn btn-warning btn-sm text-white" title="Ẩn bình luận"
                                             onclick="return confirm('Ẩn bình luận này?')">
                                             <i class="fa-solid fa-eye-slash"></i>
                                         </a>
                                     <?php else: ?>
                                         <a href="<?= BASE_URL ?>/admin/comment_toggle/<?= $c['id'] ?>"
-                                            class="btn btn-success btn-sm"
-                                            title="Duyệt bình luận"
+                                            class="btn btn-success btn-sm" title="Duyệt bình luận"
                                             onclick="return confirm('Duyệt và hiển thị bình luận này?')">
                                             <i class="fa-solid fa-check"></i>
                                         </a>
                                     <?php endif; ?>
-                                    <a href="<?= BASE_URL ?>/admin/comment_delete/<?= $c['id'] ?>"
-                                        class="btn btn-danger btn-sm"
+                                    <a href="<?= BASE_URL ?>/admin/comment_delete/<?= $c['id'] ?>" class="btn btn-danger btn-sm"
                                         title="Xóa"
                                         onclick="return confirm('Xóa bình luận này? Hành động không thể hoàn tác!')">
                                         <i class="fa-solid fa-trash"></i>
@@ -155,15 +155,20 @@ admin_layout_start([
     <nav class="mt-4" aria-label="Phân trang">
         <ul class="pagination justify-content-center">
             <li class="page-item <?= $currentPage <= 1 ? 'disabled' : '' ?>">
-                <a class="page-link" href="<?= BASE_URL ?>/admin/comments?page=<?= $currentPage - 1 ?>&search=<?= urlencode($search) ?>">‹ Trước</a>
+                <a class="page-link"
+                    href="<?= BASE_URL ?>/admin/comments?page=<?= $currentPage - 1 ?>&search=<?= urlencode($search) ?>">‹
+                    Trước</a>
             </li>
             <?php for ($p = 1; $p <= $totalPages; $p++): ?>
                 <li class="page-item <?= $p === $currentPage ? 'active' : '' ?>">
-                    <a class="page-link" href="<?= BASE_URL ?>/admin/comments?page=<?= $p ?>&search=<?= urlencode($search) ?>"><?= $p ?></a>
+                    <a class="page-link"
+                        href="<?= BASE_URL ?>/admin/comments?page=<?= $p ?>&search=<?= urlencode($search) ?>"><?= $p ?></a>
                 </li>
             <?php endfor; ?>
             <li class="page-item <?= $currentPage >= $totalPages ? 'disabled' : '' ?>">
-                <a class="page-link" href="<?= BASE_URL ?>/admin/comments?page=<?= $currentPage + 1 ?>&search=<?= urlencode($search) ?>">Sau ›</a>
+                <a class="page-link"
+                    href="<?= BASE_URL ?>/admin/comments?page=<?= $currentPage + 1 ?>&search=<?= urlencode($search) ?>">Sau
+                    ›</a>
             </li>
         </ul>
     </nav>
