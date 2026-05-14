@@ -14,10 +14,10 @@ $c_hours   = content_value('company.hours', '8:00 - 17:00');
 $c_address = content_value('company.address', '268, Lý Thường Kiệt, Phường 14, Quận 10, TP. Hồ Chí Minh');
 ?>
 </main>
-<footer class="site-footer pt-5 pb-4 mt-5">
+<footer class="site-footer pt-5 pb-4">
     <div class="container">
         <div class="row g-3 g-lg-4">
-            <!-- Cột 1: Thông tin thương hiệu -->
+
             <div class="col-12 col-lg-3 text-center text-lg-start mb-4 mb-lg-0">
                 <a class="navbar-brand d-inline-flex align-items-center gap-2 mb-3 text-decoration-none" href="<?= BASE_URL ?>">
                     <span class="brand-mark bg-white text-success"><i class="fa-solid fa-leaf"></i></span>
@@ -31,7 +31,7 @@ $c_address = content_value('company.address', '268, Lý Thường Kiệt, Phư�
                 </div>
             </div>
 
-            <!-- Cột 2: Điều hướng -->
+
             <div class="col-6 col-md-4 col-lg-3">
                 <h5 class="footer-title text-success mb-3 fs-6 fw-bold text-uppercase"><?php echo e(content_value('footer.nav_title', 'Điều hướng')); ?></h5>
                 <ul class="footer-links list-unstyled d-flex flex-column gap-2 mb-0" style="font-size: 0.9rem;">
@@ -43,7 +43,7 @@ $c_address = content_value('company.address', '268, Lý Thường Kiệt, Phư�
                 </ul>
             </div>
 
-            <!-- Cột 3: Hỗ trợ -->
+
             <div class="col-6 col-md-4 col-lg-3">
                 <h5 class="footer-title text-success mb-3 fs-6 fw-bold text-uppercase"><?php echo e(content_value('footer.info_title', 'Thông tin')); ?></h5>
                 <ul class="footer-list list-unstyled d-flex flex-column gap-2 mb-0" style="font-size: 0.9rem;">
