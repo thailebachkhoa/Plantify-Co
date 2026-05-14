@@ -27,4 +27,29 @@ class Content
         $this->db->bind(':key', $key);
         return $this->db->execute();
     }
+    public function updateMultipleSiteContent(array $data)
+    {
+        foreach ($data as $key => $value) {
+            $this->updateSiteContent($key, $value);
+        }
+        return true;
+    }
+
+    public function getSiteContentByGroups(array $groups)
+    {
+
+        $placeholders = implode(',', array_fill(0, count($groups), '?'));
+
+        $sql = "SELECT * FROM site_content 
+                WHERE content_group IN ($placeholders) 
+                ORDER BY FIELD(content_group, 'Trang cửa hàng', 'Trang chi tiết SP', 'Trang giỏ hàng'), id ASC";
+
+        $this->db->query($sql);
+
+        foreach ($groups as $index => $group) {
+            $this->db->bind($index + 1, $group);
+        }
+
+        return $this->db->resultSet();
+    }
 }

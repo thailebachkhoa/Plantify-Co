@@ -1,6 +1,6 @@
 <?php require BASE_PATH . '/app/Views/partials/header.php'; ?>
 
-<main class="site-main page-main">
+<main class="site-main page-main" style="margin-top: 50px;">
     <div class="container py-4">
         <!-- Thông báo (Success/Error) -->
         <?php if (isset($_SESSION['success'])): ?>

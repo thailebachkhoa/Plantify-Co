@@ -120,15 +120,50 @@ $isCartEmpty = empty($cartItems);
                             <span class="fw-bold" style="font-size: 1.5rem; color: var(--green-700);"><?= number_format($totalPrice, 0, ',', '.') ?>đ</span>
                         </div>
 
-                        <a href="<?= BASE_URL ?>/checkout" class="btn btn-success btn-lg w-100 fw-bold" style="border-radius: 10px;">
+                        <button type="button" class="btn btn-success btn-lg w-100 fw-bold" style="border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#checkoutModal">
                             <?= e(content_value('cart.btn_checkout', 'Thanh Toán Ngay')) ?> <i class="fa-solid fa-arrow-right ms-2"></i>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
     </div>
 <?php endif; ?>
 
+</div>
+
+<div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+            <div class="modal-header border-0 pt-4 px-4">
+                <h5 class="modal-title fw-bold" id="checkoutModalLabel" style="color: var(--green-900);">Thông tin giao hàng</h5>
+                <button type="button" class="btn-close" data-bs-close="modal" aria-label="Close"></button>
+            </div>
+            <form action="<?= BASE_URL ?>/dashboard/checkout" method="POST">
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Họ và tên người nhận</label>
+                        <input type="text" name="fullname" class="form-control" value="<?= htmlspecialchars($user['fullname'] ?? '') ?>" required placeholder="Nhập tên người nhận">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Số điện thoại</label>
+                        <input type="tel" name="phone" class="form-control" required placeholder="Nhập số điện thoại liên lạc">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Địa chỉ nhận hàng</label>
+                        <textarea name="address" class="form-control" rows="2" required placeholder="Địa chỉ chi tiết (Số nhà, đường, phường/xã...)"></textarea>
+                    </div>
+                    <div class="mb-0">
+                        <label class="form-label small fw-bold">Ghi chú thêm (Nếu có)</label>
+                        <textarea name="note" class="form-control" rows="2" placeholder="Ví dụ: Giao giờ hành chính, gọi trước khi đến..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pb-4 px-4">
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-success rounded-pill px-4 fw-bold">Xác nhận Đặt hàng</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 </main>
 

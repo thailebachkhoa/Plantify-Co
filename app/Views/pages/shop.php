@@ -23,7 +23,7 @@ function buildUrl($overrides = [])
                 <?= e(content_value('shop.hero_description', 'Khám phá bộ sưu tập cây xanh...')) ?>
             </p>
 
-            <div class="mt-4 mx-auto" style="max-width: 500px;">
+            <!-- <div class="mt-4 mx-auto" style="max-width: 500px;">
                 <form action="" method="GET" class="input-group shadow-lg rounded-pill overflow-hidden">
                     <input type="hidden" name="category" value="<?= htmlspecialchars($currentCategory) ?>">
                     <input type="hidden" name="sort" value="<?= htmlspecialchars($currentSort) ?>">
@@ -35,38 +35,55 @@ function buildUrl($overrides = [])
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </form>
-            </div>
+            </div> -->
         </div>
     </section>
 
-    <section class="section-padding bg-soft py-5">
+    <section id="product-list" class="section-padding bg-soft">
         <div class="container">
 
-            <div class="d-flex flex-wrap justify-content-between align-items-center mb-5 pb-3 border-bottom" data-aos="fade-up">
-
-                <div class="d-flex gap-2 mb-3 mb-lg-0">
-                    <?php
-                    $categories = [
-                        'all' => 'Tất cả',
-                        'Để bàn' => 'Để bàn',
-                        'Sàn nhà' => 'Sàn nhà',
-                        'Ban công' => 'Ban công'
-                    ];
-                    foreach ($categories as $key => $label): ?>
-                        <a href="<?= buildUrl(['category' => $key, 'page' => 1]) ?>"
-                            class="btn <?= $currentCategory === $key ? 'btn-success' : 'btn-outline-success' ?> rounded-pill px-4">
-                            <?= $label ?>
-                        </a>
-                    <?php endforeach; ?>
+            <div class="row mb-4 align-items-center">
+                <div class="col-lg-6 col-md-12 mb-3 mb-lg-0">
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="<?= BASE_URL ?>/shop?category=all" class="btn <?= $currentCategory === 'all' ? 'btn-success' : 'btn-outline-success' ?> rounded-pill px-3">Tất cả</a>
+                        <a href="<?= BASE_URL ?>/shop?category=Để bàn" class="btn <?= $currentCategory === 'Để bàn' ? 'btn-success' : 'btn-outline-success' ?> rounded-pill px-3">Để bàn</a>
+                        <a href="<?= BASE_URL ?>/shop?category=Sàn nhà" class="btn <?= $currentCategory === 'Sàn nhà' ? 'btn-success' : 'btn-outline-success' ?> rounded-pill px-3">Sàn nhà</a>
+                        <a href="<?= BASE_URL ?>/shop?category=Phụ kiện" class="btn <?= $currentCategory === 'Phụ kiện' ? 'btn-success' : 'btn-outline-success' ?> rounded-pill px-3">Phụ kiện</a>
+                    </div>
                 </div>
 
-                <div class="d-flex align-items-center gap-3">
-                    <span class="text-muted d-none d-md-inline"><?= e(content_value('shop.sort_label', 'Sắp xếp:')) ?></span>
-                    <select class="form-select w-auto rounded-pill" onchange="window.location.href=this.value">
-                        <option value="<?= buildUrl(['sort' => 'newest']) ?>" <?= $currentSort === 'newest' ? 'selected' : '' ?>>Mới nhất</option>
-                        <option value="<?= buildUrl(['sort' => 'price_asc']) ?>" <?= $currentSort === 'price_asc' ? 'selected' : '' ?>>Giá: Thấp đến Cao</option>
-                        <option value="<?= buildUrl(['sort' => 'price_desc']) ?>" <?= $currentSort === 'price_desc' ? 'selected' : '' ?>>Giá: Cao xuống Thấp</option>
-                    </select>
+                <div class="col-lg-3 col-md-6 mb-3 mb-md-0">
+                    <form action="<?= BASE_URL ?>/shop" method="GET" class="d-flex border border-success rounded-pill overflow-hidden bg-white">
+                        <?php if ($currentCategory !== 'all'): ?>
+                            <input type="hidden" name="category" value="<?= htmlspecialchars($currentCategory) ?>">
+                        <?php endif; ?>
+                        <?php if ($currentSort !== 'newest'): ?>
+                            <input type="hidden" name="sort" value="<?= htmlspecialchars($currentSort) ?>">
+                        <?php endif; ?>
+
+                        <input type="text" name="search" class="form-control border-0 ps-3 py-2 shadow-none text-sm"
+                            placeholder="<?= e(content_value('shop.search_placeholder', 'Tìm kiếm cây...')) ?>"
+                            value="<?= htmlspecialchars($searchKeyword) ?>">
+                        <button type="submit" class="btn btn-success px-3"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </form>
+                </div>
+
+                <div class="col-lg-3 col-md-6 text-md-end">
+                    <form action="<?= BASE_URL ?>/shop" method="GET" class="d-inline-block w-100">
+                        <?php if ($currentCategory !== 'all'): ?>
+                            <input type="hidden" name="category" value="<?= htmlspecialchars($currentCategory) ?>">
+                        <?php endif; ?>
+                        <?php if ($searchKeyword !== ''): ?>
+                            <input type="hidden" name="search" value="<?= htmlspecialchars($searchKeyword) ?>">
+                        <?php endif; ?>
+
+                        <span class="text-muted d-none d-xxl-inline me-2"><?= e(content_value('shop.sort_label', 'Sắp xếp:')) ?></span>
+                        <select name="sort" class="form-select d-inline-block w-auto border-success rounded-pill" onchange="this.form.submit()">
+                            <option value="newest" <?= $currentSort === 'newest' ? 'selected' : '' ?>>Mới nhất</option>
+                            <option value="price_asc" <?= $currentSort === 'price_asc' ? 'selected' : '' ?>>Giá tăng dần</option>
+                            <option value="price_desc" <?= $currentSort === 'price_desc' ? 'selected' : '' ?>>Giá giảm dần</option>
+                        </select>
+                    </form>
                 </div>
             </div>
 
@@ -147,7 +164,7 @@ function buildUrl($overrides = [])
 
             <?php else: ?>
                 <div class="text-center py-5">
-                    <img src="<?= BASE_URL ?>/file/render?path=uploads/images/reg-img.jpeg" width="100" alt="Not found" class="opacity-50 mb-3">
+                    <img src="<?= BASE_URL ?>/file/render?path=uploads/images/shop-search.png" width="100" alt="Not found" class="opacity-50 mb-3">
                     <h3 class="text-muted"><?= e(content_value('shop.empty_title', 'Không tìm thấy cây nào phù hợp')) ?></h3>
                     <p><?= e(content_value('shop.empty_text', 'Vui lòng thử từ khóa khác hoặc xóa bộ lọc.')) ?></p>
                 </div>
@@ -157,7 +174,6 @@ function buildUrl($overrides = [])
 </main>
 
 <style>
-    /* Hiệu ứng hover cho card sản phẩm */
     .product-card {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
@@ -179,5 +195,26 @@ function buildUrl($overrides = [])
         color: white;
     }
 </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        if (window.location.search) {
+            const productList = document.getElementById('product-list');
+            if (productList) {
+                const headerOffset = 0;
+                const elementPosition = productList.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                // setTimeout nhẹ để đảm bảo DOM đã render xong hoàn toàn
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }, 100);
+            }
+        }
+    });
+</script>
 
 <?php require BASE_PATH . '/app/Views/partials/footer.php'; ?>

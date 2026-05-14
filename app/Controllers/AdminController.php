@@ -563,9 +563,32 @@ class AdminController extends BaseController
 
     public function shop_settings()
     {
+        $contentModel = new Content();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_shop_content'])) {
+            $contents = $_POST['content'] ?? [];
+
+            if ($contentModel->updateMultipleSiteContent($contents)) {
+                $_SESSION['admin_success'] = "Đã cập nhật các cấu hình cửa hàng thành công!";
+            } else {
+                $_SESSION['admin_error'] = "Có lỗi xảy ra trong quá trình cập nhật.";
+            }
+
+            $this->redirect('admin/shop-settings');
+            exit;
+        }
+
+        $allSettings = $contentModel->getSiteContentByGroups(['Trang cửa hàng', 'Trang chi tiết SP', 'Trang giỏ hàng']);
+
+        $groups = [];
+        foreach ($allSettings as $item) {
+            $groups[$item['content_group']][] = $item;
+        }
+
         $this->view('admin/shop-settings', [
-            'user'      => Auth::user(),
-            'pageTitle' => 'Cấu hình Cửa hàng'
+            'user'            => Auth::user(),
+            'pageTitle'       => 'Cấu hình Cửa hàng',
+            'settingsByGroup' => $groups
         ]);
     }
 
@@ -677,5 +700,45 @@ class AdminController extends BaseController
         $_SESSION['admin_success'] = 'Đã xóa liên hệ!';
         $this->redirect('admin/contacts');
     }
- 
+    
+    public function orders() {
+    require_once BASE_PATH . '/app/Models/Order.php';
+    $orderModel = new Order();
+    $allOrders = $orderModel->getAllOrders();
+
+    $this->view('admin/orders', [
+        'orders' => $allOrders,
+        'pageTitle' => 'Quản lý Đơn hàng'
+    ]);
+}
+
+public function order_detail($id) {
+    require_once BASE_PATH . '/app/Models/Order.php';
+    $orderModel = new Order();
+    $order = $orderModel->getOrderDetail($id);
+
+    if (!$order) {
+        $this->redirect('admin/orders');
+        exit;
+    }
+
+    $this->view('admin/order-detail', [
+        'order' => $order,
+        'pageTitle' => 'Chi tiết đơn hàng #' . $id
+    ]);
+}
+
+public function order_update_status($id) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        require_once BASE_PATH . '/app/Models/Order.php';
+        $orderModel = new Order();
+        $status = $_POST['status'] ?? 'pending';
+        
+        if ($orderModel->updateStatus($id, $status)) {
+            $_SESSION['admin_success'] = "Đã cập nhật trạng thái đơn hàng!";
+        }
+        
+        $this->redirect('admin/orders/detail/' . $id);
+    }
+}
 }

@@ -35,15 +35,17 @@ class DashboardController extends BaseController
             return;
         }
 
-        // Show member dashboard (Tích hợp thông tin user mới nhất)
+
         if (Auth::isMember()) {
             require_once BASE_PATH . '/app/Models/User.php';
             $userModel = new User();
 
-            // Lấy dữ liệu user mới nhất từ DB để đồng bộ với avatar/tên vừa sửa
             $currentUser = $userModel->findById(Auth::user()['id']);
 
-            $this->view('pages/dashboard', ['user' => $currentUser]);
+            $this->view('dashboard/index', [
+                'user' => Auth::user(),
+                'pageTitle' => 'Bảng điều khiển'
+            ]);
             return;
         }
 
@@ -74,7 +76,7 @@ class DashboardController extends BaseController
         // Validate
         if (empty($fullname)) {
             $_SESSION['error'] = "Họ và tên không được để trống!";
-            $this->redirect('dashboard');
+            $this->redirect('dashboard/index');
             return;
         }
 
@@ -89,23 +91,20 @@ class DashboardController extends BaseController
                 if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 
                 if (move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadDir . $newFileName)) {
-                    // Xóa ảnh cũ (nếu có) - Cần dùng STORAGE_PATH để unlink
                     if ($avatarPath && file_exists(STORAGE_PATH . DIRECTORY_SEPARATOR . $avatarPath)) {
                         @unlink(STORAGE_PATH . DIRECTORY_SEPARATOR . $avatarPath);
                     }
-                    // Lưu đường dẫn kiểu: "uploads/avatars/tenfile.jpg"
                     $avatarPath = 'uploads/avatars/' . $newFileName;
                 }
             } else {
                 $_SESSION['error'] = "Định dạng ảnh không hợp lệ hoặc quá lớn (Max 5MB)!";
-                $this->redirect('dashboard');
+                $this->redirect('dashboard/index');
                 return;
             }
         }
 
         // Update vào DB
         if ($userModel->updateProfile($userId, $fullname, $avatarPath)) {
-            // Cập nhật lại session ngay lập tức
             $_SESSION['user']['fullname'] = $fullname;
             $_SESSION['user']['avatar'] = $avatarPath; // Đường dẫn mới vào session
 
@@ -114,7 +113,7 @@ class DashboardController extends BaseController
             $_SESSION['error'] = "Có lỗi xảy ra, vui lòng thử lại.";
         }
 
-        $this->redirect('dashboard');
+        $this->redirect('dashboard/index');
     }
 
     public function updatePassword()
@@ -146,5 +145,115 @@ class DashboardController extends BaseController
         }
 
         $this->redirect('dashboard');
+    }
+
+    public function checkout()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!Auth::check()) {
+                $this->redirect('auth');
+                exit;
+            }
+
+            $cartSession = $_SESSION['cart'] ?? [];
+            if (empty($cartSession)) {
+                $this->redirect('cart');
+                exit;
+            }
+
+            $db = Database::getInstance();
+            $cartItems = [];
+            $totalPrice = 0;
+
+            // XỬ LÝ GIỎ HÀNG & LẤY GIÁ GỐC TỪ DATABASE (BẢO MẬT HƠN)
+            foreach ($cartSession as $key => $value) {
+                $productId = 0;
+                $quantity = 0;
+
+                // Tự động nhận diện cấu trúc Session của bạn (dù là mảng hay key=>value)
+                if (is_array($value)) {
+                    $productId = $value['product_id'] ?? $value['id'] ?? 0;
+                    $quantity = $value['quantity'] ?? $value['qty'] ?? 1;
+                } else {
+                    $productId = $key;
+                    $quantity = $value;
+                }
+
+                if ($productId) {
+                    // Truy vấn DB để lấy giá chính xác nhất của sản phẩm
+                    $db->query("SELECT id, price FROM products WHERE id = :id");
+                    $db->bind(':id', $productId);
+                    $product = $db->single();
+
+                    if ($product) {
+                        // Tạo mảng chuẩn bị cho OrderModel
+                        $cartItems[] = [
+                            'product_id' => $product['id'],
+                            'quantity'   => $quantity,
+                            'price'      => $product['price']
+                        ];
+                        // Tính tổng tiền dựa trên giá DB
+                        $totalPrice += ($product['price'] * $quantity);
+                    }
+                }
+            }
+
+            // Nếu không có sản phẩm nào hợp lệ
+            if (empty($cartItems)) {
+                $_SESSION['error'] = "Dữ liệu giỏ hàng không hợp lệ.";
+                $this->redirect('cart');
+                exit;
+            }
+
+            require_once BASE_PATH . '/app/Models/Order.php';
+            $orderModel = new Order();
+
+            $orderData = [
+                'user_id'     => Auth::id(),
+                'fullname'    => $_POST['fullname'] ?? '',
+                'phone'       => $_POST['phone'] ?? '',
+                'address'     => $_POST['address'] ?? '',
+                'note'        => $_POST['note'] ?? '',
+                'total_price' => $totalPrice
+            ];
+
+            // Gửi mảng $cartItems đã chuẩn hóa vào Order
+            $result = $orderModel->create($orderData, $cartItems);
+
+            if ($result) {
+                unset($_SESSION['cart']);
+                $_SESSION['success'] = "Đặt hàng thành công! Chúng tôi sẽ sớm liên hệ với bạn.";
+                $this->redirect('dashboard/orders');
+            } else {
+                $_SESSION['error'] = "Có lỗi xảy ra trong quá trình lưu đơn hàng. Vui lòng thử lại.";
+                $this->redirect('cart');
+            }
+        }
+    }
+
+    /**
+     * Hàm hiển thị danh sách đơn hàng của User
+     * URL: /dashboard/orders
+     */
+    public function orders()
+    {
+        if (!Auth::check()) {
+            $this->redirect('auth');
+            exit;
+        }
+
+        $db = Database::getInstance();
+        $userId = Auth::id();
+
+        require_once BASE_PATH . '/app/Models/Order.php';
+        $orderModel = new Order();
+
+        $myOrders = $orderModel->getOrdersByUserId(Auth::id());
+
+        $this->view('dashboard/orders', [
+            'user'      => Auth::user(),
+            'myOrders'  => $myOrders,
+            'pageTitle' => 'Lịch sử đơn hàng'
+        ]);
     }
 }
