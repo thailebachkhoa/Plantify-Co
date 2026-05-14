@@ -9,9 +9,6 @@ class Product
         $this->db = Database::getInstance();
     }
 
-    /**
-     * Tìm 1 sản phẩm theo ID (Dùng cho Trang chi tiết và Giỏ hàng)
-     */
     public function findById($id)
     {
         $this->db->query("SELECT * FROM products WHERE id = :id LIMIT 1");
@@ -19,12 +16,8 @@ class Product
         return $this->db->single();
     }
 
-    /**
-     * Lấy danh sách sản phẩm phân trang (Dùng cho trang Cửa hàng)
-     */
     public function getPaginated($limit, $offset)
     {
-        // Ép kiểu int để nối chuỗi trực tiếp an toàn (Tránh lỗi PDO bindParam với LIMIT)
         $limit = (int)$limit;
         $offset = (int)$offset;
 
@@ -32,9 +25,73 @@ class Product
         return $this->db->resultSet();
     }
 
+    public function getFilteredProducts($limit, $offset, $category = 'all', $sort = 'newest', $search = '')
+    {
+        $sql = "SELECT * FROM products WHERE 1=1";
+        $params = [];
+
+        // 1. Xử lý tìm kiếm (Tìm theo tên hoặc mô tả)
+        if (!empty($search)) {
+            $sql .= " AND (name LIKE :search OR description LIKE :search)";
+            $params[':search'] = '%' . $search . '%';
+        }
+
+        // 2. Xử lý lọc theo danh mục
+        if ($category !== 'all') {
+            $sql .= " AND category = :category";
+            $params[':category'] = $category;
+        }
+
+        // 3. Xử lý sắp xếp
+        if ($sort === 'price_asc') {
+            $sql .= " ORDER BY price ASC";
+        } elseif ($sort === 'price_desc') {
+            $sql .= " ORDER BY price DESC";
+        } else {
+            $sql .= " ORDER BY id DESC"; // Mới nhất
+        }
+
+        // 4. Phân trang
+        $sql .= " LIMIT " . (int)$limit . " OFFSET " . (int)$offset;
+
+        $this->db->query($sql);
+
+        // Bind các tham số an toàn (Tránh SQL Injection)
+        foreach ($params as $key => $value) {
+            $this->db->bind($key, $value);
+        }
+
+        return $this->db->resultSet();
+    }
+
     /**
-     * Đếm tổng số sản phẩm (Dùng để tính số trang)
+     * Đếm tổng số sản phẩm sau khi lọc (Dùng để chia số trang)
      */
+    public function countFilteredProducts($category = 'all', $search = '')
+    {
+        $sql = "SELECT COUNT(id) as total FROM products WHERE 1=1";
+        $params = [];
+
+        if (!empty($search)) {
+            $sql .= " AND (name LIKE :search OR description LIKE :search)";
+            $params[':search'] = '%' . $search . '%';
+        }
+
+        if ($category !== 'all') {
+            $sql .= " AND category = :category";
+            $params[':category'] = $category;
+        }
+
+        $this->db->query($sql);
+
+        foreach ($params as $key => $value) {
+            $this->db->bind($key, $value);
+        }
+
+        $row = $this->db->single();
+        return $row ? (int)$row['total'] : 0;
+    }
+
     public function countAll()
     {
         $this->db->query("SELECT COUNT(id) as total FROM products");
@@ -42,9 +99,6 @@ class Product
         return $row ? (int)$row['total'] : 0;
     }
 
-    /**
-     * Lấy các sản phẩm liên quan (Random, trừ sản phẩm hiện tại)
-     */
     public function getRelated($exclude_id, $limit = 4)
     {
         $limit = (int)$limit;
@@ -53,9 +107,6 @@ class Product
         return $this->db->resultSet();
     }
 
-    /**
-     * Lấy sản phẩm nổi bật (is_featured = 1) dùng cho Trang Chủ
-     */
     public function getFeatured($limit = 4)
     {
         $limit = (int)$limit;
@@ -63,18 +114,12 @@ class Product
         return $this->db->resultSet();
     }
 
-    /**
-     * Lấy TOÀN BỘ sản phẩm (Dùng cho Admin Dashboard)
-     */
     public function getAllProducts()
     {
         $this->db->query("SELECT * FROM products ORDER BY id DESC");
         return $this->db->resultSet();
     }
 
-    /**
-     * Thêm sản phẩm mới (Admin)
-     */
     public function create($data)
     {
         $this->db->query("INSERT INTO products (name, category, price, image, description, is_featured) 
@@ -90,9 +135,6 @@ class Product
         return $this->db->execute();
     }
 
-    /**
-     * Cập nhật sản phẩm (Admin)
-     */
     public function update($id, $data)
     {
         $this->db->query("UPDATE products 
@@ -111,9 +153,6 @@ class Product
         return $this->db->execute();
     }
 
-    /**
-     * Xóa sản phẩm (Admin)
-     */
     public function delete($id)
     {
         $this->db->query("DELETE FROM products WHERE id = :id");

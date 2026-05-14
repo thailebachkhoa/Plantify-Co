@@ -18,7 +18,7 @@ require BASE_PATH . '/app/Views/partials/header.php';
 
                         <!-- Cột Ảnh minh họa -->
                         <div class="col-lg-5 d-none d-lg-block position-relative">
-                            <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=800&q=80"
+                            <img src="<?= BASE_URL ?>/file/render?path=uploads/images/reg-img.jpeg"
                                 alt="Plantify Register"
                                 class="w-100 h-100 object-fit-cover"
                                 style="min-height: 700px;">

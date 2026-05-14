@@ -16,6 +16,10 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
         $cartCount += (int)($item['quantity'] ?? 0);
     }
 }
+$avatar = !empty($user['avatar'])
+    ? BASE_URL . '/file/render?path=' . $user['avatar']
+    : 'https://ui-avatars.com/api/?name=' . urlencode($user['fullname']);
+?>
 ?>
 <!doctype html>
 <html lang="vi">
@@ -96,7 +100,7 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
                                 <a href="#" class="text-decoration-none text-dark fw-bold d-flex align-items-center gap-2" data-bs-toggle="dropdown" aria-expanded="false">
                                     <?php if (!empty($user['avatar'])): ?>
                                         <!-- Hiển thị Avatar từ DB -->
-                                        <img src="<?= BASE_URL ?>/<?= $user['avatar'] ?>"
+                                        <img src="<?= $avatar ?>"
                                             class="rounded-circle object-fit-cover shadow-sm"
                                             style="width: 32px; height: 32px; border: 1px solid #ddd;">
                                     <?php else: ?>
