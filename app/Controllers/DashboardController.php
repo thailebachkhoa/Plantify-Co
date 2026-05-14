@@ -80,17 +80,21 @@ class DashboardController extends BaseController
 
         // XỬ LÝ UPLOAD ẢNH
         if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
-            $fileExtension = strtolower(pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION));
-            $allowedExts = ['jpg', 'jpeg', 'png', 'webp'];
-
-            if (in_array($fileExtension, $allowedExts) && $_FILES['avatar']['size'] < 5000000) {
-                $newFileName = 'user_' . $userId . '_' . time() . '.' . $fileExtension;
-                $uploadDir = BASE_PATH . '/public/assets/uploads/avatars/';
+            $ext = strtolower(pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION));
+            if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp']) && $_FILES['avatar']['size'] < 5000000) {
+                $newFileName = 'avatar_' . $userId . '_' . time() . '.' . $ext;
+                // Lưu vào STORAGE_PATH thay vì public/assets
+                $uploadDir = STORAGE_PATH . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'avatars' . DIRECTORY_SEPARATOR;
 
                 if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 
                 if (move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadDir . $newFileName)) {
-                    $avatarPath = 'assets/uploads/avatars/' . $newFileName;
+                    // Xóa ảnh cũ (nếu có) - Cần dùng STORAGE_PATH để unlink
+                    if ($avatarPath && file_exists(STORAGE_PATH . DIRECTORY_SEPARATOR . $avatarPath)) {
+                        @unlink(STORAGE_PATH . DIRECTORY_SEPARATOR . $avatarPath);
+                    }
+                    // Lưu đường dẫn kiểu: "uploads/avatars/tenfile.jpg"
+                    $avatarPath = 'uploads/avatars/' . $newFileName;
                 }
             } else {
                 $_SESSION['error'] = "Định dạng ảnh không hợp lệ hoặc quá lớn (Max 5MB)!";
@@ -108,6 +112,37 @@ class DashboardController extends BaseController
             $_SESSION['success'] = "Cập nhật hồ sơ thành công!";
         } else {
             $_SESSION['error'] = "Có lỗi xảy ra, vui lòng thử lại.";
+        }
+
+        $this->redirect('dashboard');
+    }
+
+    public function updatePassword()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect('dashboard');
+            return;
+        }
+
+        require_once BASE_PATH . '/app/Models/User.php';
+        $userModel = new User();
+        $userId = Auth::user()['id'];
+
+        $currentPass = $_POST['current_password'] ?? '';
+        $newPass = $_POST['new_password'] ?? '';
+        $confirmPass = $_POST['confirm_password'] ?? '';
+
+        $user = $userModel->findById($userId);
+
+        if (!password_verify($currentPass, $user['password'])) {
+            $_SESSION['error'] = "Mật khẩu hiện tại không đúng!";
+        } elseif ($newPass !== $confirmPass) {
+            $_SESSION['error'] = "Mật khẩu mới không khớp!";
+        } elseif (strlen($newPass) < 6) {
+            $_SESSION['error'] = "Mật khẩu mới phải từ 6 ký tự trở lên!";
+        } else {
+            $userModel->updatePassword($userId, password_hash($newPass, PASSWORD_DEFAULT));
+            $_SESSION['success'] = "Đổi mật khẩu thành công!";
         }
 
         $this->redirect('dashboard');

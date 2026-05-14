@@ -7,30 +7,33 @@ class ShopController extends BaseController
 {
     public function index()
     {
-        // 1. Khởi tạo Model
-        require_once BASE_PATH . '/app/Models/Product.php';
         $productModel = new Product();
         $user = Auth::check() ? Auth::user() : null;
+        $category = isset($_GET['category']) ? trim($_GET['category']) : 'all';
+        $sort     = isset($_GET['sort']) ? trim($_GET['sort']) : 'newest';
+        $search   = isset($_GET['search']) ? trim($_GET['search']) : '';
+        $page     = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        if ($page < 1) $page = 1;
 
-        // 2. Tính toán phân trang
+
         $limit = 8;
-        $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
         $offset = ($page - 1) * $limit;
 
-        // 3. Gọi Model để lấy Data thay vì viết SQL trực tiếp
-        $totalProducts = $productModel->countAll();
-        $totalPages = $totalProducts > 0 ? ceil($totalProducts / $limit) : 1;
+        // 3. Gọi Model để lấy dữ liệu
+        $products   = $productModel->getFilteredProducts($limit, $offset, $category, $sort, $search);
+        $totalItems = $productModel->countFilteredProducts($category, $search);
+        $totalPages = ceil($totalItems / $limit);
 
-        $products = $productModel->getPaginated($limit, $offset);
-
-        // Đảm bảo là mảng
-        if (!is_array($products)) $products = [];
-
+        // 4. Đẩy dữ liệu ra View
+        // Đảm bảo đường dẫn 'shop/index' khớp với thư mục view của bạn
         $this->view('pages/shop', [
-            'user' => $user,
-            'products' => $products,
-            'currentPage' => $page,
-            'totalPages' => $totalPages
+            'products'      => $products,
+            'totalPages'    => $totalPages,
+            'currentPage'   => $page,
+            'currentCategory' => $category,
+            'currentSort'     => $sort,
+            'searchKeyword'   => $search,
+            'user'          => $user
         ]);
     }
 
