@@ -2233,3 +2233,25 @@ img {
   box-shadow: none;
   cursor: not-allowed;
 }
+
+@media (max-width: 991px) {
+  /* 1. Ép Sidebar nổi lên lớp cao nhất (99999) */
+  .sidebar-menu {
+    z-index: 99999 !important;
+  }
+
+  /* 2. Đảm bảo Sidebar khi được mở ra (collapsed) cũng giữ nguyên vị trí cao nhất */
+  .sbar_collapsed .sidebar-menu {
+    z-index: 99999 !important;
+  }
+
+  /* 3. Hạ lớp của khối nội dung chính xuống để nó không nâng Header lên theo */
+  .main-content {
+    z-index: 1 !important;
+  }
+
+  /* 4. Hạ lớp của Header xuống thấp hơn Sidebar một chút */
+  .header-area.sticky-top {
+    z-index: 999 !important;
+  }
+}
