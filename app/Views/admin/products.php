@@ -32,7 +32,17 @@ admin_layout_start([
                             <?php foreach ($products as $p): ?>
                                 <tr>
                                     <td class="text-center">
-                                        <img src="<?= htmlspecialchars($p['image']) ?>" alt="" style="width: 50px; height: 50px; object-fit: cover;" class="rounded shadow-sm">
+                                        <?php if (!empty($p['image'])): ?>
+                                            <img src="<?= BASE_URL . '/' . htmlspecialchars($p['image']) ?>"
+                                                alt="<?= htmlspecialchars($p['name']) ?>"
+                                                style="width: 60px; height: 60px; object-fit: cover;"
+                                                class="rounded shadow-sm border">
+                                        <?php else: ?>
+                                            <div class="bg-light d-inline-flex align-items-center justify-content-center rounded"
+                                                style="width: 60px; height: 60px;">
+                                                <i class="fa-solid fa-image text-muted"></i>
+                                            </div>
+                                        <?php endif; ?>
                                     </td>
                                     <td><strong><?= htmlspecialchars($p['name']) ?></strong></td>
                                     <td class="text-center"><span class="badge bg-info text-dark"><?= htmlspecialchars($p['category']) ?></span></td>
