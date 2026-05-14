@@ -75,15 +75,18 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
                             <a class="nav-link <?php echo is_active_page('faq'); ?>" href="<?= BASE_URL ?>/faq"><?php echo e(content_value('nav.faq', 'FAQ')); ?></a>
                         </li>
                     </ul>
-                    </ul>
+
 
                     <div class="d-flex align-items-center gap-2 ms-lg-4 mt-3 mt-lg-0">
-                        <a href="<?= BASE_URL ?>/cart" class="btn btn-light position-relative rounded-circle" style="width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; color: var(--green-900);">
+                        <a href="<?= BASE_URL ?>/cart" class="btn btn-light position-relative rounded-circle d-inline-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px; color: var(--green-900); overflow: visible !important;">
+
                             <i class="fa-solid fa-cart-shopping"></i>
+
                             <?php if ($cartCount > 0): ?>
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.65rem;">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    style="font-size: 0.65rem; z-index: 1000; min-width: 18px; height: 18px; padding: 4px; line-height: 10px;">
                                     <?= $cartCount ?>
-                                    <span class="visually-hidden">sản phẩm trong giỏ</span>
                                 </span>
                             <?php endif; ?>
                         </a>

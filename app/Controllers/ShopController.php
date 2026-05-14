@@ -63,4 +63,48 @@ class ShopController extends BaseController
             'relatedProducts' => $relatedProducts
         ]);
     }
+
+    /**
+     * Thêm vào giỏ hàng (Action trung gian)
+     * Thường dùng để nhận POST từ trang Product Detail
+     */
+    public function addToCart()
+    {
+        // 1. Kiểm tra đăng nhập
+        if (!Auth::check()) {
+            $_SESSION['error'] = "Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.";
+            $this->redirect('auth');
+            return;
+        }
+
+        // 2. Xử lý dữ liệu
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $productId = (int)($_POST['product_id'] ?? 0);
+            $quantity = (int)($_POST['quantity'] ?? 1);
+
+            if ($productId > 0 && $quantity > 0) {
+                if (!isset($_SESSION['cart'])) {
+                    $_SESSION['cart'] = [];
+                }
+
+                // Nếu đã có thì tăng số lượng
+                if (isset($_SESSION['cart'][$productId])) {
+                    $_SESSION['cart'][$productId]['quantity'] += $quantity;
+                } else {
+                    // Nếu chưa có thì thêm mới
+                    $_SESSION['cart'][$productId] = [
+                        'id' => $productId,
+                        'quantity' => $quantity
+                    ];
+                }
+                $_SESSION['success'] = "Đã thêm sản phẩm vào giỏ hàng!";
+            }
+
+            // Trở về trang chi tiết sản phẩm
+            $this->redirect('shop/detail/' . $productId);
+            return;
+        }
+
+        $this->redirect('shop');
+    }
 }

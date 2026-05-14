@@ -459,8 +459,7 @@ class AdminController extends BaseController
     public function product_delete($id)
     {
         $productModel = new Product();
-        // Giả sử bạn có hàm delete trong model Product
-        // $productModel->delete($id); 
+
         $this->redirect('admin/products?msg=deleted');
     }
 }

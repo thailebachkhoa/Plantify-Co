@@ -45,7 +45,7 @@
                                         <?= htmlspecialchars($item['category'] ?? 'Sản phẩm') ?>
                                     </span>
 
-                                    <!-- Sửa lỗi cú pháp thẻ <a> dư dấu ngoặc kép ở bản trước -->
+
                                     <h3 class="mt-1 mb-2">
                                         <a href="<?= BASE_URL ?>/shop/detail/<?= $item['id'] ?>" class="text-dark text-decoration-none">
                                             <?= htmlspecialchars($item['name']) ?>

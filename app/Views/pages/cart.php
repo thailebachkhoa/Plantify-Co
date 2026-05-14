@@ -6,10 +6,8 @@
  */
 $pageTitle = 'Giỏ Hàng | Plantify Co';
 require BASE_PATH . '/app/Views/partials/header.php';
-
-// Kiểm tra giỏ hàng rỗng (Mock Logic, thực tế bạn truyền biến từ Controller xuống)
-$cartItems = $_SESSION['cart'] ?? [];
 $isCartEmpty = empty($cartItems);
+
 ?>
 
 <main class="site-main page-main bg-soft" style="min-height: calc(100vh - 76px); padding: 40px 0;">

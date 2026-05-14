@@ -7,10 +7,10 @@
 require BASE_PATH . '/app/Views/partials/header.php';
 ?>
 
-<div class="news-detail-wrapper py-5 bg-light">
+<div class="news-detail-wrapper py-5 bg-soft">
     <div class="container">
 
-        <nav aria-label="breadcrumb" class="mb-4">
+        <nav aria-label="breadcrumb" class="mb-4" data-aos="fade-up">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?= BASE_URL ?>/news" class="text-success text-decoration-none">Tin tức</a></li>
                 <li class="breadcrumb-item active" aria-current="page"><?= e($news['title']) ?></li>
@@ -18,7 +18,8 @@ require BASE_PATH . '/app/Views/partials/header.php';
         </nav>
 
         <div class="row g-4 g-lg-5">
-            <div class="col-lg-8">
+            <!-- CỘT NỘI DUNG CHÍNH -->
+            <div class="col-lg-8" data-aos="fade-up" data-aos-duration="800">
                 <main class="news-detail-main bg-white p-4 p-md-5 rounded-4 shadow-sm border border-light">
 
                     <header class="news-detail-header mb-4">
@@ -34,20 +35,16 @@ require BASE_PATH . '/app/Views/partials/header.php';
                         <?php
                         $thumbPath = !empty($news['thumbnail']) ? PUBLIC_PATH . '/' . ltrim($news['thumbnail'], '/') : '';
                         if (!empty($news['thumbnail']) && file_exists($thumbPath)): ?>
-                            <img src="<?= BASE_URL ?>/<?= ltrim($news['thumbnail'], '/') ?>"
-                                alt="<?= e($news['title']) ?>"
-                                class="w-100 img-fluid object-fit-cover"
-                                style="max-height: 450px;">
+                            <img src="<?= BASE_URL ?>/<?= ltrim($news['thumbnail'], '/') ?>" alt="<?= e($news['title']) ?>" class="w-100 img-fluid object-fit-cover" style="max-height: 450px;">
                         <?php else: ?>
-                            <div class="news-img-placeholder w-100 d-flex align-items-center justify-content-center"
-                                style="height: 300px; background: var(--green-100); color: var(--green-600); font-size: 5rem;">
+                            <div class="news-img-placeholder w-100 d-flex align-items-center justify-content-center" style="height: 300px; background: var(--green-100); color: var(--green-600); font-size: 5rem;">
                                 <i class="fa-solid fa-leaf"></i>
                             </div>
                         <?php endif; ?>
                     </div>
 
                     <div class="news-detail-content lh-lg" style="font-size: 1.1rem; color: var(--stone-900);">
-                        <?= $news['content'] /* raw HTML content from admin */ ?>
+                        <?= $news['content'] ?>
                     </div>
 
                     <?php if (!empty($news['tags'])): ?>
@@ -63,7 +60,7 @@ require BASE_PATH . '/app/Views/partials/header.php';
                     <?php endif; ?>
                 </main>
 
-                <div class="comments-section mt-5 bg-white p-4 p-md-5 rounded-4 shadow-sm border border-light" id="comments">
+                <div class="comments-section mt-5 bg-white p-4 p-md-5 rounded-4 shadow-sm border border-light" id="comments" data-aos="fade-up" data-aos-delay="200">
                     <h3 class="fw-bold mb-4" style="color: var(--green-900);">
                         💬 Bình luận <span class="text-muted fs-5">(<?= $commentCount ?? 0 ?>)</span>
                     </h3>
@@ -135,7 +132,7 @@ require BASE_PATH . '/app/Views/partials/header.php';
                 </div>
             </div>
 
-            <div class="col-lg-4">
+            <div class="col-lg-4" data-aos="fade-left" data-aos-delay="300">
                 <aside class="news-detail-sidebar sticky-top" style="top: 100px;">
 
                     <div class="sidebar-widget bg-white p-4 rounded-4 shadow-sm border border-light mb-4">

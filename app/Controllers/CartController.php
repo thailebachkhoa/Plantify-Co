@@ -8,29 +8,27 @@ class CartController extends BaseController
 {
     public function index()
     {
-        $db = Database::getInstance();
-        $user = Auth::check() ? Auth::user() : null;
+        require_once BASE_PATH . '/app/Models/Product.php';
+        $productModel = new Product();
 
+        $user = Auth::check() ? Auth::user() : null;
         $cartSession = $_SESSION['cart'] ?? [];
         $cartItems = [];
         $totalPrice = 0;
 
-        if (!empty($cartSession)) {
-            // Duyệt qua từng item trong giỏ hàng để lấy thông tin từ DB
-            foreach ($cartSession as $id => $item) {
-                $result = $db->query("SELECT id, name, category, price, image FROM products WHERE id = :id", ['id' => $id]);
+        foreach ($cartSession as $id => $item) {
+            // Dùng luôn Model đã có, đừng viết lại SQL ở đây
+            $product = $productModel->findById($id);
 
-                if (!empty($result)) {
-                    $productDetail = $result[0];
-                    $productDetail['quantity'] = $item['quantity'];
-                    $productDetail['subtotal'] = $productDetail['price'] * $item['quantity'];
+            if ($product) {
+                $product['quantity'] = $item['quantity'];
+                $product['subtotal'] = $product['price'] * $item['quantity'];
 
-                    $cartItems[$id] = $productDetail;
-                    $totalPrice += $productDetail['subtotal'];
-                } else {
-                    // Nếu sản phẩm đã bị xóa khỏi DB, tự động gỡ khỏi giỏ hàng
-                    unset($_SESSION['cart'][$id]);
-                }
+                $cartItems[$id] = $product;
+                $totalPrice += $product['subtotal'];
+            } else {
+                // Nếu sản phẩm không tồn tại trong DB, xóa khỏi session
+                unset($_SESSION['cart'][$id]);
             }
         }
 
@@ -68,7 +66,7 @@ class CartController extends BaseController
                 }
                 $_SESSION['success'] = "Đã thêm sản phẩm vào giỏ hàng!";
             }
-            $this->redirect('shop/detail/' . $productId);
+            $this->redirect('cart');
             return;
         }
         $this->redirect('shop');
