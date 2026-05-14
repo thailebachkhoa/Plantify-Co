@@ -335,3 +335,4 @@ INSERT IGNORE INTO news (title, slug, short_description, content, thumbnail, tag
     'Admin',
     'published'
 );
+ALTER TABLE contacts ADD COLUMN subject VARCHAR(200) DEFAULT NULL AFTER email;

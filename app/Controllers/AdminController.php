@@ -607,4 +607,75 @@ class AdminController extends BaseController
 
         $this->redirect('admin/products');
     }
+
+     /** GET /admin/contacts — danh sách liên hệ */
+    public function contacts()
+    {
+        $db      = Database::getInstance();
+        $search  = trim($_GET['search'] ?? '');
+        $statusF = $_GET['status'] ?? '';
+        $page    = max(1, (int)($_GET['page'] ?? 1));
+        $perPage = 10;
+        $offset  = ($page - 1) * $perPage;
+ 
+        $where = '1=1';
+        if ($search) $where .= ' AND (name LIKE :s1 OR email LIKE :s2 OR message LIKE :s3)';
+        if ($statusF === 'unread') $where .= ' AND is_read = 0';
+        if ($statusF === 'read')   $where .= ' AND is_read = 1';
+ 
+        $db->query("SELECT COUNT(*) as total FROM contacts WHERE $where");
+        if ($search) {
+            $db->bind(':s1', '%'.$search.'%');
+            $db->bind(':s2', '%'.$search.'%');
+            $db->bind(':s3', '%'.$search.'%');
+        }
+        $total = (int)($db->single()['total'] ?? 0);
+ 
+        $db->query("SELECT * FROM contacts WHERE $where ORDER BY is_read ASC, created_at DESC LIMIT :lim OFFSET :off");
+        if ($search) {
+            $db->bind(':s1', '%'.$search.'%');
+            $db->bind(':s2', '%'.$search.'%');
+            $db->bind(':s3', '%'.$search.'%');
+        }
+        $db->bind(':lim', $perPage);
+        $db->bind(':off', $offset);
+        $contacts = $db->resultSet();
+ 
+        $success = $_SESSION['admin_success'] ?? null;
+        unset($_SESSION['admin_success']);
+ 
+        $this->view('admin/contacts', [
+            'user'         => Auth::user(),
+            'contacts'     => $contacts,
+            'search'       => $search,
+            'statusFilter' => $statusF,
+            'currentPage'  => $page,
+            'totalPages'   => $total > 0 ? (int)ceil($total / $perPage) : 1,
+            'total'        => $total,
+            'success'      => $success,
+        ]);
+    }
+ 
+    /** GET /admin/contact_read/{id} — đánh dấu đã đọc */
+    public function contact_read($id = null)
+    {
+        $db = Database::getInstance();
+        $db->query("UPDATE contacts SET is_read = 1 WHERE id = :id");
+        $db->bind(':id', (int)$id);
+        $db->execute();
+        $_SESSION['admin_success'] = 'Đã đánh dấu đã đọc!';
+        $this->redirect('admin/contacts');
+    }
+ 
+    /** GET /admin/contact_delete/{id} — xóa liên hệ */
+    public function contact_delete($id = null)
+    {
+        $db = Database::getInstance();
+        $db->query("DELETE FROM contacts WHERE id = :id");
+        $db->bind(':id', (int)$id);
+        $db->execute();
+        $_SESSION['admin_success'] = 'Đã xóa liên hệ!';
+        $this->redirect('admin/contacts');
+    }
+ 
 }
