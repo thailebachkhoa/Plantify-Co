@@ -42,12 +42,45 @@ class AdminController extends BaseController
     public function users()
     {
         $userModel = new User();
-        $users = $userModel->getAllUsers();
+
+        $limit = 10;
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $offset = ($page - 1) * $limit;
+        $users = $userModel->getPaginated($limit, $offset);
+        $totalUsers = $userModel->countAll();
+        $totalPages = ceil($totalUsers / $limit);
 
         $this->view('admin/users', [
             'user'  => Auth::user(),
             'users' => $users,
+            'totalPages' => $totalPages,
+            'currentPage' => $page,
             'pageTitle' => 'Quản lý thành viên'
+        ]);
+    }
+
+    public function user_create()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userModel = new User();
+            $data = [
+                'username' => $_POST['username'],
+                'fullname' => $_POST['fullname'],
+                'email'    => $_POST['email'],
+                'role'     => $_POST['role'],
+                'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
+                'status'   => 1
+            ];
+
+            if ($userModel->create($data)) {
+                $this->redirect('admin/users');
+                exit;
+            }
+        }
+
+        $this->view('admin/user-form', [
+            'user'      => Auth::user(),
+            'pageTitle' => 'Thêm thành viên mới'
         ]);
     }
 
@@ -60,7 +93,7 @@ class AdminController extends BaseController
             $newStatus = ($targetUser['status'] === 'active') ? 'locked' : 'active';
             $userModel->updateStatus($id, $newStatus);
         }
-        $this->redirect('admin');
+        $this->redirect('admin/users');
     }
 
     /** Reset user password to default (123456) */
@@ -71,14 +104,14 @@ class AdminController extends BaseController
         if ($targetUser && $targetUser['role'] !== 'admin' && $targetUser['id'] != Auth::id()) {
             $userModel->resetPassword($id, password_hash('123456', PASSWORD_DEFAULT));
         }
-        $this->redirect('admin');
+        $this->redirect('admin/users');
     }
 
     /** Delete a member account */
     public function delete_user($id)
     {
         if ($id == Auth::id()) {
-            $this->redirect('admin');
+            $this->redirect('admin/users');
             return;
         }
         $userModel  = new User();
@@ -86,7 +119,7 @@ class AdminController extends BaseController
         if ($targetUser && $targetUser['role'] !== 'admin') {
             $userModel->deleteUser($id);
         }
-        $this->redirect('admin');
+        $this->redirect('admin/users');
     }
 
     /* =============================================
@@ -420,13 +453,21 @@ class AdminController extends BaseController
     public function products()
     {
         $productModel = new Product();
-        // Lấy tất cả hoặc phân trang (ở đây lấy danh sách đơn giản để hiển thị)
-        $products = $productModel->getPaginated(100, 0);
+
+        $limit = 10;
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $offset = ($page - 1) * $limit;
+
+        $products = $productModel->getPaginated($limit, $offset);
+        $totalProducts = $productModel->countAll();
+        $totalPages = ceil($totalProducts / $limit);
 
         $this->view('admin/products', [
             'user'      => Auth::user(),
             'products'  => $products,
-            'pageTitle' => 'Quản lý Sản phẩm'
+            'pageTitle' => 'Quản lý Sản phẩm',
+            'currentPage' => $page,
+            'totalPages' => $totalPages
         ]);
     }
 
@@ -491,6 +532,16 @@ class AdminController extends BaseController
             'product'   => $product,
             'pageTitle' => 'Chỉnh sửa sản phẩm',
             'mode'      => 'edit'
+        ]);
+    }
+
+    public function shop_settings()
+    {
+        // Vì logic xử lý UPDATE đã nằm trong file View (tương tự pages.php)
+        // Nên Controller chỉ cần nạp dữ liệu User và hiển thị View.
+        $this->view('admin/shop-settings', [
+            'user'      => Auth::user(),
+            'pageTitle' => 'Cấu hình Cửa hàng'
         ]);
     }
 

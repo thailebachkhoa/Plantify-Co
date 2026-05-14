@@ -24,7 +24,7 @@
             <!-- Cột Trái: Ảnh Sản Phẩm -->
             <div class="col-lg-6" data-aos="fade-right">
                 <div class="position-relative">
-                    <img src="<?= $product['image'] ?>" alt="<?= $product['name'] ?>" class="rounded-image w-100" style="min-height: 500px; object-fit: cover;">
+                    <img src="<?= strpos($product['image'], 'http') === 0 ? $product['image'] : BASE_URL . '/' . ltrim($product['image'], '/') ?>" alt="<?= $product['name'] ?>" class="rounded-image w-100" style="min-height: 500px; object-fit: cover;">
                 </div>
             </div>
 
@@ -40,13 +40,7 @@
                     <?= $product['description'] ?>
                 </p>
 
-                <!-- Các thông số cây (Dùng grid tương tự trang about)
-                <div class="about-check-grid my-4">
-                    <span><i class="fa-solid fa-sun"></i> Ánh sáng: Tán xạ</span>
-                    <span><i class="fa-solid fa-droplet"></i> Nước: 1-2 lần/tuần</span>
-                    <span><i class="fa-solid fa-temperature-half"></i> Nhiệt độ: 18 - 28°C</span>
-                    <span><i class="fa-solid fa-shield-cat"></i> An toàn cho thú cưng</span>
-                </div> -->
+
 
                 <hr class="my-4 text-muted">
 
@@ -58,8 +52,11 @@
                             <label for="qty" class="me-2 ms-2 text-muted fw-bold">SL:</label>
                             <input type="number" id="qty" name="quantity" value="1" min="1" class="form-control border-0 text-center" style="width: 70px; box-shadow: none;">
                         </div>
-                        <button type="submit" class="btn btn-success btn-lg px-4 flex-grow-1" style="height: 52px;">
-                            <i class="fa-solid fa-cart-plus me-2"></i> Thêm Vào Giỏ
+                        <button type="submit" name="add_to_cart" class="btn btn-outline-success btn-lg px-4 rounded-pill">
+                            <i class="fa-solid fa-cart-plus me-2"></i> <?= e(content_value('product.btn_add_to_cart', 'Thêm vào giỏ')) ?>
+                        </button>
+                        <button type="submit" name="buy_now" class="btn btn-success btn-lg px-4 rounded-pill">
+                            <?= e(content_value('product.btn_buy_now', 'Mua ngay')) ?>
                         </button>
                     </form>
                 <?php else: ?>
@@ -70,10 +67,12 @@
                 <?php endif; ?>
 
                 <!-- Cam kết -->
-                <div class="mt-4 pt-3 border-top d-flex gap-4 text-muted" style="font-size: 0.9rem;">
-                    <div><i class="fa-solid fa-leaf text-success me-1"></i> Cây khỏe mạnh 100%</div>
-                    <div><i class="fa-solid fa-truck text-success me-1"></i> Giao hàng an toàn</div>
-                    <div><i class="fa-solid fa-rotate-left text-success me-1"></i> 1 đổi 1 trong 3 ngày</div>
+                <div class="product-trust-badges mt-4 pt-4 border-top">
+                    <div class="row g-3">
+                        <div class="col-6 col-md-4 small text-muted"><i class="fa-solid fa-truck-fast text-success me-1"></i> <?= e(content_value('product.trust_badge_1', 'Giao hàng nhanh')) ?></div>
+                        <div class="col-6 col-md-4 small text-muted"><i class="fa-solid fa-shield-halved text-success me-1"></i> <?= e(content_value('product.trust_badge_2', 'Thanh toán an toàn')) ?></div>
+                        <div class="col-6 col-md-4 small text-muted"><i class="fa-solid fa-arrows-rotate text-success me-1"></i> <?= e(content_value('product.trust_badge_3', '1 đổi 1 trong 3 ngày')) ?></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -83,15 +82,14 @@
     <section class="section-padding bg-soft mt-5">
         <div class="container">
             <div class="section-heading text-center mb-5">
-                <h2>Có thể bạn cũng thích</h2>
+                <h2><?= e(content_value('product.related_title', 'Có thể bạn cũng thích')) ?></h2>
             </div>
             <div class="row g-4">
                 <?php foreach ($relatedProducts as $item): ?>
                     <div class="col-md-6 col-lg-3">
                         <div class="product-card h-100 bg-white">
                             <a href="<?= BASE_URL ?>/shop/detail/<?= $item['id'] ?>">
-                                <img src="<?= $item['image'] ?>" alt="<?= $item['name'] ?>" class="w-100 object-fit-cover" style="height: 220px;">
-                            </a>
+                                <img src="<?= strpos($item['image'], 'http') === 0 ? $item['image'] : BASE_URL . '/' . ltrim($item['image'], '/') ?>" alt="<?= $item['name'] ?>" class="w-100 object-fit-cover" style="height: 220px;"></a>
                             <div class="product-body">
                                 <span><?= $item['category'] ?></span>
                                 <h3 class="mt-1 mb-2 fs-5"><a href="<?= BASE_URL ?>/shop/detail/<?= $item['id'] ?>" class="text-dark"><?= $item['name'] ?></a></h3>
