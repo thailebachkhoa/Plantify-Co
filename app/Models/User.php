@@ -104,4 +104,19 @@ class User
         $this->db->bind(':id', $id);
         return $this->db->execute();
     }
+
+    public function getPaginated($limit, $offset)
+    {
+        $limit = (int)$limit;
+        $offset = (int)$offset;
+
+        $this->db->query("SELECT * FROM users ORDER BY id DESC LIMIT $limit OFFSET $offset");
+        return $this->db->resultSet();
+    }
+    public function countAll()
+    {
+        $this->db->query("SELECT COUNT(id) as total FROM users");
+        $row = $this->db->single();
+        return $row ? (int)$row['total'] : 0;
+    }
 }

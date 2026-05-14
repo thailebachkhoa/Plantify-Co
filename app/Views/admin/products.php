@@ -62,6 +62,17 @@ admin_layout_start([
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                    <?php if ($totalPages > 1): ?>
+                        <nav class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                    <li class="page-item <?= ($i == $currentPage) ? 'active' : '' ?>">
+                                        <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                                    </li>
+                                <?php endfor; ?>
+                            </ul>
+                        </nav>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

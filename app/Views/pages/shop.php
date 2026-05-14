@@ -16,7 +16,7 @@ function buildUrl($overrides = [])
 
 <main class="site-main" style="padding-top: 0;">
 
-    <section class="page-hero" style="padding: 120px 0 60px 0; background: linear-gradient(135deg, rgba(18, 56, 42, 0.9), rgba(45, 138, 95, 0.8)), url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1600&q=80') center/cover;">
+    <section class="page-hero" style="padding: 120px 0 60px 0; background: linear-gradient(135deg, rgba(18, 56, 42, 0.9), rgba(45, 138, 95, 0.8)), url('<?= BASE_URL ?>/file/render?path=uploads/images/shop-hero-img.jpg') center/cover;">
         <div class="container text-center" data-aos="fade-up">
             <h1 class="display-4 fw-bold text-white">Cửa Hàng Xanh</h1>
             <p class="mx-auto text-white opacity-75" style="max-width: 600px;">
@@ -86,7 +86,7 @@ function buildUrl($overrides = [])
                             <div class="product-card h-100 bg-white shadow-sm rounded-4 overflow-hidden border-0 transition-hover">
                                 <div class="position-relative overflow-hidden">
                                     <a href="<?= BASE_URL ?>/shop/detail/<?= $item['id'] ?>">
-                                        <img src="<?= htmlspecialchars($item['image'] ?? 'https://placehold.co/600x600?text=No+Image') ?>"
+                                        <img src="<?= htmlspecialchars($item['image'] ?? '<?= BASE_URL ?>/file/render?path=uploads/images/shop-placeholder.png') ?>"
                                             alt="<?= htmlspecialchars($item['name']) ?>"
                                             class="w-100 object-fit-cover" style="height: 250px;">
                                     </a>
@@ -141,7 +141,7 @@ function buildUrl($overrides = [])
 
             <?php else: ?>
                 <div class="text-center py-5">
-                    <img src="https://cdn-icons-png.flaticon.com/512/6134/6134065.png" width="100" alt="Not found" class="opacity-50 mb-3">
+                    <img src="<?= BASE_URL ?>/file/render?path=uploads/images/reg-img.jpeg" width="100" alt="Not found" class="opacity-50 mb-3">
                     <h3 class="text-muted">Không tìm thấy cây nào phù hợp</h3>
                     <p>Vui lòng thử từ khóa khác hoặc xóa bộ lọc.</p>
                 </div>

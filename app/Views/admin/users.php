@@ -1,13 +1,14 @@
 <?php
 require_once __DIR__ . '/includes/AdminLayout.php';
 $pageTitle = 'Quản lý Người dùng | Plantify Admin';
-
+$actionHtml = '<a href="' . BASE_URL . '/admin/user_create" class="btn btn-primary rounded-pill px-4"><i class="fa fa-plus me-2"></i>Thêm thành viên</a>';
 
 admin_layout_start([
     'pageTitle' => $pageTitle,
     'heading' => 'Quản lý Người dùng',
-    'subtitle' => 'Danh sách và trạng thái tài khoản thành viên hệ thống.'
+    'actionHtml' => $actionHtml
 ]);
+
 ?>
 
 <div class="row mt-4">
@@ -75,6 +76,17 @@ admin_layout_start([
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                    <?php if ($totalPages > 1): ?>
+                        <nav class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                    <li class="page-item <?= ($i == $currentPage) ? 'active' : '' ?>">
+                                        <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                                    </li>
+                                <?php endfor; ?>
+                            </ul>
+                        </nav>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

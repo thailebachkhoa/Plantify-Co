@@ -872,10 +872,6 @@ img {
         }
     }
 
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 12px;
-    }
 
     .faq-chat-button {
         width: 64px;
