@@ -59,11 +59,14 @@ $url = explode('/', $url);
 // Cộng thêm "Controller" để tạo tên class (Product => ProductController)
 $controllerName = isset($url[0]) && $url[0] != '' ? ucfirst($url[0]) . 'Controller' : 'HomeController';
 
+$controllerName = str_replace('-', '_', $controllerName);
 // VALIDATE controller name: chỉ cho phép chữ cái, số, dấu gạch dưới
 $controllerName = preg_replace('/[^a-zA-Z0-9_]/', '', $controllerName);
 
 // Lấy tên method từ phần tử thứ hai của URL
 $methodName = isset($url[1]) && $url[1] != '' ? $url[1] : 'index';
+
+$methodName = str_replace('-', '_', $methodName);
 
 // VALIDATE method name: chỉ cho phép chữ cái, số, dấu gạch dưới
 $methodName = preg_replace('/[^a-zA-Z0-9_]/', '', $methodName);
