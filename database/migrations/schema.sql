@@ -27,6 +27,15 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- CREATE TABLE IF NOT EXISTS products (
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     title VARCHAR(255) NOT NULL,
+--     description TEXT,
+--     price DECIMAL(15, 2) NOT NULL,
+--     image VARCHAR(255) DEFAULT NULL,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
+
 CREATE TABLE IF NOT EXISTS products (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(150) NOT NULL,
@@ -52,6 +61,7 @@ CREATE TABLE IF NOT EXISTS news (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
 
 CREATE TABLE IF NOT EXISTS comments (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -170,13 +180,13 @@ INSERT INTO site_content (content_key, content_group, label, input_type, content
 ('product.trust_badge_1', 'Trang chi tiết SP', 'Cam kết 1', 'text', 'Giao hàng nhanh 2H'),
 ('product.trust_badge_2', 'Trang chi tiết SP', 'Cam kết 2', 'text', 'Thanh toán an toàn'),
 ('product.trust_badge_3', 'Trang chi tiết SP', 'Cam kết 3', 'text', '1 đổi 1 trong 3 ngày'),
-('product.related_title', 'Trang chi tiết SP', 'Tiêu đề SP liên quan', 'text', 'Có thể bạn cũng thích'), -- FIX: thêm dấu phẩy
+('product.related_title', 'Trang chi tiết SP', 'Tiêu đề SP liên quan', 'text', 'Có thể bạn cũng thích')
 ('shop.hero_title', 'Trang cửa hàng', 'Tiêu đề Hero', 'text', 'Cửa Hàng Xanh'),
 ('shop.hero_description', 'Trang cửa hàng', 'Mô tả Hero', 'textarea', 'Khám phá bộ sưu tập cây xanh được tuyển chọn để làm mới không gian sống của bạn.'),
 ('shop.search_placeholder', 'Trang cửa hàng', 'Gợi ý tìm kiếm', 'text', 'Tìm kiếm cây bạn yêu thích...'),
 ('shop.sort_label', 'Trang cửa hàng', 'Nhãn sắp xếp', 'text', 'Sắp xếp:'),
 ('shop.empty_title', 'Trang cửa hàng', 'Tiêu đề khi không có hàng', 'text', 'Không tìm thấy cây nào phù hợp'),
-('shop.empty_text', 'Trang cửa hàng', 'Mô tả khi không có hàng', 'text', 'Vui lòng thử từ khóa khác hoặc xóa bộ lọc.'), -- FIX: thêm dấu phẩy
+('shop.empty_text', 'Trang cửa hàng', 'Mô tả khi không có hàng', 'text', 'Vui lòng thử từ khóa khác hoặc xóa bộ lọc.')
 ('about.meta_title', 'Trang giới thiệu', 'Meta title', 'text', 'Giới thiệu | Plantify Co'),
 ('about.meta_description', 'Trang giới thiệu', 'Meta description', 'textarea', 'Tìm hiểu Plantify Co, công ty thiết kế decor cây xanh.'),
 ('about.hero_video_label', 'Trang giới thiệu', 'Nhãn truy cập video hero', 'text', 'Video nền giới thiệu Plantify Co'),
@@ -325,5 +335,3 @@ INSERT IGNORE INTO news (title, slug, short_description, content, thumbnail, tag
     'Admin',
     'published'
 );
-
-ALTER TABLE contacts ADD COLUMN subject VARCHAR(200) DEFAULT NULL AFTER email;
