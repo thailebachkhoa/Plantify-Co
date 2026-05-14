@@ -362,9 +362,41 @@ class AdminController extends BaseController
 
     public function pages()
     {
+        require_once BASE_PATH . '/app/Models/Content.php';
+        $contentModel = new Content();
+
+        // Lấy dữ liệu từ DB
+        $contentRows = $contentModel->getAllSiteContent();
+        $pages = $contentModel->getAllPages();
+
+        // Nhóm dữ liệu để hiển thị (giống logic cũ của bạn)
+        $groupedContent = [];
+        foreach ($contentRows as $row) {
+            $groupedContent[$row['content_group']][] = $row;
+        }
+
         $this->view('admin/pages', [
-            'user' => Auth::user()
+            'user' => Auth::user(),
+            'groupedContent' => $groupedContent,
+            'pages' => $pages,
+            'pageTitle' => 'Quản lý Nội dung',
+            'message'        => $_SESSION['admin_success'] ?? '', // Truyền từ session
+            'error'          => $_SESSION['admin_error'] ?? ''
         ]);
+    }
+
+    public function save_pages()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_once BASE_PATH . '/app/Models/Content.php';
+            $contentModel = new Content();
+
+            foreach ($_POST['content'] as $key => $value) {
+                $contentModel->updateSiteContent($key, $value);
+            }
+            $_SESSION['admin_success'] = "Đã lưu thay đổi!";
+            $this->redirect('admin/pages');
+        }
     }
 
     public function faqs()
@@ -379,5 +411,125 @@ class AdminController extends BaseController
         $this->view('admin/rag', [
             'user' => Auth::user()
         ]);
+    }
+
+    /* =============================================
+   PRODUCT MANAGEMENT
+   ============================================= */
+
+    public function products()
+    {
+        $productModel = new Product();
+        // Lấy tất cả hoặc phân trang (ở đây lấy danh sách đơn giản để hiển thị)
+        $products = $productModel->getPaginated(100, 0);
+
+        $this->view('admin/products', [
+            'user'      => Auth::user(),
+            'products'  => $products,
+            'pageTitle' => 'Quản lý Sản phẩm'
+        ]);
+    }
+
+    public function product_create()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $productModel = new Product();
+
+            // Xử lý upload ảnh
+            $imagePath = $this->handleProductImageUpload();
+
+            $data = [
+                'name'        => $_POST['name'],
+                'category'    => $_POST['category'],
+                'price'       => (float)$_POST['price'],
+                'description' => $_POST['description'],
+                'is_featured' => isset($_POST['is_featured']) ? 1 : 0,
+                'image'       => $imagePath
+            ];
+
+            if ($productModel->create($data)) {
+                $this->redirect('admin/products');
+            }
+        }
+
+        $this->view('admin/product-form', [
+            'user'      => Auth::user(),
+            'pageTitle' => 'Thêm sản phẩm mới',
+            'mode'      => 'create'
+        ]);
+    }
+
+    public function product_edit($id)
+    {
+        $productModel = new Product();
+        $product = $productModel->findById($id);
+
+        if (!$product) {
+            $this->redirect('admin/products');
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Xử lý upload ảnh mới hoặc giữ nguyên ảnh cũ
+            $imagePath = $this->handleProductImageUpload($product['image']);
+
+            $data = [
+                'name'        => $_POST['name'],
+                'category'    => $_POST['category'],
+                'price'       => (float)$_POST['price'],
+                'description' => $_POST['description'],
+                'is_featured' => isset($_POST['is_featured']) ? 1 : 0,
+                'image'       => $imagePath
+            ];
+
+            if ($productModel->update($id, $data)) {
+                $this->redirect('admin/products');
+            }
+        }
+
+        $this->view('admin/product-form', [
+            'user'      => Auth::user(),
+            'product'   => $product,
+            'pageTitle' => 'Chỉnh sửa sản phẩm',
+            'mode'      => 'edit'
+        ]);
+    }
+
+    /**
+     * Helper: Xử lý upload ảnh sản phẩm
+     */
+    private function handleProductImageUpload($existingImage = null)
+    {
+        if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = BASE_PATH . '/public/assets/uploads/products/';
+            if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+
+            $ext = pathinfo($_FILES['product_image']['name'], PATHINFO_EXTENSION);
+            $fileName = 'prod_' . time() . '_' . uniqid() . '.' . $ext;
+
+            if (move_uploaded_file($_FILES['product_image']['tmp_name'], $uploadDir . $fileName)) {
+                // Xóa ảnh cũ nếu có
+                if ($existingImage && file_exists(BASE_PATH . '/public/' . $existingImage)) {
+                    @unlink(BASE_PATH . '/public/' . $existingImage);
+                }
+                return 'assets/uploads/products/' . $fileName;
+            }
+        }
+        return $existingImage; // Giữ nguyên ảnh cũ nếu không có upload mới
+    }
+
+    public function product_delete($id)
+    {
+        $productModel = new Product();
+        $product = $productModel->findById($id);
+
+        if ($product) {
+            // Xóa file ảnh trên server
+            if (!empty($product['image']) && file_exists(BASE_PATH . '/public/' . $product['image'])) {
+                @unlink(BASE_PATH . '/public/' . $product['image']);
+            }
+            $productModel->delete($id);
+        }
+
+        $this->redirect('admin/products');
     }
 }

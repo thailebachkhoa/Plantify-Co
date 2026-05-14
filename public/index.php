@@ -11,17 +11,9 @@
  * 4. Gọi controller và method tương ứng
  */
 
-// ========== KIỂM TRA MÔI TRƯỜNG CHẠY ==========
-// Kiểm tra xem ứng dụng đang chạy qua web (HTTP) hay command line (CLI)
-// Nếu là web: $is_web = true, nếu là CLI: $is_web = false
-$is_web = php_sapi_name() !== 'cli';
 
-// ========== KHỞI TẠO SESSION (CHỈ CHO WEB) ==========
-// Session chỉ cần khởi tạo khi chạy qua HTTP, không cần cho CLI scripts
-// session_start() tạo session ID và lưu dữ liệu người dùng
-if ($is_web) {
-    session_start();
-}
+
+session_start();
 
 // ========== LOAD ENVIRONMENT VARIABLES ==========
 // Require file Env.php để có sẵn các phương thức load biến môi trường
@@ -34,23 +26,21 @@ require_once __DIR__ . '/../app/Core/Bootstrap.php';
 // ========== ĐỊNH NGHĨA BASE URL (CHỈ CHO WEB) ==========
 // BASE_URL là URL gốc của ứng dụng, dùng để tạo các link và redirect
 // Ví dụ: BASE_URL = "http://localhost/btl" hoặc "https://example.com"
-if ($is_web) {
-
-    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
 
 
-    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
 
 
-    $script = dirname($_SERVER['SCRIPT_NAME']);
+$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 
 
-    $base_url = $protocol . '://' . $host . ($script === '\\' || $script === '/' ? '' : $script);
+$script = dirname($_SERVER['SCRIPT_NAME']);
 
-    define('BASE_URL', rtrim($base_url, '/'));
-} else {
-    define('BASE_URL', '');
-}
+
+$base_url = $protocol . '://' . $host . ($script === '\\' || $script === '/' ? '' : $script);
+
+define('BASE_URL', rtrim($base_url, '/'));
+
 
 
 $url = isset($_GET['url']) ? rtrim($_GET['url'], '/') : '';
@@ -110,45 +100,43 @@ spl_autoload_register(function ($class) {
     }
 });
 
-// ========== THỰC THI CONTROLLER & METHOD (CHỈ CHO WEB) ==========
-if ($is_web) {
-    try {
-        // ========== Kiểm tra Controller có tồn tại ==========
-        if (!class_exists($controllerName)) {
 
-            error_log("Controller not found: $controllerName");
-            http_response_code(404);
-            echo "Lỗi 404: Controller '$controllerName' không tồn tại.";
-            exit;
-        }
+try {
+    // ========== Kiểm tra Controller có tồn tại ==========
+    if (!class_exists($controllerName)) {
 
-        // ========== Khởi tạo instance của Controller ==========
-        $controller = new $controllerName();
-
-        // ========== Kiểm tra Method có tồn tại trong Controller ==========
-        if (!method_exists($controller, $methodName)) {
-            error_log("Method not found: $methodName in $controllerName");
-            http_response_code(404);
-            echo "Lỗi 404: Method '$methodName' không tồn tại trong '$controllerName'.";
-            exit;
-        }
-
-        // ========== EXTRACT CÁC THAM SỐ TỪ URL ==========
-        // Các phần tử [0] và [1] của $url là controller và method
-        // Các phần tử còn lại [2, 3, 4...] là các tham số
-        unset($url[0]);
-        unset($url[1]);
-
-        // Giữ lại các phần tử còn lại làm các tham số truyền vào method
-        $params = $url ? array_values($url) : [];
-
-        // ========== GỌI CONTROLLER METHOD VỚI CÁC THAM SỐ ==========
-        call_user_func_array([$controller, $methodName], $params);
-    } catch (Exception $e) {
-        // ========== XỬ LÝ EXCEPTION ==========
-        error_log($e->getMessage());
-        http_response_code(500);
-        echo "Lỗi 500: Đã xảy ra lỗi trên server. Vui lòng thử lại sau.";
+        error_log("Controller not found: $controllerName");
+        http_response_code(404);
+        echo "Lỗi 404: Controller '$controllerName' không tồn tại.";
         exit;
     }
+
+    // ========== Khởi tạo instance của Controller ==========
+    $controller = new $controllerName();
+
+    // ========== Kiểm tra Method có tồn tại trong Controller ==========
+    if (!method_exists($controller, $methodName)) {
+        error_log("Method not found: $methodName in $controllerName");
+        http_response_code(404);
+        echo "Lỗi 404: Method '$methodName' không tồn tại trong '$controllerName'.";
+        exit;
+    }
+
+    // ========== EXTRACT CÁC THAM SỐ TỪ URL ==========
+    // Các phần tử [0] và [1] của $url là controller và method
+    // Các phần tử còn lại [2, 3, 4...] là các tham số
+    unset($url[0]);
+    unset($url[1]);
+
+    // Giữ lại các phần tử còn lại làm các tham số truyền vào method
+    $params = $url ? array_values($url) : [];
+
+    // ========== GỌI CONTROLLER METHOD VỚI CÁC THAM SỐ ==========
+    call_user_func_array([$controller, $methodName], $params);
+} catch (Exception $e) {
+    // ========== XỬ LÝ EXCEPTION ==========
+    error_log($e->getMessage());
+    http_response_code(500);
+    echo "Lỗi 500: Đã xảy ra lỗi trên server. Vui lòng thử lại sau.";
+    exit;
 }

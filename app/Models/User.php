@@ -84,4 +84,16 @@ class User
         $this->db->bind(':id', $id);
         return $this->db->execute();
     }
+
+    /**
+     * Cập nhật thông tin profile (Tên và Avatar)
+     **/
+    public function updateProfile($id, $fullname, $avatar)
+    {
+        $this->db->query("UPDATE users SET fullname = :fullname, avatar = :avatar WHERE id = :id");
+        $this->db->bind(':fullname', $fullname);
+        $this->db->bind(':avatar', $avatar);
+        $this->db->bind(':id', $id);
+        return $this->db->execute();
+    }
 }

@@ -10,6 +10,12 @@ $companyName = $company['name'] ?? 'Plantify Co';
 
 $pageTitle = $pageTitle ?? $companyName;
 $pageDescription = $pageDescription ?? content_value('site.default_description', 'Website công ty cây cảnh, cây xanh và decor thiên nhiên cho văn phòng, showroom.');
+$cartCount = 0;
+if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
+    foreach ($_SESSION['cart'] as $item) {
+        $cartCount += (int)($item['quantity'] ?? 0);
+    }
+}
 ?>
 <!doctype html>
 <html lang="vi">
@@ -69,26 +75,50 @@ $pageDescription = $pageDescription ?? content_value('site.default_description',
                             <a class="nav-link <?php echo is_active_page('faq'); ?>" href="<?= BASE_URL ?>/faq"><?php echo e(content_value('nav.faq', 'FAQ')); ?></a>
                         </li>
                     </ul>
-                    </ul>
+
 
                     <div class="d-flex align-items-center gap-2 ms-lg-4 mt-3 mt-lg-0">
+                        <a href="<?= BASE_URL ?>/cart" class="btn btn-light position-relative rounded-circle d-inline-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px; color: var(--green-900); overflow: visible !important;">
+
+                            <i class="fa-solid fa-cart-shopping"></i>
+
+                            <?php if ($cartCount > 0): ?>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    style="font-size: 0.65rem; z-index: 1000; min-width: 18px; height: 18px; padding: 4px; line-height: 10px;">
+                                    <?= $cartCount ?>
+                                </span>
+                            <?php endif; ?>
+                        </a>
+
                         <?php if (!empty($user)): ?>
-                            <span class="text-secondary fw-medium me-2">
-                                <i class="fa-solid fa-user me-1"></i><?= htmlspecialchars($user['fullname']) ?>
-                            </span>
-                            <a href="<?= BASE_URL ?>/dashboard" class="btn btn-sm btn-outline-success">
-                                <i class="fa-solid fa-chart-simple me-1"></i>Dashboard
-                            </a>
-                            <a href="<?= BASE_URL ?>/auth/logout" class="btn btn-sm btn-danger">
-                                <i class="fa-solid fa-right-from-bracket me-1"></i>Đăng Xuất
-                            </a>
+                            <div class="dropdown">
+                                <a href="#" class="text-decoration-none text-dark fw-bold d-flex align-items-center gap-2" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <?php if (!empty($user['avatar'])): ?>
+                                        <!-- Hiển thị Avatar từ DB -->
+                                        <img src="<?= BASE_URL ?>/<?= $user['avatar'] ?>"
+                                            class="rounded-circle object-fit-cover shadow-sm"
+                                            style="width: 32px; height: 32px; border: 1px solid #ddd;">
+                                    <?php else: ?>
+                                        <!-- Hiển thị Icon nếu chưa có Avatar -->
+                                        <span class="brand-mark bg-light text-success" style="width: 32px; height: 32px; font-size: 0.9rem;">
+                                            <i class="fa-solid fa-user"></i>
+                                        </span>
+                                    <?php endif; ?>
+                                    <span><?= htmlspecialchars($user['fullname'] ?? 'Tài khoản') ?></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2" style="border-radius: 12px;">
+                                    <li><a class="dropdown-item py-2" href="<?= BASE_URL ?>/dashboard"><i class="fa-solid fa-chart-simple text-success me-2"></i> Dashboard</a></li>
+                                    <li><a class="dropdown-item py-2" href="<?= BASE_URL ?>/dashboard/orders"><i class="fa-solid fa-box text-success me-2"></i> Đơn hàng của tôi</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item py-2 text-danger" href="<?= BASE_URL ?>/auth/logout"><i class="fa-solid fa-right-from-bracket me-2"></i> Đăng xuất</a></li>
+                                </ul>
+                            </div>
                         <?php else: ?>
-                            <a href="<?= BASE_URL ?>/auth" class="btn btn-sm btn-outline-success">
-                                <i class="fa-solid fa-lock me-1"></i>Đăng Nhập
-                            </a>
-                            <a href="<?= BASE_URL ?>/auth/register" class="btn btn-sm btn-success">
-                                <i class="fa-solid fa-pen-to-square me-1"></i>Đăng Ký
-                            </a>
+                            <a href="<?= BASE_URL ?>/auth" class="btn btn-outline-success fw-bold px-3" style="border-radius: 8px;">Đăng Nhập</a>
+                            <a href="<?= BASE_URL ?>/auth/register" class="btn btn-success fw-bold px-3" style="border-radius: 8px;">Đăng Ký</a>
                         <?php endif; ?>
                     </div>
                 </div>

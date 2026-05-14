@@ -63,125 +63,95 @@ $faqs = $db->resultSet() ?: [];
 
 
 admin_layout_start([
-    'pageTitle' => $pageTitle,
-    'heading' => 'Quan ly cau hoi/dap',
-    'subtitle' => 'Cap nhat cac cau hoi thuong gap hien thi tren website va lam nguon noi dung cho khach hang tu tra cuu.',
-    'actionHtml' => '<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">Them FAQ</button>',
-    'extraHead' => '<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/simple-datatables@10/dist/style.min.css">',
+    'pageTitle' => 'Quản lý FAQ',
+    'heading' => 'Quản lý Câu hỏi thường gặp',
+    'subtitle' => 'Cập nhật danh sách câu hỏi và câu trả lời hiển thị trên website.',
+    'actionHtml' => '<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal"><i class="fa-solid fa-plus me-2"></i>Thêm FAQ</button>',
+    'extraHead' => '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@10/dist/style.min.css">',
 ]);
 ?>
 
-<?php if ($message): ?><div class="alert alert-success"><?php echo e($message); ?></div><?php endif; ?>
-<?php if ($error): ?><div class="alert alert-danger"><?php echo e($error); ?></div><?php endif; ?>
+<!-- Thông báo -->
+<?php if (!empty($message)): ?><div class="alert alert-success rounded-3"><i class="fa-solid fa-circle-check me-2"></i><?= e($message) ?></div><?php endif; ?>
+<?php if (!empty($error)): ?><div class="alert alert-danger rounded-3"><i class="fa-solid fa-circle-exclamation me-2"></i><?= e($error) ?></div><?php endif; ?>
 
-<div class="card">
-    <div class="card-body">
-        <div class="d-sm-flex justify-content-between align-items-center mb-4">
-            <h4 class="header-title mb-0">Danh sach FAQ</h4>
-            <span class="admin-muted">Keo tha cot thu tu de sap xep nhanh</span>
-        </div>
-        <div class="data-tables datatable-primary">
-            <table id="faqTable" class="text-center admin-table">
-                <thead class="text-capitalize">
-                    <tr>
-                        <th>Thu tu</th>
-                        <th>Cau hoi</th>
-                        <th>Cau tra loi</th>
-                        <th>Thao tac</th>
+<div class="admin-card">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="mb-0">Danh sách FAQ</h4>
+        <span class="text-muted small"><i class="fa-solid fa-arrows-up-down me-1"></i>Kéo thả để sắp xếp</span>
+    </div>
+
+    <div class="table-responsive">
+        <table id="faqTable" class="table table-hover admin-table">
+            <thead>
+                <tr>
+                    <th width="10%">Thứ tự</th>
+                    <th width="30%">Câu hỏi</th>
+                    <th width="40%">Câu trả lời</th>
+                    <th width="20%" class="text-center">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="faqSortTable">
+                <?php foreach ($faqs as $faq): ?>
+                    <tr class="faq-sort-row" draggable="true" data-id="<?= e($faq['id']) ?>">
+                        <td class="text-center">
+                            <span class="drag-handle"><i class="fa-solid fa-grip-vertical"></i></span>
+                            <span class="faq-order-number fw-bold"><?= e($faq['sort_order']) ?></span>
+                        </td>
+                        <td class="fw-bold"><?= e($faq['question']) ?></td>
+                        <td class="text-muted"><?= e(mb_strimwidth($faq['answer'], 0, 100, '...')) ?></td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-primary" type="button"
+                                data-faq='<?= htmlspecialchars(json_encode($faq, JSON_UNESCAPED_UNICODE)) ?>'
+                                onclick="editFaq(this)">Sửa</button>
+                            <form method="post" class="d-inline">
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="id" value="<?= e($faq['id']) ?>">
+                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Xóa FAQ này?')">Xóa</button>
+                            </form>
+                        </td>
                     </tr>
-                </thead>
-                <tbody id="faqSortTable">
-                    <?php foreach ($faqs as $faq): ?>
-                        <tr class="faq-sort-row" draggable="true" data-id="<?php echo e($faq['id']); ?>">
-                            <td>
-                                <button class="drag-handle" type="button" title="Keo tha de doi thu tu" aria-label="Keo tha de doi thu tu">
-                                    <i class="fa-solid fa-grip-vertical"></i>
-                                </button>
-                                <span class="faq-order-number"><?php echo e($faq['sort_order']); ?></span>
-                            </td>
-                            <td><?php echo e($faq['question']); ?></td>
-                            <td><?php echo e(mb_strimwidth($faq['answer'], 0, 120, '...')); ?></td>
-                            <td>
-                                <button class="btn btn-sm btn-outline-primary" type="button" data-faq='<?php echo e(json_encode($faq, JSON_UNESCAPED_UNICODE)); ?>' onclick="editFaq(this)">Sua</button>
-                                <form method="post" class="d-inline">
-                                    <input type="hidden" name="action" value="delete">
-                                    <input type="hidden" name="id" value="<?php echo e($faq['id']); ?>">
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Xoa FAQ nay?')">Xoa</button>
-                                </form>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-        <div class="sort-save-state mt-3" id="faqSortState" hidden>
-            <strong>Dang luu thu tu...</strong>
-        </div>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="sort-save-state mt-3" id="faqSortState" hidden>
+        <div class="sort-spinner me-2"></div> <strong>Đang lưu thứ tự...</strong>
     </div>
 </div>
 
+<!-- Modal Thêm -->
 <div class="modal fade" id="addModal" tabindex="-1">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <form method="post">
-                <div class="modal-header">
-                    <h5 class="modal-title">Them FAQ</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="action" value="add">
-                    <div class="mb-3">
-                        <label for="question" class="col-form-label">Cau hoi</label>
-                        <input type="text" name="question" id="question" class="form-control" maxlength="255" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="answer" class="col-form-label">Cau tra loi</label>
-                        <textarea name="answer" id="answer" class="form-control" rows="5" maxlength="5000" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="sort_order" class="col-form-label">Thu tu</label>
-                        <input type="number" name="sort_order" id="sort_order" class="form-control" min="0" value="0">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huy</button>
-                    <button type="submit" class="btn btn-success">Them</button>
-                </div>
-            </form>
-        </div>
+        <form method="post" class="modal-content">
+            <input type="hidden" name="action" value="add">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm FAQ</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3"><label class="form-label">Câu hỏi</label><input type="text" name="question" class="form-control" required></div>
+                <div class="mb-3"><label class="form-label">Câu trả lời</label><textarea name="answer" class="form-control" rows="4" required></textarea></div>
+            </div>
+            <div class="modal-footer"><button type="submit" class="btn btn-success">Lưu FAQ</button></div>
+        </form>
     </div>
 </div>
 
+<!-- Modal Sửa -->
 <div class="modal fade" id="editModal" tabindex="-1">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <form method="post">
-                <div class="modal-header">
-                    <h5 class="modal-title">Sua FAQ</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="action" value="edit">
-                    <input type="hidden" name="id" id="editId">
-                    <div class="mb-3">
-                        <label for="editQuestion" class="col-form-label">Cau hoi</label>
-                        <input type="text" name="question" id="editQuestion" class="form-control" maxlength="255" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editAnswer" class="col-form-label">Cau tra loi</label>
-                        <textarea name="answer" id="editAnswer" class="form-control" rows="5" maxlength="5000" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editSortOrder" class="col-form-label">Thu tu</label>
-                        <input type="number" name="sort_order" id="editSortOrder" class="form-control" min="0" value="0">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huy</button>
-                    <button type="submit" class="btn btn-success">Luu</button>
-                </div>
-            </form>
-        </div>
+        <form method="post" class="modal-content">
+            <input type="hidden" name="action" value="edit">
+            <input type="hidden" name="id" id="editId">
+            <div class="modal-header">
+                <h5 class="modal-title">Sửa FAQ</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3"><label class="form-label">Câu hỏi</label><input type="text" name="question" id="editQuestion" class="form-control" required></div>
+                <div class="mb-3"><label class="form-label">Câu trả lời</label><textarea name="answer" id="editAnswer" class="form-control" rows="4" required></textarea></div>
+            </div>
+            <div class="modal-footer"><button type="submit" class="btn btn-success">Cập nhật</button></div>
+        </form>
     </div>
 </div>
 

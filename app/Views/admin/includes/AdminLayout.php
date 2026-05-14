@@ -74,7 +74,7 @@ if (!function_exists('admin_layout_start')) {
                 </div>
                 <footer>
                     <div class="footer-area">
-                        <p>GreenNest Landscape Admin - powered by SRTDash layout.</p>
+                        <p>Plantify Co Admin - powered by SRTDash layout.</p>
                     </div>
                 </footer>
             </div>

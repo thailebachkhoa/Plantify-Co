@@ -1,38 +1,131 @@
-<!DOCTYPE html>
-<html lang="vi">
+<?php
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giỏ Hàng - BTL Cây Cảnh</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/pages.css">
-</head>
+/**
+ * File: app/Views/pages/cart.php
+ * Chức năng: Giao diện giỏ hàng đồng bộ UI với style.css
+ */
+$pageTitle = 'Giỏ Hàng | Plantify Co';
+require BASE_PATH . '/app/Views/partials/header.php';
+$isCartEmpty = empty($cartItems);
 
-<body>
-    <nav class="navbar">
-        <div style="font-size: 20px; font-weight: bold;">🌿 BTL Cây Cảnh</div>
-        <div>
-            <a href="<?= BASE_URL ?>">Trang Chủ</a>
-            <a href="<?= BASE_URL ?>/home/shop">Cửa Hàng</a>
-            <a href="<?= BASE_URL ?>/news">Tin Tức</a>
-            <?php if ($user): ?>
-                <a href="<?= BASE_URL ?>/dashboard">Dashboard</a>
-                <a href="<?= BASE_URL ?>/auth/logout">Đăng Xuất</a>
-            <?php else: ?>
-                <a href="<?= BASE_URL ?>/auth">Đăng Nhập</a>
-            <?php endif; ?>
-        </div>
-    </nav>
+?>
 
+<main class="site-main page-main bg-soft" style="min-height: calc(100vh - 76px); padding: 40px 0;">
     <div class="container">
-        <h1>🛒 Giỏ Hàng</h1>
-        <div class="empty-cart">
-            <h2>Giỏ hàng trống</h2>
-            <p>Bạn chưa thêm sản phẩm nào vào giỏ hàng.</p>
-            <a href="<?= BASE_URL ?>/home/shop" class="btn">← Tiếp tục mua sắm</a>
-        </div>
-    </div>
-</body>
 
-</html>
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="<?= BASE_URL ?>" class="text-success text-decoration-none">Trang chủ</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Giỏ hàng của bạn</li>
+            </ol>
+        </nav>
+
+        <?php if ($isCartEmpty): ?>
+            <!-- GIAO DIỆN GIỎ HÀNG TRỐNG -->
+            <div class="row justify-content-center mt-5" data-aos="fade-up">
+                <div class="col-lg-6 text-center">
+                    <div class="p-5 bg-white rounded shadow-sm" style="border: 1px solid var(--stone-200); border-radius: 16px !important;">
+                        <div class="mb-4 text-success" style="font-size: 5rem;">
+                            <i class="fa-solid fa-basket-shopping opacity-50"></i>
+                        </div>
+                        <h2 style="color: var(--green-900); font-weight: 820;">Giỏ hàng trống!</h2>
+                        <p class="text-muted mb-4">Bạn chưa thêm sản phẩm xanh nào vào giỏ. Hãy dạo quanh cửa hàng để tìm cho mình một chậu cây ưng ý nhé.</p>
+                        <a href="<?= BASE_URL ?>/shop" class="btn btn-success btn-lg px-4 rounded-pill">
+                            <i class="fa-solid fa-arrow-left me-2"></i> Tiếp tục mua sắm
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        <?php else: ?>
+            <!-- GIAO DIỆN KHI CÓ SẢN PHẨM -->
+            <div class="row g-4">
+                <div class="col-lg-8" data-aos="fade-right">
+
+                    <!-- Hiển thị thông báo xóa thành công -->
+                    <?php if (isset($_SESSION['success'])): ?>
+                        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                            <i class="fa-solid fa-circle-check me-2"></i> <?= $_SESSION['success'];
+                                                                            unset($_SESSION['success']); ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="bg-white p-4 shadow-sm" style="border: 1px solid var(--stone-200); border-radius: 16px;">
+                        <h3 class="border-bottom pb-3 mb-4" style="color: var(--green-900); font-weight: 800;">Chi tiết Giỏ Hàng (<?= count($cartItems) ?> sản phẩm)</h3>
+
+                        <!-- Lặp qua DỮ LIỆU THẬT từ Controller -->
+                        <?php foreach ($cartItems as $productId => $item): ?>
+                            <div class="row align-items-center border-bottom py-3">
+                                <div class="col-3 col-md-2">
+                                    <img src="<?= $item['image'] ?>" alt="<?= $item['name'] ?>" class="img-fluid rounded" style="object-fit: cover; aspect-ratio: 1/1;">
+                                </div>
+                                <div class="col-9 col-md-4">
+                                    <h5 class="mb-1 fw-bold"><a href="<?= BASE_URL ?>/shop/detail/<?= $productId ?>" class="text-dark text-decoration-none"><?= $item['name'] ?></a></h5>
+                                    <p class="text-muted small mb-0">Phân loại: <?= $item['category'] ?></p>
+                                </div>
+                                <div class="col-6 col-md-3 mt-3 mt-md-0">
+                                    <!-- FORM TĂNG GIẢM SỐ LƯỢNG -->
+                                    <form action="<?= BASE_URL ?>/cart/update" method="POST" class="d-flex align-items-center border rounded p-1" style="max-width: 120px;">
+                                        <input type="hidden" name="product_id" value="<?= $productId ?>">
+
+                                        <button type="submit" name="action" value="decrease" class="btn btn-sm btn-light border-0"><i class="fa-solid fa-minus"></i></button>
+
+                                        <input type="text" class="form-control border-0 text-center px-0 bg-transparent fw-bold" value="<?= $item['quantity'] ?>" readonly>
+
+                                        <button type="submit" name="action" value="increase" class="btn btn-sm btn-light border-0"><i class="fa-solid fa-plus"></i></button>
+                                    </form>
+                                </div>
+                                <div class="col-4 col-md-2 text-end mt-3 mt-md-0 fw-bold" style="color: var(--green-700);">
+                                    <?= number_format($item['subtotal'], 0, ',', '.') ?>đ
+                                </div>
+                                <div class="col-2 col-md-1 text-end mt-3 mt-md-0">
+                                    <!-- NÚT XÓA -->
+                                    <a href="<?= BASE_URL ?>/cart/remove/<?= $productId ?>" class="btn btn-sm btn-outline-danger" title="Xóa" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ?');"><i class="fa-solid fa-trash-can"></i></a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+
+                        <div class="mt-4">
+                            <a href="<?= BASE_URL ?>/shop" class="text-success text-decoration-none fw-semibold">
+                                <i class="fa-solid fa-arrow-left me-1"></i> Tiếp tục mua sắm
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cột Tóm Tắt Đơn Hàng -->
+                <div class="col-lg-4" data-aos="fade-left">
+                    <div class="bg-white p-4 shadow-sm position-sticky" style="border: 1px solid var(--stone-200); border-radius: 16px; top: 100px;">
+                        <h4 class="border-bottom pb-3 mb-4 fw-bold" style="color: var(--stone-900);">Tổng Đơn Hàng</h4>
+
+                        <div class="d-flex justify-content-between mb-3 text-muted">
+                            <span>Tạm tính:</span>
+                            <strong><?= number_format($totalPrice, 0, ',', '.') ?>đ</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 text-muted">
+                            <span>Phí vận chuyển:</span>
+                            <span>Chưa tính</span>
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between mb-4 align-items-center">
+                            <span class="fw-bold" style="font-size: 1.1rem;">Tổng cộng:</span>
+                            <span class="fw-bold" style="font-size: 1.5rem; color: var(--green-700);"><?= number_format($totalPrice, 0, ',', '.') ?>đ</span>
+                        </div>
+
+                        <a href="<?= BASE_URL ?>/checkout" class="btn btn-success btn-lg w-100 fw-bold" style="border-radius: 10px;">
+                            Thanh Toán Ngay <i class="fa-solid fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+    </div>
+<?php endif; ?>
+
+</div>
+</main>
+
+<?php require BASE_PATH . '/app/Views/partials/footer.php'; ?>

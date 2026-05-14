@@ -15,7 +15,7 @@
         <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?= BASE_URL ?>" class="text-success text-decoration-none">Trang chủ</a></li>
-                <li class="breadcrumb-item"><a href="<?= BASE_URL ?>/home/shop" class="text-success text-decoration-none">Cửa hàng</a></li>
+                <li class="breadcrumb-item"><a href="<?= BASE_URL ?>/shop" class="text-success text-decoration-none">Cửa hàng</a></li>
                 <li class="breadcrumb-item active" aria-current="page"><?= $product['name'] ?></li>
             </ol>
         </nav>
@@ -37,16 +37,16 @@
                 </h2>
 
                 <p class="text-muted" style="font-size: 1.05rem; line-height: 1.8;">
-                    <?= $product['desc'] ?>
+                    <?= $product['description'] ?>
                 </p>
 
-                <!-- Các thông số cây (Dùng grid tương tự trang about) -->
+                <!-- Các thông số cây (Dùng grid tương tự trang about)
                 <div class="about-check-grid my-4">
                     <span><i class="fa-solid fa-sun"></i> Ánh sáng: Tán xạ</span>
                     <span><i class="fa-solid fa-droplet"></i> Nước: 1-2 lần/tuần</span>
                     <span><i class="fa-solid fa-temperature-half"></i> Nhiệt độ: 18 - 28°C</span>
                     <span><i class="fa-solid fa-shield-cat"></i> An toàn cho thú cưng</span>
-                </div>
+                </div> -->
 
                 <hr class="my-4 text-muted">
 
@@ -89,12 +89,12 @@
                 <?php foreach ($relatedProducts as $item): ?>
                     <div class="col-md-6 col-lg-3">
                         <div class="product-card h-100 bg-white">
-                            <a href="<?= BASE_URL ?>/home/product/<?= $item['id'] ?>">
+                            <a href="<?= BASE_URL ?>/shop/detail/<?= $item['id'] ?>">
                                 <img src="<?= $item['image'] ?>" alt="<?= $item['name'] ?>" class="w-100 object-fit-cover" style="height: 220px;">
                             </a>
                             <div class="product-body">
                                 <span><?= $item['category'] ?></span>
-                                <h3 class="mt-1 mb-2 fs-5"><a href="<?= BASE_URL ?>/home/product/<?= $item['id'] ?>" class="text-dark"><?= $item['name'] ?></a></h3>
+                                <h3 class="mt-1 mb-2 fs-5"><a href="<?= BASE_URL ?>/shop/detail/<?= $item['id'] ?>" class="text-dark"><?= $item['name'] ?></a></h3>
                                 <strong><?= number_format($item['price'], 0, ',', '.') ?>đ</strong>
                             </div>
                         </div>
