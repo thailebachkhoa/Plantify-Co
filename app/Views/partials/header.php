@@ -94,7 +94,17 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
                         <?php if (!empty($user)): ?>
                             <div class="dropdown">
                                 <a href="#" class="text-decoration-none text-dark fw-bold d-flex align-items-center gap-2" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="brand-mark bg-light text-success" style="width: 32px; height: 32px; font-size: 0.9rem;"><i class="fa-solid fa-user"></i></span>
+                                    <?php if (!empty($user['avatar'])): ?>
+                                        <!-- Hiển thị Avatar từ DB -->
+                                        <img src="<?= BASE_URL ?>/<?= $user['avatar'] ?>"
+                                            class="rounded-circle object-fit-cover shadow-sm"
+                                            style="width: 32px; height: 32px; border: 1px solid #ddd;">
+                                    <?php else: ?>
+                                        <!-- Hiển thị Icon nếu chưa có Avatar -->
+                                        <span class="brand-mark bg-light text-success" style="width: 32px; height: 32px; font-size: 0.9rem;">
+                                            <i class="fa-solid fa-user"></i>
+                                        </span>
+                                    <?php endif; ?>
                                     <span><?= htmlspecialchars($user['fullname'] ?? 'Tài khoản') ?></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2" style="border-radius: 12px;">

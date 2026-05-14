@@ -101,6 +101,10 @@ class DashboardController extends BaseController
 
         // Update vào DB
         if ($userModel->updateProfile($userId, $fullname, $avatarPath)) {
+            // Cập nhật lại session ngay lập tức
+            $_SESSION['user']['fullname'] = $fullname;
+            $_SESSION['user']['avatar'] = $avatarPath; // Đường dẫn mới vào session
+
             $_SESSION['success'] = "Cập nhật hồ sơ thành công!";
         } else {
             $_SESSION['error'] = "Có lỗi xảy ra, vui lòng thử lại.";
