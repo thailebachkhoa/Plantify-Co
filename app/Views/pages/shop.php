@@ -18,9 +18,9 @@ function buildUrl($overrides = [])
 
     <section class="page-hero" style="padding: 120px 0 60px 0; background: linear-gradient(135deg, rgba(18, 56, 42, 0.9), rgba(45, 138, 95, 0.8)), url('<?= BASE_URL ?>/file/render?path=uploads/images/shop-hero-img.jpg') center/cover;">
         <div class="container text-center" data-aos="fade-up">
-            <h1 class="display-4 fw-bold text-white">Cửa Hàng Xanh</h1>
+            <h1 class="display-4 fw-bold text-white"><?= e(content_value('shop.hero_title', 'Cửa Hàng Xanh')) ?></h1>
             <p class="mx-auto text-white opacity-75" style="max-width: 600px;">
-                Khám phá bộ sưu tập cây xanh được tuyển chọn để làm mới không gian sống của bạn.
+                <?= e(content_value('shop.hero_description', 'Khám phá bộ sưu tập cây xanh...')) ?>
             </p>
 
             <div class="mt-4 mx-auto" style="max-width: 500px;">
@@ -29,7 +29,7 @@ function buildUrl($overrides = [])
                     <input type="hidden" name="sort" value="<?= htmlspecialchars($currentSort) ?>">
 
                     <input type="text" name="search" class="form-control border-0 ps-4 py-3"
-                        placeholder="Tìm kiếm cây bạn yêu thích..."
+                        placeholder="<?= e(content_value('shop.search_placeholder', 'Tìm kiếm cây bạn yêu thích...')) ?>"
                         value="<?= htmlspecialchars($searchKeyword) ?>">
                     <button class="btn btn-success px-4" type="submit">
                         <i class="fa-solid fa-magnifying-glass"></i>
@@ -61,7 +61,7 @@ function buildUrl($overrides = [])
                 </div>
 
                 <div class="d-flex align-items-center gap-3">
-                    <span class="text-muted d-none d-md-inline">Sắp xếp:</span>
+                    <span class="text-muted d-none d-md-inline"><?= e(content_value('shop.sort_label', 'Sắp xếp:')) ?></span>
                     <select class="form-select w-auto rounded-pill" onchange="window.location.href=this.value">
                         <option value="<?= buildUrl(['sort' => 'newest']) ?>" <?= $currentSort === 'newest' ? 'selected' : '' ?>>Mới nhất</option>
                         <option value="<?= buildUrl(['sort' => 'price_asc']) ?>" <?= $currentSort === 'price_asc' ? 'selected' : '' ?>>Giá: Thấp đến Cao</option>
@@ -120,19 +120,25 @@ function buildUrl($overrides = [])
                 </div>
 
                 <?php if ($totalPages > 1): ?>
-                    <div class="d-flex justify-content-center mt-5">
-                        <nav>
-                            <ul class="pagination pagination-rounded">
+                    <div class="d-flex justify-content-center mt-5" data-aos="fade-up">
+                        <nav aria-label="Điều hướng phân trang">
+                            <ul class="pagination pagination-modern mb-0">
                                 <li class="page-item <?= ($currentPage <= 1) ? 'disabled' : '' ?>">
-                                    <a class="page-link" href="<?= buildUrl(['page' => $currentPage - 1]) ?>">Trước</a>
+                                    <a class="page-link" href="<?= buildUrl(['page' => $currentPage - 1]) ?>" aria-label="Trang trước">
+                                        <i class="fa-solid fa-chevron-left fa-sm"></i>
+                                    </a>
                                 </li>
+
                                 <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                                     <li class="page-item <?= ($i == $currentPage) ? 'active' : '' ?>">
                                         <a class="page-link" href="<?= buildUrl(['page' => $i]) ?>"><?= $i ?></a>
                                     </li>
                                 <?php endfor; ?>
+
                                 <li class="page-item <?= ($currentPage >= $totalPages) ? 'disabled' : '' ?>">
-                                    <a class="page-link" href="<?= buildUrl(['page' => $currentPage + 1]) ?>">Sau</a>
+                                    <a class="page-link" href="<?= buildUrl(['page' => $currentPage + 1]) ?>" aria-label="Trang sau">
+                                        <i class="fa-solid fa-chevron-right fa-sm"></i>
+                                    </a>
                                 </li>
                             </ul>
                         </nav>
@@ -142,8 +148,8 @@ function buildUrl($overrides = [])
             <?php else: ?>
                 <div class="text-center py-5">
                     <img src="<?= BASE_URL ?>/file/render?path=uploads/images/reg-img.jpeg" width="100" alt="Not found" class="opacity-50 mb-3">
-                    <h3 class="text-muted">Không tìm thấy cây nào phù hợp</h3>
-                    <p>Vui lòng thử từ khóa khác hoặc xóa bộ lọc.</p>
+                    <h3 class="text-muted"><?= e(content_value('shop.empty_title', 'Không tìm thấy cây nào phù hợp')) ?></h3>
+                    <p><?= e(content_value('shop.empty_text', 'Vui lòng thử từ khóa khác hoặc xóa bộ lọc.')) ?></p>
                 </div>
             <?php endif; ?>
         </div>

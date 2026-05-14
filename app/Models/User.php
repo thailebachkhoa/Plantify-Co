@@ -119,4 +119,18 @@ class User
         $row = $this->db->single();
         return $row ? (int)$row['total'] : 0;
     }
+    public function create($data)
+    {
+        $this->db->query("INSERT INTO users (username, fullname, email, password, role, status) 
+                          VALUES (:username, :fullname, :email, :password, :role, :status)");
+
+        $this->db->bind(':username', $data['username']);
+        $this->db->bind(':fullname', $data['fullname']);
+        $this->db->bind(':email',    $data['email']);
+        $this->db->bind(':password', $data['password']); // Lưu ý: Password đã được mã hóa (hash) ở Controller
+        $this->db->bind(':role',     $data['role']);
+        $this->db->bind(':status',   $data['status'] ?? 1);
+
+        return $this->db->execute();
+    }
 }

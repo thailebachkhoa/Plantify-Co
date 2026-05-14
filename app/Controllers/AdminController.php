@@ -535,6 +535,16 @@ class AdminController extends BaseController
         ]);
     }
 
+    public function shop_settings()
+    {
+        // Vì logic xử lý UPDATE đã nằm trong file View (tương tự pages.php)
+        // Nên Controller chỉ cần nạp dữ liệu User và hiển thị View.
+        $this->view('admin/shop-settings', [
+            'user'      => Auth::user(),
+            'pageTitle' => 'Cấu hình Cửa hàng'
+        ]);
+    }
+
     /**
      * Helper: Xử lý upload ảnh sản phẩm
      */
