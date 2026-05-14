@@ -13,6 +13,9 @@ class HomeController extends BaseController
     public function index()
     {
         $user = Auth::check() ? Auth::user() : null;
-        $this->view('pages/home', ['user' => $user]);
+        require_once BASE_PATH . '/app/Models/Product.php';
+        $productModel = new Product();
+        $featuredProducts = $productModel->getFeatured();
+        $this->view('pages/home', ['user' => $user, 'featuredProducts' => $featuredProducts]);
     }
 }

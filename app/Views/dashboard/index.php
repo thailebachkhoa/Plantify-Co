@@ -59,7 +59,7 @@ $avatar = !empty($user['avatar'])
 
                     <div class="d-grid gap-2">
                         <a href="<?= BASE_URL ?>/dashboard" class="btn btn-success fw-bold text-start"><i class="fa-solid fa-user-pen me-2 w-20px text-center"></i> Hồ sơ cá nhân</a>
-                        <a href="<?= BASE_URL ?>/cart" class="btn btn-light fw-bold text-start border"><i class="fa-solid fa-cart-shopping me-2 w-20px text-center text-success"></i> Giỏ hàng của tôi</a>
+                        <a href="<?= BASE_URL ?>/dashboard/orders" class="btn btn-light fw-bold text-start border"><i class="fa-solid fa-box-open me-2 w-20px text-center text-success"></i> Đơn hàng của tôi</a>
                     </div>
                 </div>
             </div>
