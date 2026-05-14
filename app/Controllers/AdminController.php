@@ -631,7 +631,7 @@ class AdminController extends BaseController
         $this->redirect('admin/products');
     }
 
-    /** GET /admin/contacts — danh sách liên hệ */
+     /** GET /admin/contacts — danh sách liên hệ */
     public function contacts()
     {
         $db      = Database::getInstance();
