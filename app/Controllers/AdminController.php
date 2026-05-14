@@ -742,4 +742,52 @@ class AdminController extends BaseController
             $this->redirect('admin/orders/detail/' . $id);
         }
     }
+
+     /* =============================================
+       QUẢN LÝ NỘI DUNG CÁC TRANG (page editors)
+       ============================================= */
+ 
+    /**
+     * GET/POST /admin/page_home — nội dung trang chủ
+     */
+    public function page_home()
+    {
+        $this->view('admin/page_home', [
+            'user'      => Auth::user(),
+            'pageTitle' => 'Nội dung Trang chủ',
+        ]);
+    }
+ 
+    /**
+     * GET/POST /admin/page_news — nội dung trang tin tức
+     */
+    public function page_news()
+    {
+        $this->view('admin/page_news', [
+            'user'      => Auth::user(),
+            'pageTitle' => 'Nội dung Trang tin tức',
+        ]);
+    }
+ 
+    /**
+     * GET/POST /admin/page_faq — nội dung trang FAQ
+     */
+    public function page_faq()
+    {
+        $this->view('admin/page_faq', [
+            'user'      => Auth::user(),
+            'pageTitle' => 'Nội dung Trang FAQ',
+        ]);
+    }
+ 
+    /**
+     * GET/POST /admin/page_contact — nội dung trang liên hệ
+     */
+    public function page_contact()
+    {
+        $this->view('admin/page_contact', [
+            'user'      => Auth::user(),
+            'pageTitle' => 'Nội dung Trang liên hệ',
+        ]);
+    }
 }
