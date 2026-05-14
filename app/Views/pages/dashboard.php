@@ -3,10 +3,12 @@ $pageTitle = 'Dashboard Thành Viên | Plantify Co';
 require BASE_PATH . '/app/Views/partials/header.php';
 
 // Xác định avatar (Nếu chưa có thì dùng ảnh mặc định)
-$avatar = !empty($user['avatar']) ? BASE_URL . '/' . $user['avatar'] : 'https://ui-avatars.com/api/?name=' . urlencode($user['fullname']) . '&background=2d8a5f&color=fff&size=200';
-?>
+$avatar = !empty($user['avatar'])
+    ? BASE_URL . '/file/render?path=' . $user['avatar']
+    : 'https://ui-avatars.com/api/?name=' . urlencode($user['fullname']);
+?>?>
 
-<main class="site-main page-main bg-soft" style="min-height: calc(100vh - 76px); padding: 50px 0;">
+<main class="site-main bg-soft" style="min-height: calc(100vh - 76px); padding: 50px 0;">
     <div class="container">
 
         <div class="row align-items-center mb-4 pb-3 border-bottom" data-aos="fade-up">
@@ -107,6 +109,19 @@ $avatar = !empty($user['avatar']) ? BASE_URL . '/' . $user['avatar'] : 'https://
                         </button>
                     </form>
                 </div>
+
+            </div>
+            <!-- Password -->
+            <div class="bg-white p-4 p-md-5 shadow-sm" style="border: 1px solid var(--stone-200); border-radius: 16px;">
+                <h4 class="mb-4 fw-bold text-success">Bảo mật tài khoản</h4>
+                <form action="<?= BASE_URL ?>/dashboard/updatePassword" method="POST">
+                    <div class="row g-3">
+                        <div class="col-12"><label class="form-label text-muted">Mật khẩu hiện tại</label><input type="password" name="current_password" class="form-control bg-light" required></div>
+                        <div class="col-md-6"><label class="form-label text-muted">Mật khẩu mới</label><input type="password" name="new_password" class="form-control bg-light" required></div>
+                        <div class="col-md-6"><label class="form-label text-muted">Xác nhận mật khẩu</label><input type="password" name="confirm_password" class="form-control bg-light" required></div>
+                    </div>
+                    <button type="submit" class="btn btn-outline-success mt-4 px-5">Cập nhật mật khẩu</button>
+                </form>
             </div>
 
         </div>

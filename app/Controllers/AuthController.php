@@ -42,7 +42,7 @@ class AuthController extends BaseController
                 if ($user['role'] == 'admin') {
                     $this->redirect('admin');
                 } else {
-                    $this->redirect('dashboard');
+                    $this->redirect('');
                 }
             } else {
                 $this->view('auth/login', ['error' => 'Tên đăng nhập, email hoặc mật khẩu không chính xác!']);

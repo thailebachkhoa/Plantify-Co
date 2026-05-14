@@ -96,4 +96,12 @@ class User
         $this->db->bind(':id', $id);
         return $this->db->execute();
     }
+
+    public function updatePassword($id, $newPasswordHash)
+    {
+        $this->db->query("UPDATE users SET password = :password WHERE id = :id");
+        $this->db->bind(':password', $newPasswordHash);
+        $this->db->bind(':id', $id);
+        return $this->db->execute();
+    }
 }
