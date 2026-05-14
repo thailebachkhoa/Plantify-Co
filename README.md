@@ -1,152 +1,260 @@
-## 📁 Cấu trúc thư mục
+# 🌿 Plantify Co
 
-```text
-btl/
-│
-├── app/                  # Application Layer
-│   ├── Controllers/      # Các lớp điều khiển (AuthController, DashboardController...)
-│   ├── Models/           # Tương tác Database, xử lý nghiệp vụ (User.php...)
-│   ├── Views/            # Chứa giao diện HTML/PHP
-│   └── Core/             # Các lớp nền tảng (BaseController, Database, Env)
-│
-├── config/               # Chứa các file cấu hình hệ thống
-│
-├── database/             # Nơi chứa các file cấu trúc bảng SQL
-│   └── migrations/
-│       └── schema.sql    # Lược đồ bảng users, products, news,...
-│
-├── public/               # Thư mục duy nhất public ra Internet
-│   ├── assets/           # CSS, JS, Images, Fonts
-│   ├── .htaccess         # Điều hướng request trỏ về index.php
-│   └── index.php         # Front Controller - Điểm vào duy nhất
-│
-├── storage/              # Lưu trữ các file sinh ra lúc runtime (logs, cache, uploads)
-│
-├── .env                  # Tệp lưu thông tin kết nối DB thực tế (Sẽ không đưa lên Git)
-├── .env.example          # Tệp mẫu
-├── console.php           # Script command line hỗ trợ tạo CSDL tự động
-└── composer.json         # Danh sách packages PHP dự án yêu cầu
-```
-
-## 🛠️ Yêu cầu môi trường
-
-- **XAMPP Control Panel** (Bao gồm Apache và MySQL)
-- **PHP:** >= 8.0
+Website thương mại điện tử và giới thiệu dịch vụ cây xanh nội thất, xây dựng trên PHP thuần theo mô hình MVC.
 
 ---
 
-## 🚦 Hướng dẫn cài đặt và khởi chạy (Với XAMPP)
+## Mục lục
 
-### Bước 1: Chuẩn bị môi trường & XAMPP
-1. Khởi động **XAMPP Control Panel**.
-2. Nhấn nút **Start** đối với 2 dịch vụ là **Apache** và **MySQL**.
-3. Di chuyển toàn bộ code thư mục `btl/` vào trong htdocs của XAMPP, hoặc sử dụng **Virtual Host** trỏ DocumentRoot thẳng vào `btl/public`.
+- [Giới thiệu](#giới-thiệu)
+- [Tính năng](#tính-năng)
+- [Công nghệ sử dụng](#công-nghệ-sử-dụng)
+- [Cấu trúc thư mục](#cấu-trúc-thư-mục)
+- [Cài đặt](#cài-đặt)
+- [Tài khoản mặc định](#tài-khoản-mặc-định)
+- [Luồng hoạt động](#luồng-hoạt-động)
+- [API Chatbot](#api-chatbot)
 
-### Bước 2: Cấu hình biến môi trường Database
-Copy file `.env.example` và đổi tên thành `.env` (hoặc mở `.env` trực tiếp nếu đã có).
-Sau đó, đảm bảo thông tin kết nối khớp với MySQL của XAMPP:
+---
+
+## Giới thiệu
+
+Plantify Co là website giới thiệu và bán cây cảnh nội thất, hỗ trợ đầy đủ quy trình từ duyệt sản phẩm, đặt hàng đến quản trị nội dung. Hệ thống có hai phân hệ chính: **giao diện khách hàng** và **bảng điều khiển admin**.
+
+---
+
+## Tính năng
+
+### Khách hàng (Frontend)
+
+| Phân hệ | Mô tả |
+|---|---|
+| Trang chủ | Sản phẩm nổi bật, giới thiệu thương hiệu, CTA |
+| Cửa hàng | Lọc theo danh mục, sắp xếp theo giá, tìm kiếm, phân trang |
+| Chi tiết sản phẩm | Thêm vào giỏ, sản phẩm liên quan |
+| Giỏ hàng | Tăng/giảm số lượng, xóa sản phẩm, đặt hàng qua modal |
+| Tin tức | Danh sách bài viết, tìm kiếm, xem chi tiết, bình luận |
+| FAQ | Tìm kiếm, lọc theo nhóm, tích hợp chatbot AI |
+| Giới thiệu | Hero video HLS, timeline quy trình, bản đồ nhúng |
+| Liên hệ | Form gửi tin nhắn, validation client + server |
+
+### Thành viên (Dashboard)
+
+- Cập nhật hồ sơ, đổi avatar (lưu vào `storage/`)
+- Đổi mật khẩu
+- Xem lịch sử đơn hàng và chi tiết từng đơn
+
+### Quản trị (Admin)
+
+- **Tổng quan:** thống kê nhanh, biểu đồ Chart.js, danh sách đơn hàng gần nhất
+- **Sản phẩm:** CRUD, upload ảnh, đánh dấu nổi bật
+- **Đơn hàng:** danh sách, chi tiết, cập nhật trạng thái
+- **Tin tức:** CRUD, auto-slug tiếng Việt, upload thumbnail
+- **Bình luận:** duyệt/ẩn/xóa, phân trang, tìm kiếm
+- **Liên hệ:** đánh dấu đã đọc, tìm kiếm, lọc theo trạng thái
+- **FAQ:** thêm/sửa/xóa, kéo thả sắp xếp (AJAX)
+- **Nội dung trang:** chỉnh văn bản tĩnh, upload ảnh giới thiệu, upload video HLS
+- **Cấu hình cửa hàng:** chỉnh nhãn, placeholder, tiêu đề theo nhóm
+- **Thành viên:** khoá/mở, reset mật khẩu, xóa tài khoản
+
+---
+
+## Công nghệ sử dụng
+
+| Thành phần | Chi tiết |
+|---|---|
+| Backend | PHP 8.x, PDO (MySQL), Session |
+| Frontend | Bootstrap 5.3, Font Awesome 6, AOS.js |
+| Video | HLS.js (phát `.m3u8`) |
+| Admin UI | SRTDash template, Chart.js, simple-datatables |
+| Database | MySQL / MariaDB |
+| Chatbot | Python RAG server tại `http://127.0.0.1:1884/chat` (tùy chọn) |
+
+---
+
+## Cấu trúc thư mục
+
+```
+plantify/
+├── app/
+│   ├── Controllers/        # Xử lý request (MVC Controller)
+│   │   ├── AdminController.php
+│   │   ├── AuthController.php
+│   │   ├── CartController.php
+│   │   ├── DashboardController.php
+│   │   ├── HomeController.php
+│   │   ├── NewsController.php
+│   │   ├── ShopController.php
+│   │   └── ...
+│   ├── Core/               # Lõi framework
+│   │   ├── Auth.php        # Middleware xác thực
+│   │   ├── BaseController.php
+│   │   ├── Bootstrap.php   # Khai báo hằng số, autoload
+│   │   ├── Database.php    # PDO Singleton
+│   │   ├── Env.php         # Đọc file .env
+│   │   └── Helpers.php     # Hàm tiện ích (e, asset, app_url...)
+│   ├── Models/             # Tương tác database
+│   │   ├── Comment.php
+│   │   ├── Content.php
+│   │   ├── Data.php
+│   │   ├── News.php
+│   │   ├── Order.php
+│   │   ├── Product.php
+│   │   └── User.php
+│   └── Views/              # Giao diện (PHP template)
+│       ├── admin/          # Giao diện admin (SRTDash)
+│       ├── auth/           # Đăng nhập, đăng ký
+│       ├── dashboard/      # Trang thành viên
+│       ├── news/           # Tin tức
+│       ├── pages/          # Trang công khai (home, shop, cart...)
+│       └── partials/       # Header, footer dùng chung
+├── public/                 # Document root của web server
+│   ├── assets/
+│   │   ├── css/            # style.css, news.css, admin-srtdash.css
+│   │   ├── js/             # main.js
+│   │   ├── images/
+│   │   ├── uploads/        # Ảnh sản phẩm, tin tức, trang
+│   │   ├── videos/         # File .m3u8 + .ts (HLS)
+│   │   └── vendor/srtdash/ # Thư viện admin
+│   └── index.php           # Entry point + Router
+├── storage/
+│   └── uploads/avatars/    # Avatar thành viên (ngoài public)
+├── database/
+│   └── schema.sql          # Cấu trúc và dữ liệu mẫu
+└── .env                    # Biến môi trường (không commit)
+```
+
+---
+
+## Cài đặt
+
+### Yêu cầu
+
+- PHP >= 8.0 với extension `pdo_mysql`, `fileinfo`, `mbstring`
+- MySQL >= 5.7 hoặc MariaDB >= 10.3
+- Web server Apache (mod_rewrite) hoặc Nginx
+
+### Các bước
+
+**1. Clone repository**
+
+```bash
+git clone https://github.com/your-username/plantify.git
+cd plantify
+```
+
+**2. Tạo file `.env`** tại thư mục gốc
+
 ```env
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=btlweb
+DB_DATABASE=plantify
 DB_USERNAME=root
 DB_PASSWORD=
+
+APP_URL=http://localhost/plantify/public
 ```
-*(Nếu cài đặt XAMPP mặc định, username luôn là root và password để trống).*
 
-### Bước 3: Tự động khởi tạo Cơ Sở Dữ Liệu
-Bạn không cần phải import file SQL bằng tay vào phpMyAdmin. Dự án đã cung cấp sẵn công cụ thao tác tự động!
-
-Mở **Terminal** (Trong VS Code) hoặc mở **Shell** (nằm ở cạnh bên phải của XAMPP window), trỏ đường dẫn vào thư mục gốc `btl/` và chạy lệnh sau:
-```bash
-php console.php migrate
-```
-Lệnh này sẽ tự động:
-- Tạo Database tên là `btlweb`.
-- Tạo toàn bộ các bảng: `users`, `products`, `news`, `comments`,...
-- Cấp sẵn 2 tài khoản mẫu đã được mã hoá mật khẩu:
-   - **Tài khoản Admin:** `admin` / pass: 123456
-   - **Tài khoản Thành viên:** `thanhvien` / pass: 123456
-
-### Bước 4: Trải nghiệm ứng dụng
-Truy cập vào tên miền ảo (vd: `http://btl.local`) hoặc ứng với cấu trúc folder localhost của bạn (vd: `http://localhost/BTLWEB/btl/public`).
-
-Hệ thống sẽ chạy và bạn có thể thử đăng nhập hoặc tạo tài khoản mới. Trình duyệt đã được tích hợp Validate bằng cả Frontend (JS) và Backend (PHP).
-
-## 🔄 Git Workflow
-
-### Commit Message Convention
-
-The project uses [Conventional Commits](https://www.conventionalcommits.org/):
+**3. Import database**
 
 ```bash
-<type>[optional scope]: <description>
-
-[optional body]
-
-[optional footer(s)]
+mysql -u root -p < database/schema.sql
 ```
 
-**Types:**
+Hoặc mở phpMyAdmin và import file `database/schema.sql`.
 
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation update
-- `style`: Formatting changes that don't affect code logic
-- `refactor`: Code refactoring
-- `perf`: Performance improvement
-- `test`: Adding or fixing tests
-- `chore`: Build tasks, package manager configs, etc.
+**4. Cấu hình web server**
 
-**Examples:**
+Trỏ document root về thư mục `public/`. Nếu dùng XAMPP, đặt toàn bộ dự án vào `htdocs/plantify` rồi truy cập `http://localhost/plantify/public`.
+
+Đảm bảo `mod_rewrite` được bật và file `.htaccess` trong `public/` được phép hoạt động (`AllowOverride All`).
+
+**5. Phân quyền thư mục**
 
 ```bash
-git commit -m "feat(auth): add user login functionality"
-git commit -m "fix(api): resolve user data fetching issue"
-git commit -m "docs: update installation guide"
-git commit -m "style(client): format code with prettier"
+chmod -R 755 public/assets/uploads
+chmod -R 755 storage
 ```
-### Standard Workflow
 
-1. **Create a new branch**
-   Always branch off from the latest version of `main`.
+**6. Truy cập website**
 
-   ```bash
-   git checkout main
-   git pull origin main
-   git checkout -b feature/your-feature-name
-   ```
+```
+http://localhost/plantify/public
+```
 
-2. **Work on your feature**
-   Make your code changes and commit them using the [Conventional Commits](https://www.conventionalcommits.org/) format:
+---
 
-   ```bash
-   git add .
-   git commit -m "feat(auth): add login functionality"
-   ```
+## Tài khoản mặc định
 
-3. **Rebase with the latest main branch**
-   Before pushing, make sure your branch is up to date with `main`:
+| Vai trò | Username | Password |
+|---|---|---|
+| Admin | `admin` | `123456` |
+| Thành viên | `thanhvien` | `123456` |
 
-   ```bash
-   git fetch origin
-   git rebase origin/main
-   ```
+> Đổi mật khẩu ngay sau khi triển khai lên môi trường production.
 
-4. **Push your branch to remote**
+---
 
-   ```bash
-   git push origin feature/your-feature-name
-   ```
+## Luồng hoạt động
 
-5. **Create a Pull Request (PR)**
-   Open a PR to merge your branch into `main`.
-   Wait for review and approval before merging.
+```
+Request → public/index.php
+              │
+              ▼
+         Router (phân tích URI)
+              │
+              ├─ /admin/*       → AdminController    (yêu cầu role=admin)
+              ├─ /auth/*        → AuthController
+              ├─ /dashboard/*   → DashboardController (yêu cầu đăng nhập)
+              ├─ /shop/*        → ShopController
+              ├─ /news/*        → NewsController
+              ├─ /cart/*        → CartController
+              └─ /contact, /about, /faq → Controller tương ứng
+                                    │
+                                    ▼
+                              Model (PDO)  ←→  MySQL
+                                    │
+                                    ▼
+                               View (.php)  →  HTML Response
+```
 
-6. **After Merge — Sync and Clean Up**
-   Once your PR is merged:
+### Phân quyền
 
-   ```bash
-   git checkout main
-   git pull origin main
-   ```
+| Trạng thái | Quyền truy cập |
+|---|---|
+| Khách (guest) | Xem trang công khai, tin tức, sản phẩm, FAQ, liên hệ |
+| Thành viên | Thêm vào giỏ hàng, đặt hàng, bình luận, quản lý hồ sơ |
+| Admin | Toàn bộ chức năng + bảng quản trị |
+
+### Giỏ hàng & Đặt hàng
+
+Giỏ hàng được lưu trong `$_SESSION['cart']`. Khi checkout, giá sản phẩm được lấy lại từ database (không tin vào dữ liệu client) trước khi tạo đơn hàng bằng transaction SQL.
+
+### Bình luận
+
+Bình luận mới có trạng thái `pending` (chờ duyệt). Admin có thể duyệt (`approved`) hoặc ẩn (`hidden`). Chỉ bình luận `approved` hiển thị ngoài website.
+
+---
+
+## API Chatbot
+
+Widget chatbot trên trang FAQ gửi POST request đến server RAG nội bộ:
+
+```
+POST http://127.0.0.1:1884/chat
+Content-Type: application/json
+
+{ "question": "Plantify có khảo sát trực tiếp không?" }
+```
+
+Nếu server không chạy, widget hiển thị thông báo lỗi kết nối — website vẫn hoạt động bình thường.
+
+---
+
+## Ghi chú bảo mật
+
+- Mật khẩu được hash bằng `password_hash()` với `PASSWORD_DEFAULT`
+- Tất cả truy vấn SQL dùng PDO Prepared Statements
+- Dữ liệu đầu vào được escape bằng `htmlspecialchars()` trước khi hiển thị
+- File avatar lưu ngoài `public/` (`storage/uploads/avatars/`), truy cập qua `FileController`
+- Tài khoản bị khoá (`status=locked`) bị chặn ngay khi đăng nhập
