@@ -117,10 +117,25 @@ INSERT INTO services (title, icon, description) VALUES
 ('Cung cấp cây nội thất', 'fa-leaf', 'Tuyển chọn cây khỏe, dáng đẹp, chậu phù hợp với phong cách hiện đại.'),
 ('Chăm sóc định kỳ', 'fa-hand-holding-droplet', 'Bảo dưỡng cây, cắt tỉa, bổ sung dinh dưỡng và xử lý sâu bệnh theo lịch.');
 
-INSERT INTO products (name, category, price, image, description, is_featured) VALUES
-('Bàng Singapore', 'Cây nội thất cao cấp', 1250000, 'assets/images/Screenshot 2025-12-26 172140.png', 'Tán lá lớn, dáng cây sang, phù hợp sảnh lễ tân, phòng họp và góc sofa.', 1),
-('Monstera Deliciosa', 'Cây decor hiện đại', 780000, 'assets/images/Screenshot 2025-12-26 172140.png', 'Lá xẻ độc đáo, tạo điểm nhấn xanh cho studio, căn hộ và không gian sáng tạo.', 1),
-('Kim Tiền chậu gốm', 'Cây phong thủy', 520000, 'assets/images/Screenshot 2025-12-26 172140.png', 'Dễ chăm sóc, phù hợp bàn làm việc, quầy tiếp tân và quà tặng doanh nghiệp.', 1);
+INSERT INTO `products` (`id`, `name`, `category`, `price`, `image`, `description`, `is_featured`, `created_at`) VALUES
+(1, 'Bàng Singapore', 'Sàn nhà', 1250000.00, 'assets/uploads/products/prod_1778752748_6a059cec10240.jpeg', 'Tán lá lớn, dáng cây sang, phù hợp sảnh lễ tân, phòng họp và góc sofa.', 1, '2026-05-12 14:28:15'),
+(2, 'Monstera Deliciosa', 'Để bàn', 780000.00, 'assets/uploads/products/prod_1778748874_6a058dca2eff3.jpeg', 'Lá xẻ độc đáo, tạo điểm nhấn xanh cho studio, căn hộ và không gian sáng tạo.', 1, '2026-05-12 14:28:15'),
+(3, 'Kim Tiền chậu gốm', 'Để bàn', 520000.00, 'assets/uploads/products/prod_1778752677_6a059ca5ce344.jpeg', 'Dễ chăm sóc, phù hợp bàn làm việc, quầy tiếp tân và quà tặng doanh nghiệp.', 1, '2026-05-12 14:28:15'),
+(4, 'Cây Lưỡi Hổ', 'Để bàn', 150000.00, 'assets/uploads/products/prod_1778752628_6a059c74a02dc.jpeg', 'Thanh lọc không khí tuyệt vời, đặc biệt vào ban đêm. Rất dễ chăm sóc.', 1, '2026-05-14 05:58:06'),
+(5, 'Cây Bàng Cẩm Thạch', 'Sàn nhà', 950000.00, 'assets/uploads/products/prod_1778752710_6a059cc647122.jpeg', 'Lá có vân trắng xanh đẹp mắt, mang lại vẻ đẹp thanh lịch cho không gian.', 0, '2026-05-14 05:58:06'),
+(6, 'Cây Lan Ý', 'Để bàn', 180000.00, 'assets/uploads/products/prod_1778752648_6a059c88a0cf1.jpeg', 'Hoa trắng tinh khôi, hút tia bức xạ từ máy tính hiệu quả.', 1, '2026-05-14 05:58:06'),
+(7, 'Thiết Mộc Lan', 'Sàn nhà', 650000.00, 'assets/uploads/products/prod_1778752421_6a059ba5b45d8.jpeg', 'Biểu tượng của sự may mắn, phát tài. Thích hợp đặt ở góc phòng khách.', 1, '2026-05-14 05:58:06'),
+(8, 'Sen Đá Mix Chậu Đất Nung', 'Để bàn', 120000.00, 'assets/uploads/products/prod_1778752382_6a059b7ea3bd1.jpeg', 'Tổng hợp các loại sen đá nhỏ xinh, thích hợp trang trí bàn học, bàn làm việc.', 0, '2026-05-14 05:58:06'),
+(9, 'Trầu Bà Đế Vương Đỏ', 'Để bàn', 220000.00, 'assets/uploads/products/prod_1778752591_6a059c4f7c2a2.jpeg', 'Sắc đỏ tía quyền lực, mang lại uy phong cho nhà quản lý, lãnh đạo.', 1, '2026-05-14 05:58:06'),
+(10, 'Cây Hạnh Phúc', 'Sàn nhà', 1100000.00, 'assets/uploads/products/prod_1778752581_6a059c4553c6e.jpeg', 'Lá xanh mướt, dáng cây cao ráo, mang ý nghĩa gia đình đầm ấm, hạnh phúc.', 1, '2026-05-14 05:58:06'),
+(11, 'Dây Cúc Tần Ấn Độ', 'Ban công', 80000.00, 'assets/uploads/products/prod_1778752574_6a059c3e6c316.jpeg', 'Loài cây rủ che nắng ban công cực tốt, tạo bức rèm xanh mát mắt.', 0, '2026-05-14 05:58:06'),
+(12, 'Nha Đam Mini', 'Để bàn', 95000.00, 'assets/uploads/products/prod_1778752565_6a059c35cb854.jpeg', 'Vừa làm kiểng vừa có thể dùng để làm đẹp, thanh lọc không khí.', 0, '2026-05-14 05:58:06'),
+(13, 'Phát Tài Núi', 'Sàn nhà', 1450000.00, 'assets/uploads/products/prod_1778752558_6a059c2e73f15.jpeg', 'Dáng dấp uốn lượn tự nhiên, tạo điểm nhấn nghệ thuật cho không gian rộng.', 1, '2026-05-14 05:58:06'),
+(14, 'Cây Kim Ngân', 'Để bàn', 250000.00, 'assets/uploads/products/prod_1778752550_6a059c26482b4.jpeg', 'Thân bím đuôi sam độc đáo, thu hút tài lộc cho gia chủ.', 1, '2026-05-14 05:58:06'),
+(15, 'Dạ Yến Thảo', 'Ban công', 150000.00, 'assets/uploads/products/prod_1778752396_6a059b8c802d0.jpeg', 'Hoa nở quanh năm với nhiều màu sắc rực rỡ, thích hợp treo ban công.', 1, '2026-05-14 05:58:06'),
+(16, 'Thường Xuân', 'Ban công', 130000.00, 'assets/uploads/products/prod_1778752362_6a059b6a4310d.jpeg', 'Sức sống mãnh liệt, lọc khí độc tốt, phù hợp treo ban công hoặc cửa sổ.', 0, '2026-05-14 05:58:06'),
+(17, 'Bạch Mã Hoàng Tử', 'Sàn nhà', 580000.00, 'assets/uploads/products/prod_1778752353_6a059b61b99b7.jpeg', 'Gân lá màu trắng nổi bật, mang lại sự sang trọng và thanh thoát.', 0, '2026-05-14 05:58:06'),
+(18, 'Xương Rồng Tai Thỏ', 'Để bàn', 110000.00, 'assets/uploads/products/prod_1778752343_6a059b5723fdf.jpeg', 'Hình dáng đáng yêu, chịu hạn tốt, phù hợp với người bận rộn.', 0, '2026-05-14 05:58:06');
 
 INSERT INTO faqs (question, answer, sort_order) VALUES
 ('Plantify có khảo sát trực tiếp trước khi thiết kế không?', 'Có. Đội ngũ tư vấn sẽ khảo sát ánh sáng, diện tích, luồng gió và phong cách nội thất để đề xuất loại cây, chậu và vị trí phù hợp.', 1),
