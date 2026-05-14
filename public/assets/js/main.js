@@ -1,6 +1,6 @@
 /*
  * File: assets/js/main.js
- * Chuc nang: Xu ly JavaScript dung chung cho website.
+ * Chức năng: Xử lý JavaScript dùng chung cho website.
  */
 
 document.addEventListener('DOMContentLoaded', function () {

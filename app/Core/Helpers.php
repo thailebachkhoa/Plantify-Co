@@ -32,6 +32,10 @@ if (!function_exists('asset')) {
 if (!function_exists('app_base_url')) {
     function app_base_url()
     {
+        if (defined('BASE_URL')) {
+            return rtrim(BASE_URL, '/');
+        }
+
         $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
         $projectBase = '/' . basename(BASE_PATH);
         return strpos($uri, $projectBase) === 0 ? $projectBase : '';
@@ -43,7 +47,11 @@ if (!function_exists('app_url')) {
     {
         $path = trim((string) $path, '/');
         $base = app_base_url();
-        return ($base ? $base . '/' : '') . $path;
+        if ($path === '') {
+            return $base ?: '/';
+        }
+
+        return ($base ? $base . '/' : '/') . $path;
     }
 }
 

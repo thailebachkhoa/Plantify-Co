@@ -2,10 +2,10 @@
 
 /**
  * File: faq.php
- * Chuc nang: Trang cau hoi thuong gap ve dich vu cay canh.
- * Cach hoat dong: Lay mang FAQ tu database va render bang Bootstrap
- * accordion de nguoi dung doc nhanh tren moi thiet bi.
- * Noi dat file: project/faq.php
+ * Chức năng: Trang câu hỏi thường gặp về dịch vụ cây cảnh.
+ * Cách hoạt động: Lấy mảng FAQ từ database và render bằng Bootstrap
+ * accordion để người dùng đọc nhanh trên mọi thiết bị.
+ * Nơi đặt file: project/faq.php
  */
 
 $pageTitle = 'FAQ | Câu hỏi thường gặp về cây cảnh và decor xanh';
@@ -169,7 +169,6 @@ require_once BASE_PATH . '/app/Views/partials/header.php';
             <input id="faqChatInput" type="text" placeholder="Nhập câu hỏi..." autocomplete="off" required>
             <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
         </form>
-        <div class="faq-chat-footer">Kết nối với RAG chatbot trên port 1884.</div>
     </div>
 </div>
 

@@ -1,28 +1,28 @@
 <?php
 /**
  * File: admin/rag.php
- * Chuc nang: Quan ly noi dung RAG/RAG.txt de cap nhat nguon thong tin cho bot.
+ * Chức năng: Quản lý nội dung RAG/RAG.txt để cập nhật nguồn thông tin cho bot.
  */
 
 require_once __DIR__ . '/includes/AdminLayout.php';
 
-$pageTitle = 'Du lieu bot | GreenNest Admin';
+$pageTitle = 'Dữ liệu bot | Plantify Admin';
 $ragPath = realpath(STORAGE_PATH . '/rag');
 $ragFile = $ragPath ? $ragPath . DIRECTORY_SEPARATOR . 'RAG.txt' : null;
 $message = '';
 $error = '';
 
 if (!$ragPath || !$ragFile) {
-    $error = 'Khong tim thay thu muc RAG.';
+    $error = 'Không tìm thấy thư mục RAG.';
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $content = $_POST['rag_content'] ?? '';
 
     if (strlen($content) > 1024 * 1024) {
-        $error = 'Noi dung RAG.txt khong duoc vuot qua 1MB.';
+        $error = 'Nội dung RAG.txt không được vượt quá 1MB.';
     } elseif (file_put_contents($ragFile, $content, LOCK_EX) === false) {
-        $error = 'Khong the luu RAG.txt. Hay kiem tra quyen ghi cua thu muc RAG.';
+        $error = 'Không thể lưu RAG.txt. Hãy kiểm tra quyền ghi của thư mục RAG.';
     } else {
-        $message = 'Da cap nhat RAG.txt cho bot.';
+        $message = 'Đã cập nhật RAG.txt cho bot.';
     }
 }
 
@@ -31,21 +31,26 @@ if ($ragFile && is_file($ragFile)) {
     $ragContent = file_get_contents($ragFile);
     if ($ragContent === false) {
         $ragContent = '';
-        $error = $error ?: 'Khong the doc RAG.txt.';
+        $error = $error ?: 'Không thể đọc RAG.txt.';
     }
 } elseif ($ragFile && !$error) {
-    $error = 'Khong tim thay file RAG.txt.';
+    $error = 'Không tìm thấy file RAG.txt.';
 }
 
 clearstatcache(true, $ragFile ?: '');
 $fileSize = ($ragFile && is_file($ragFile)) ? filesize($ragFile) : 0;
-$updatedAt = ($ragFile && is_file($ragFile)) ? date('d/m/Y H:i:s', filemtime($ragFile)) : 'Chua co';
+$updatedAt = 'Chưa có';
+if ($ragFile && is_file($ragFile)) {
+    $updatedAtDate = new DateTime('@' . filemtime($ragFile));
+    $updatedAtDate->setTimezone(new DateTimeZone('Asia/Ho_Chi_Minh'));
+    $updatedAt = $updatedAtDate->format('d/m/Y H:i:s');
+}
 $lineCount = $ragContent === '' ? 0 : substr_count($ragContent, "\n") + 1;
 
 admin_layout_start([
     'pageTitle' => $pageTitle,
-    'heading' => 'Du lieu huan luyen bot',
-    'subtitle' => 'Sua noi dung trong RAG.txt de cap nhat kien thuc ma tro ly AI dung khi tra loi khach hang.',
+    'heading' => 'Dữ liệu huấn luyện bot',
+    'subtitle' => 'Sửa nội dung trong RAG.txt để cập nhật kiến thức mà trợ lý AI dùng khi trả lời khách hàng.',
 ]);
 ?>
 
@@ -58,10 +63,10 @@ admin_layout_start([
             <div class="card-body">
                 <div class="d-sm-flex justify-content-between align-items-center mb-4">
                     <div>
-                        <h4 class="header-title mb-1">Noi dung RAG.txt</h4>
-                        <p class="admin-muted mb-0">Nen viet theo tung muc ro rang: dich vu, san pham, quy trinh, FAQ, lien he.</p>
+                        <h4 class="header-title mb-1">Nội dung RAG.txt</h4>
+                        <p class="admin-muted mb-0">Nên viết theo từng mục rõ ràng: dịch vụ, sản phẩm, quy trình, FAQ, liên hệ.</p>
                     </div>
-                    <button type="submit" class="btn btn-success mt-3 mt-sm-0">Luu du lieu bot</button>
+                    <button type="submit" class="btn btn-success mt-3 mt-sm-0">Lưu dữ liệu bot</button>
                 </div>
                 <textarea class="form-control admin-textarea-large" name="rag_content" spellcheck="false"><?php echo e($ragContent); ?></textarea>
             </div>
@@ -70,18 +75,18 @@ admin_layout_start([
     <div class="col-xl-4 mt-lg-30 mt-md-30 mt-xs-30">
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title">Thong tin file</h4>
+                <h4 class="header-title">Thông tin file</h4>
                 <div class="admin-meta-list mt-4">
                     <div>
-                        <span>Cap nhat lan cuoi</span>
+                        <span>Cập nhật lần cuối</span>
                         <strong><?php echo e($updatedAt); ?></strong>
                     </div>
                     <div>
-                        <span>Dung luong</span>
+                        <span>Dung lượng</span>
                         <strong><?php echo e(number_format((float) $fileSize / 1024, 2)); ?> KB</strong>
                     </div>
                     <div>
-                        <span>So dong</span>
+                        <span>Số dòng</span>
                         <strong><?php echo e($lineCount); ?></strong>
                     </div>
                 </div>
@@ -89,8 +94,8 @@ admin_layout_start([
         </div>
         <div class="card mt-4">
             <div class="card-body">
-                <h4 class="header-title">Goi y cap nhat</h4>
-                <p class="admin-muted mb-0">Sau khi luu, neu server RAG dang giu du lieu trong bo nho, hay khoi dong lai process chatbot de bot doc phien ban moi cua file.</p>
+                <h4 class="header-title">Gợi ý cập nhật</h4>
+                <p class="admin-muted mb-0">Sau khi lưu, nếu server RAG đang giữ dữ liệu trong bộ nhớ, hãy khởi động lại process chatbot để bot đọc phiên bản mới của file.</p>
             </div>
         </div>
     </div>

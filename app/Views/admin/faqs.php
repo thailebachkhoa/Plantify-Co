@@ -24,9 +24,11 @@ if (!$db) {
     if ($action === 'reorder') {
         $orderedIds = json_decode($_POST['ordered_ids'] ?? '[]', true);
         if (is_array($orderedIds) && count($orderedIds) > 0) {
-            $stmt = $db->prepare('UPDATE faqs SET sort_order = ? WHERE id = ?');
             foreach (array_values($orderedIds) as $index => $faqId) {
-                $stmt->execute([$index + 1, (int) $faqId]);
+                $db->query('UPDATE faqs SET sort_order = :sort_order WHERE id = :id');
+                $db->bind(':sort_order', $index + 1);
+                $db->bind(':id', (int) $faqId);
+                $db->execute();
             }
             if (($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'XMLHttpRequest') {
                 header('Content-Type: application/json; charset=utf-8');
@@ -42,16 +44,24 @@ if (!$db) {
     } elseif (($action === 'add' || $action === 'edit') && mb_strlen($answer) > 5000) {
         $error = 'Cau tra loi khong duoc vuot qua 5000 ky tu.';
     } elseif ($action === 'add' && $question && $answer) {
-        $stmt = $db->prepare('INSERT INTO faqs (question, answer, sort_order) VALUES (?, ?, ?)');
-        $stmt->execute([$question, $answer, $sortOrder]);
+        $db->query('INSERT INTO faqs (question, answer, sort_order) VALUES (:question, :answer, :sort_order)');
+        $db->bind(':question', $question);
+        $db->bind(':answer', $answer);
+        $db->bind(':sort_order', $sortOrder);
+        $db->execute();
         $message = 'FAQ da duoc them.';
     } elseif ($action === 'edit' && $id && $question && $answer) {
-        $stmt = $db->prepare('UPDATE faqs SET question = ?, answer = ?, sort_order = ? WHERE id = ?');
-        $stmt->execute([$question, $answer, $sortOrder, $id]);
+        $db->query('UPDATE faqs SET question = :question, answer = :answer, sort_order = :sort_order WHERE id = :id');
+        $db->bind(':question', $question);
+        $db->bind(':answer', $answer);
+        $db->bind(':sort_order', $sortOrder);
+        $db->bind(':id', $id);
+        $db->execute();
         $message = 'FAQ da duoc cap nhat.';
     } elseif ($action === 'delete' && $id) {
-        $stmt = $db->prepare('DELETE FROM faqs WHERE id = ?');
-        $stmt->execute([$id]);
+        $db->query('DELETE FROM faqs WHERE id = :id');
+        $db->bind(':id', $id);
+        $db->execute();
         $message = 'FAQ da duoc xoa.';
     } else {
         $error = 'Vui long nhap du cau hoi va cau tra loi.';
@@ -143,6 +153,7 @@ admin_layout_start([
         <form method="post" class="modal-content">
             <input type="hidden" name="action" value="edit">
             <input type="hidden" name="id" id="editId">
+            <input type="hidden" name="sort_order" id="editSortOrder">
             <div class="modal-header">
                 <h5 class="modal-title">Sửa FAQ</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -195,7 +206,7 @@ function saveFaqOrder() {
         form.append("ordered_ids", JSON.stringify(orderedIds));
         faqSortState.hidden = false;
 
-        fetch("faqs.php", {
+        fetch("' . BASE_URL . '/admin/faqs", {
             method: "POST",
             headers: { "X-Requested-With": "XMLHttpRequest" },
             body: form

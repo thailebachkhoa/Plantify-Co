@@ -6,3 +6,6 @@
 !/storage/cache/.gitkeep
 /storage/uploads/*
 !/storage/uploads/.gitkeep
+/storage/bin/ffmpeg.exe
+__pycache__/
+*.pyc

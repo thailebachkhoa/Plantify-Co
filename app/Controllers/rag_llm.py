@@ -9,6 +9,8 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from dotenv import load_dotenv
 import os
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from fastapi.middleware.cors import CORSMiddleware
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -46,7 +48,7 @@ llm = ChatGoogleGenerativeAI(
 
 # PROMPT
 prompt = PromptTemplate(
-    template="""Bạn là trợ lý AI của GreenNest Landscape, công ty chuyên thiết kế và cung cấp giải pháp cây xanh cho không gian doanh nghiệp.
+    template="""Bạn là trợ lý AI của Plantify Co, công ty chuyên thiết kế và cung cấp giải pháp cây xanh cho không gian doanh nghiệp.
 
 Nhiệm vụ của bạn là trả lời câu hỏi của khách hàng về:
 - Dịch vụ cây cảnh và decor xanh
@@ -59,9 +61,13 @@ Nhiệm vụ của bạn là trả lời câu hỏi của khách hàng về:
 Hướng dẫn trả lời:
 - Trả lời bằng tiếng Việt một cách thân thiện, chuyên nghiệp
 - Sử dụng thông tin từ dữ liệu được cung cấp
+- Nếu khách hỏi về thời gian, lịch hẹn hoặc giờ hiện tại, hãy dùng thời gian Việt Nam bên dưới, không dùng UTC hoặc múi giờ máy chủ
 - Nếu không có thông tin, hãy gợi ý liên hệ trực tiếp
 - Giữ câu trả lời ngắn gọn, hữu ích
 - Khuyến khích khách hàng liên hệ để được tư vấn chi tiết
+
+Thời gian hiện tại tại Việt Nam:
+{current_time}
 
 Dữ liệu:
 {context}
@@ -70,15 +76,23 @@ Câu hỏi của khách hàng:
 {question}
 
 Trả lời:""",
-    input_variables=["context", "question"]
+    input_variables=["context", "question", "current_time"]
 )
 
 
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
+
+def vietnam_time(_question):
+    return datetime.now(ZoneInfo("Asia/Ho_Chi_Minh")).strftime("%H:%M:%S ngày %d/%m/%Y")
+
 rag_chain = (
-    {"context": retriever | format_docs, "question": RunnablePassthrough()}
+    {
+        "context": retriever | format_docs,
+        "question": RunnablePassthrough(),
+        "current_time": vietnam_time,
+    }
     | prompt
     | llm
 )

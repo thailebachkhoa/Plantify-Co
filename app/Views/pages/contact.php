@@ -2,26 +2,25 @@
 
 /**
  * File: app/Views/pages/contact.php
- * Chức năng: Trang liên hệ đồng bộ UI với style.css
+ * Chức năng: Trang liên hệ đồng bộ UI với style.css.
  */
-$pageTitle = 'Liên Hệ | Plantify Co';
+$pageTitle = 'Liên hệ | Plantify Co';
 require BASE_PATH . '/app/Views/partials/header.php';
 ?>
 
 <main class="site-main">
-    <!-- HERO SECTION -->
     <section class="page-hero modern-hero" style="background: linear-gradient(135deg, rgba(18, 56, 42, 0.88), rgba(46, 111, 134, 0.62)), url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80') center/cover; padding: 100px 0 60px;">
         <div class="container position-relative" style="z-index: 1;">
             <div class="row g-5 align-items-end">
                 <div class="col-lg-8" data-aos="fade-up">
-                    <span class="section-kicker text-white opacity-75">Kết Nối Với Plantify</span>
+                    <span class="section-kicker text-white opacity-75">Kết nối với Plantify</span>
                     <h1>Luôn sẵn sàng hỗ trợ bạn</h1>
                     <p class="text-white opacity-75" style="max-width: 600px;">Dù bạn cần tư vấn chọn cây cho văn phòng, hỏi đáp về cách chăm sóc, hay phản hồi dịch vụ, chúng tôi luôn ở đây để lắng nghe.</p>
                 </div>
                 <div class="col-lg-4" data-aos="fade-left">
                     <div class="hero-insight-card">
                         <i class="fa-solid fa-clock"></i>
-                        <strong>Phản hồi siêu tốc</strong>
+                        <strong>Phản hồi nhanh</strong>
                         <span>Đội ngũ CSKH cam kết trả lời các yêu cầu trực tuyến trong vòng 24 giờ làm việc.</span>
                     </div>
                 </div>
@@ -32,7 +31,6 @@ require BASE_PATH . '/app/Views/partials/header.php';
     <section class="section-padding bg-soft">
         <div class="container">
             <div class="row g-5">
-                <!-- Cột trái: Form liên hệ -->
                 <div class="col-lg-7" data-aos="fade-right">
                     <div class="contact-panel bg-white p-4 p-md-5 rounded" style="border: 1px solid var(--stone-200); box-shadow: 0 10px 28px rgba(18, 56, 42, 0.07); border-radius: 12px;">
                         <h2 class="mb-2" style="color: var(--green-900); font-weight: 820; font-size: 2rem;">Gửi tin nhắn cho chúng tôi</h2>
@@ -53,7 +51,7 @@ require BASE_PATH . '/app/Views/partials/header.php';
                                     <select class="form-select bg-light" id="subject" name="subject" required>
                                         <option value="">-- Chọn chủ đề cần tư vấn --</option>
                                         <option value="buy">Mua sắm cây xanh</option>
-                                        <option value="decor">Dịch vụ Decor/Setup văn phòng</option>
+                                        <option value="decor">Dịch vụ decor/setup văn phòng</option>
                                         <option value="care">Hỏi đáp cách chăm sóc cây</option>
                                         <option value="other">Khác</option>
                                     </select>
@@ -64,7 +62,7 @@ require BASE_PATH . '/app/Views/partials/header.php';
                                 </div>
                                 <div class="col-12 mt-4">
                                     <button type="submit" class="btn btn-success btn-lg w-100" id="btnSubmit">
-                                        <i class="fa-solid fa-paper-plane me-2"></i> Gửi Liên Hệ
+                                        <i class="fa-solid fa-paper-plane me-2"></i> Gửi liên hệ
                                     </button>
                                 </div>
                             </div>
@@ -72,10 +70,9 @@ require BASE_PATH . '/app/Views/partials/header.php';
                     </div>
                 </div>
 
-                <!-- Cột phải: Thông tin liên hệ -->
                 <div class="col-lg-5" data-aos="fade-left">
                     <aside class="faq-side h-100 d-flex flex-column justify-content-center">
-                        <span class="section-kicker">Thông Tin Trực Tiếp</span>
+                        <span class="section-kicker">Thông tin trực tiếp</span>
                         <h2 class="mb-4">Bạn cần hỗ trợ gấp?</h2>
                         <p>Đừng ngại gọi cho hotline hoặc ghé trực tiếp showroom của chúng tôi để được giải đáp tức thời.</p>
 
@@ -112,7 +109,6 @@ require BASE_PATH . '/app/Views/partials/header.php';
         </div>
     </section>
 
-    <!-- Bản đồ -->
     <section class="section-padding map-section pt-0">
         <div class="container">
             <div class="map-embed-wrap" data-aos="fade-up" style="width:100%; min-height:450px; border-radius: 18px; overflow: hidden;">
@@ -131,7 +127,6 @@ require BASE_PATH . '/app/Views/partials/header.php';
     </section>
 </main>
 
-<!-- SweetAlert2 (Dùng để hiển thị thông báo đẹp mắt thay cho alert() mặc định) -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -139,26 +134,22 @@ require BASE_PATH . '/app/Views/partials/header.php';
 
         if (contactForm) {
             contactForm.addEventListener('submit', function(e) {
-                e.preventDefault(); // Ngăn chặn form chuyển trang ngay lập tức
+                e.preventDefault();
 
-                // Lấy nút submit
                 const btn = document.getElementById('btnSubmit');
                 const originalText = btn.innerHTML;
 
-                // Hiệu ứng đang gửi
                 btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i> Đang gửi...';
                 btn.disabled = true;
 
-                // Giả lập delay gửi mail 1 giây
                 setTimeout(() => {
                     Swal.fire({
                         icon: 'success',
                         title: 'Gửi thành công!',
-                        text: 'Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất có thể qua Email.',
+                        text: 'Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất có thể qua email.',
                         confirmButtonColor: '#2d8a5f'
                     });
 
-                    // Trả lại trạng thái ban đầu
                     contactForm.reset();
                     btn.innerHTML = originalText;
                     btn.disabled = false;
