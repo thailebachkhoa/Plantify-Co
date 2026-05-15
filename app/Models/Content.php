@@ -52,4 +52,50 @@ class Content
 
         return $this->db->resultSet();
     }
+
+    public function seedDefaults(array $defaults): void
+    {
+        foreach ($defaults as $row) {
+            $this->db->query(
+                "INSERT INTO site_content (content_key, content_group, label, input_type, content_value)
+                 VALUES (:k, :g, :l, :t, :v)
+                 ON DUPLICATE KEY UPDATE
+                     content_group = VALUES(content_group),
+                     label         = VALUES(label),
+                     input_type    = VALUES(input_type)"
+            );
+            $this->db->bind(':k', $row[0]);
+            $this->db->bind(':g', $row[1]);
+            $this->db->bind(':l', $row[2]);
+            $this->db->bind(':t', $row[3]);
+            $this->db->bind(':v', $row[4]);
+            $this->db->execute();
+        }
+    }
+ 
+    public function getByGroup(string $group): array
+    {
+        $this->db->query(
+            "SELECT * FROM site_content WHERE content_group = :g ORDER BY id"
+        );
+        $this->db->bind(':g', $group);
+        $rows   = $this->db->resultSet();
+        $byKey  = [];
+        foreach ($rows as $r) {
+            $byKey[$r['content_key']] = $r;
+        }
+        return $byKey;
+    }
+ 
+    public function saveByPost(array $postContent): void
+    {
+        foreach ($postContent as $key => $value) {
+            $this->db->query(
+                "UPDATE site_content SET content_value = :v WHERE content_key = :k"
+            );
+            $this->db->bind(':v', trim((string) $value));
+            $this->db->bind(':k', (string) $key);
+            $this->db->execute();
+        }
+    }
 }
