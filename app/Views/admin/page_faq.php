@@ -1,3 +1,8 @@
+// ============================================================
+// app/Views/admin/page_faq.php
+// ============================================================
+// (Tạo file riêng trong thực tế, để chung đây cho tiện giao)
+?>
 <?php
 require_once __DIR__ . '/includes/AdminLayout.php';
 admin_layout_start([

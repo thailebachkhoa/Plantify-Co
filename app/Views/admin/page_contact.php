@@ -1,3 +1,7 @@
+// ============================================================
+// app/Views/admin/page_contact.php
+// ============================================================
+?>
 <?php
 require_once __DIR__ . '/includes/AdminLayout.php';
 admin_layout_start([
